@@ -1,60 +1,89 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+
 	<title>Tab</title>
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 	<style type="text/css">
 		
-		#ytBlock{
-			z-index: 100;
-			top:0;
-			position: fixed;
-			background-color: black;
-			height: 320px;
+	#logo{
+		height: 120px;
+		background-color: #777;
+	}
 
-		}
-		#ytv{
-			width: 560px;
-			margin:auto;
-		}
-		#meun{
-			background-color: #f1f1f1;
-			z-index: 1000;
-		}
-		#main{
-			left: 320px;
-			height: 1500px;
-		}
-		#tab{
-			position: relative;
-			margin-top: 320px;
-			
-		}
-		img.center{
-			 display: block;
-	    	margin: 0 auto;
-		}
+	#searchBar{
+		height: 120px;
+		background-color: #cce2ff;
+	}
+	#userTool{
+		background-color: #FBFBFB;
+	}
+	#tab{
+		height: 450px;
+		margin:30px 0px;
+
+	}
+	#ytb{
+		height: 220px;
+		
+	}
+	#toolPanel{
+		background-color: #cce2ff;
+	}
+	.bigText{
+		font-size: 40px;
+		font-weight: 100;
+		text-align: center;
+	}
 	</style>
 </head>
-<body>
-	<div class="pure-g">
+<body class="">
+	<div id="header" class="pure-g" >
+		<div id="logo" class="pure-u-1-5 bigText"><p>Logo Beta</p></div>
+		<div id="searchBar" class="pure-u-3-5 bigText"><p>This Search Bar</p></div>
+		<div id="userTool" class="pure-u-1-5">
+			<div class="pure-g">
+				<div class="pure-u-3-5">
+
+					
+				</div>
+				
+				<div class="pure-u-2-5">
+					<button class="pure-button">
+					<i class="fa fa-sign-in"></i>
+					</button>
+					<button class="pure-button">
+					<i class="fa fa-bars"></i>
+					</button>
+				</div>
+			</div>	
+			
+		</div>
 		
-	    <div class="pure-u-1 pure-u-md-1-1" id="ytBlock">
-			<div id="ytv">
-				    <iframe width="560" height="315" src="https://www.youtube.com/embed/lnWib0CGBT0" frameborder="0" allowfullscreen></iframe>
-			</div>
-	    </div>
-	    <div class="pure-u-1 pure-u-md-1-1" id="main">
-			<div id="tab">
-				<img class="center" src="http://www.guitarnick.com/images/filthy-rich-acoustic-fingerpicking-guitar-tab.png">
-			</div>
+	</div>
+
+	
+	
+	<div id="content" class="pure-g bigText">
+		<div class="pure-u-1" id="tab">
+			Tab Editing Block
+		</div>
 		
-			<ul>
-			{% for item in itemList %}
-			    <li>{{ item }}</li>
-			{% endfor %}
-			</ul>
-	    </div>
+		
+		<iframe class="pure-u-1-4" id="ytb" src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" allowfullscreen></iframe>
+		
+		<div class="pure-u-3-4" id="toolPanel">
+		This tool Panel/Guitar FingerBoard
+		</div>
+		
+	</div>
+	<div id="footer">
+		<p>All Reserved to Arno Hu ,Woody Ko ,Frank Chen and MAC Lab, Taiwan, 2016 </p> 
 	</div>
 </body>
 </html>
