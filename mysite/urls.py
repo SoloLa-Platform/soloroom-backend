@@ -19,6 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
  	url(r'^tabproject/', include('tabproject.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^adminPy/', admin.site.urls),
 
 ]
