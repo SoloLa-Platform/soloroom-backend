@@ -6,8 +6,13 @@
 <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
 
 	<title>Tab</title>
+	<!-- CSS resoruce -->
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- javascript resource-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	 <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
 	<style type="text/css">
 		
@@ -45,7 +50,9 @@
 <body class="">
 	<div id="header" class="pure-g" >
 		<div id="logo" class="pure-u-1-5 bigText"><p>Logo Beta</p></div>
-		<div id="searchBar" class="pure-u-3-5 bigText"><p>This Search Bar</p></div>
+		<div id="searchBar" class="pure-u-3-5 bigText">
+			
+		</div>
 		<div id="userTool" class="pure-u-1-5">
 			<div class="pure-g">
 				<div class="pure-u-3-5">
@@ -71,7 +78,10 @@
 	
 	<div id="content" class="pure-g bigText">
 		<div class="pure-u-1" id="tab">
-			Tab Editing Block
+			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    </svg>
+			
+
 		</div>
 		
 		
@@ -82,9 +92,16 @@
 		</div>
 		
 	</div>
+<!-- 	{% load static from staticfiles %}
+	{% static "tabproject/404.jpg" as 404pic %}
+	<img src="{{ 404pic }}"> -->
 	<div id="footer">
 		<p>All Reserved to Arno Hu ,Woody Ko ,Frank Chen and MAC Lab, Taiwan, 2016 </p> 
 	</div>
+
+	{% load static from staticfiles %}
+	{% static "tabproject/js/test.js" as testjs %}
+	<script type="text/javascript" src="{{testjs}}"></script>
 </body>
 </html>
 
