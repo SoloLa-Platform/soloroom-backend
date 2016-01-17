@@ -55,8 +55,8 @@ $(document).ready(function() {
 	document.getElementById("tabSVG").appendChild(n);
 
 	// Test Velocity Packet
-	// $("svg text").velocity({ x: tabWidth },
-	// 						{ duration:5000, easing: "linear"});
+	$("svg text").velocity({ x: tabWidth },
+							{ duration:5000, easing: "linear"});
 });
 
 function createTabLines(lineNum, tabWidth, tabHeight){
