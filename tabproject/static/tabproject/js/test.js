@@ -51,13 +51,40 @@ $(document).ready(function() {
 	};
 
 	// Test Write Note
-	var n = writeNote(15, 30, 1);
+	var n = writeNote(15, 300, 1);
 	document.getElementById("tabSVG").appendChild(n);
 
+	var n2 = writeNote(15, 300, 2);
+	document.getElementById("tabSVG").appendChild(n2);
+
+	var n3 = writeNote(15, 600, 3);
+	document.getElementById("tabSVG").appendChild(n3);
+
+	var end = writeNote("End", 2600, 0);
+	end.setAttributeNS(null, "id", "end");
+	document.getElementById("tabSVG").appendChild(end);
+
+	// $("#tab").mouseover(function(){
+		
+	// })
+	var toggle = false;
+	$("#playStop").click(function(){
+		
+
+		$("#playStop").text("Stop");
+		$("#end").velocity("scroll", {
+			container: $("#tab"),
+			axis: "x" ,
+			duration: 10000,
+			offset: 2650 
+		});
+	});
 	// Test Velocity Packet
-	$("svg text").velocity({ x: tabWidth },
-							{ duration:5000, easing: "linear"});
+	// $("#tab").velocity({ x: tabWidth },
+	// 						{ duration:5000, easing: "linear"});
+	
 });
+	
 
 function createTabLines(lineNum, tabWidth, tabHeight){
 	var xmlns = "http://www.w3.org/2000/svg";
