@@ -37,6 +37,7 @@ INSTRUMETN_STRING_NUM = 6;
 $(document).ready(function() {
 	
 	console.log("in test for inti");
+	console.log("test deployment");
 
 	var tabWidth = $("#tab").width();
 	var tabHeight = $("#tab").height();
