@@ -5,11 +5,16 @@ __pycache__/
 # C extensions
 *.so
 
-# Django Local Setting
-mysite/setting.py
+#Mac OS dummy file
+.DS_Store
+
+# Django Local Setting , Please use settings.production.py / settings.developing.py
+mysite/settings.py
+
+# Environment of virualenv, please setup yourself
+Env/
 
 # Distribution / packaging
-Env/
 bin/
 build/
 develop-eggs/
