@@ -10,10 +10,6 @@
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-	<!-- javascript resource-->
-	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	 <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
 	<style type="text/css">
 		
@@ -48,7 +44,7 @@
 	}
 	#tab{
 		
-		overflow: auto;
+		overflow: hidden;
 		background-color: #f1f1f1;
 	}
 
@@ -84,7 +80,7 @@
 	
 	<div id="content" class="pure-g bigText">
 		<div class="pure-u-1" id="tab">
-			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0,0,640,400" preserveAspectRatio="xMinYMin meet">
     		</svg>
 		</div>
 		
@@ -92,7 +88,8 @@
 		<iframe class="pure-u-1-4" id="ytb" src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" allowfullscreen></iframe>
 		
 		<div class="pure-u-3-4" id="toolPanel">
-			<button class="pure-button" id="playStop">Play</button>
+			<!-- <button class="pure-button" id="playStop">Play!!</button> -->
+			<button class="pure-button" id="viewbox-play">play</button>
 		</div>
 		
 	</div>
@@ -104,8 +101,15 @@
 	</div>
 
 	{% load static from staticfiles %}
-	{% static "tabproject/js/test.js" as testjs %}
-	<script type="text/javascript" src="{{testjs}}"></script>
+	
+	<!-- javascript resource-->
+	<script src="{% static "tabproject/lib/jquery-2.2.0.min.js"%}"></script>
+	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+	<script src="{% static "tabproject/lib/underscore.js"%}"></script>
+	<script src="{% static "tabproject/lib/backbone-min.js"%}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/test.js" %}"></script>
+	<!-- // <script type="text/javascript" src="{% static "tabproject/js/view/app-view.js" %}"></script> -->
+	<!-- // <script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script> -->
 </body>
 </html>
 

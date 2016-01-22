@@ -1,29 +1,5 @@
-// Class TabLine
-// function TabLine(tabWidth, tabWidth, lineNum){
 
-// 	// private
-// 	this.lineNum;
-// 	this.tabWidth = tabWidth;
-// 	this.tabHeight = tabHeight;
-// 	// constructor
-// 	var xmlns = "http://www.w3.org/2000/svg";
-// 	var l = document.createElementNS(xmlns, "line");
-// 	var offset = 45;
 
-// 	l.setAttributeNS(null,"x1",0);
-// 	l.setAttributeNS(null,"y1",offset+(lineNum)*60);
-// 	l.setAttributeNS(null,"x2",tabWidth);
-// 	l.setAttributeNS(null,"y2",offset+(lineNum)*60);
-// 	l.setAttributeNS(null,"style", "stroke:rgb(0,0,0);stroke-width:2");
-// 	this.inti = function(){
-// 		alert(test);
-// 	}
-// }
-
-// writeNote method
-// TabLine.prototype.writeNote = function(fretNum, x, lineNum){
-
-// }
 // tabLine[0] => String 1, other is same
 // tabLines is GLOBAL VARIABL
 tabLines = []; 
@@ -54,12 +30,21 @@ $(document).ready(function() {
 	var n = writeNote(15, 300, 1);
 	document.getElementById("tabSVG").appendChild(n);
 
-	var n2 = writeNote(15, 300, 2);
+	var n2 = writeNote(8, 600, 2);
 	document.getElementById("tabSVG").appendChild(n2);
 
-	var n3 = writeNote(15, 600, 3);
+	var n3 = writeNote(7, 900, 3);
 	document.getElementById("tabSVG").appendChild(n3);
 
+	var n4 = writeNote(7, 1500, 0);
+	document.getElementById("tabSVG").appendChild(n4);
+
+	var n5 = writeNote(7, 1500, 1);
+	document.getElementById("tabSVG").appendChild(n5);
+
+	var n6 = writeNote(9, 1800, 2);
+	document.getElementById("tabSVG").appendChild(n6);
+	
 	var end = writeNote("End", 2600, 0);
 	end.setAttributeNS(null, "id", "end");
 	document.getElementById("tabSVG").appendChild(end);
@@ -67,7 +52,7 @@ $(document).ready(function() {
 	// $("#tab").mouseover(function(){
 		
 	// })
-	var toggle = false;
+	
 	$("#playStop").click(function(){
 		
 
@@ -79,9 +64,33 @@ $(document).ready(function() {
 			offset: 2650 
 		});
 	});
-	// Test Velocity Packet
-	// $("#tab").velocity({ x: tabWidth },
-	// 						{ duration:5000, easing: "linear"});
+	
+
+	var playing = false;
+	var x = 0;
+	$("#viewbox-play").click(function() {
+		
+		var tabSVG = document.getElementsByTagName("svg")[0];
+		console.log(playing);
+		if( playing == false){
+			
+			playing = true;
+			updateAction = setInterval(
+				function(){
+					var xStr = x.toString();
+					tabSVG.setAttribute('viewBox', xStr+=',0,640,400');
+					x+=5;
+					
+			}, 17)
+			$(this).text("stop");
+		}else{
+			clearInterval(updateAction);
+			$(this).text("play");
+			playing = false;
+			console.log(tabSVG.getAttribute('viewBox'));
+		}
+		
+	});
 	
 });
 	
