@@ -6,7 +6,7 @@ __pycache__/
 *.so
 
 #this is deployment for collectstatic, please coding on tabproject/static/tabproject/js
-static/tabproject/js
+#static/tabproject/js
 
 #Mac OS dummy file
 .DS_Store
