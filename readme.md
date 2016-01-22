@@ -1,5 +1,8 @@
 ##Directory Structure
 
+./mysite/static
+For django global static (collectstatic)
+
 ./mysite 
 Root Directory
 
