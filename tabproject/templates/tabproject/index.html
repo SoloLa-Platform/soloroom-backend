@@ -26,12 +26,12 @@
 		background-color: #FBFBFB;
 	}
 	#tab{
-		height: 450px;
+		height: 300px;
 		margin:30px 0px;
 
 	}
 	#ytb{
-		height: 220px;
+		height: 180px;
 		
 	}
 	#toolPanel{
@@ -84,15 +84,16 @@
     		</svg>
 		</div>
 		
-		
 		<iframe class="pure-u-1-4" id="ytb" src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" allowfullscreen></iframe>
 		
 		<div class="pure-u-3-4" id="toolPanel">
 			<!-- <button class="pure-button" id="playStop">Play!!</button> -->
 			<button class="pure-button" id="viewbox-play">play</button>
+			<input type="text" placeholder="delta_x(px)" id="delta_x"/>/
+			<input type="text" placeholder="update rate(ms)" id="update_rate"/>
 		</div>
-		
-	</div>
+	</div>		
+	
 <!-- 	{% load static from staticfiles %}
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
@@ -105,8 +106,8 @@
 	<!-- javascript resource-->
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-	<script src="{% static "tabproject/underscore/underscore.js"%}"></script>
-	<script src="{% static "tabproject/underscore/backbone-min.js"%}"></script>
+	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
+	<script src="{% static "tabproject/backbone/backbone-min.js"%}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/test.js" %}"></script>
 	<!-- // <script type="text/javascript" src="{% static "tabproject/js/view/app-view.js" %}"></script> -->
 	<!-- // <script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script> -->
