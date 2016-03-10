@@ -24,7 +24,7 @@ $(document).ready(function() {
 	for (var i = INSTRUMETN_STRING_NUM - 1; i >= 0; i--) {
 		tabLines[i] = createTabLines(i, tabWidth*2, tabHeight);		
 		document.getElementById("tabSVG").appendChild(tabLines[i]);
-	};
+	}
 
 	// Test Write Note
 	var n = writeNote(15, 300, 1);
