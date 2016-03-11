@@ -8,6 +8,9 @@ var ESC_KEY = 27;
 // var tabCanvas = musicNotes[]
 $(function () {
 	'use strict';
-	// kick things off by creating the `App`
-	new app.tabView();
+	
+	// start from create tab
+	var tab = new app.tab();
+	new app.tabView({ model:tab });
+
 });
