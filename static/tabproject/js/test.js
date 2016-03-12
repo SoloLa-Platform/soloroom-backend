@@ -24,7 +24,7 @@ $(document).ready(function() {
 	for (var i = INSTRUMETN_STRING_NUM - 1; i >= 0; i--) {
 		tabLines[i] = createTabLines(i, tabWidth*2, tabHeight);		
 		document.getElementById("tabSVG").appendChild(tabLines[i]);
-	};
+	}
 
 	// Test Write Note
 	var n = writeNote(15, 300, 1);
@@ -53,21 +53,23 @@ $(document).ready(function() {
 		
 	// })
 	
-	$("#playStop").click(function(){
+	// $("#playStop").click(function(){
 		
 
-		$("#playStop").text("Stop");
-		$("#end").velocity("scroll", {
-			container: $("#tab"),
-			axis: "x" ,
-			duration: 10000,
-			offset: 2650 
-		});
-	});
+	// 	$("#playStop").text("Stop");
+	// 	$("#end").velocity("scroll", {
+	// 		container: $("#tab"),
+	// 		axis: "x" ,
+	// 		duration: 10000,
+	// 		offset: 2650 
+	// 	});
+	// });
 	
 
 	var playing = false;
 	var x = 0;
+	var delta_x = 2.5;
+	var update_rate = 10; // 60 fps 1000/60 ~= 17
 	$("#viewbox-play").click(function() {
 		
 		var tabSVG = document.getElementsByTagName("svg")[0];
@@ -79,17 +81,32 @@ $(document).ready(function() {
 				function(){
 					var xStr = x.toString();
 					tabSVG.setAttribute('viewBox', xStr+=',0,640,400');
-					x+=5;
+					x+=delta_x;
 					
-			}, 17)
+			}, update_rate);
 			$(this).text("stop");
 		}else{
 			clearInterval(updateAction);
 			$(this).text("play");
 			playing = false;
-			console.log(tabSVG.getAttribute('viewBox'));
 		}
 		
+	});
+	$("#update_rate").change(function(){
+		console.log("#update_rate");
+		clearInterval(updateAction);
+		$(this).text("play");
+		playing = false;
+		
+		update_rate=$(this).val();
+	});
+	$("#delta_x").change(function(){
+		console.log("#delta_x");
+		clearInterval(updateAction);
+		$(this).text("play");
+		playing = false;
+		
+		update_rate=$(this).val();
 	});
 	
 });
