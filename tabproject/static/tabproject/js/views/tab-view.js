@@ -8,7 +8,7 @@ var app = app || {};
 	// ---------------
 
 	// Our overall **AppView** is the top-level piece of UI.
-	app.tabView = Backbone.View.extend({
+	app.TabView = Backbone.View.extend({
 
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
@@ -18,8 +18,9 @@ var app = app || {};
 			"mousedown" : "showMouseDownPos"
 		},
 		initialize: function () {
-			
+
 			// temp tabLine
+			this.$tabSVG = $("#tabSVG");
 			this.tabLines = [];
 			this.width = $("#tab").width();
 			this.height = $("#tab").height();
@@ -30,22 +31,24 @@ var app = app || {};
 			this.paddingYratio = 0.16;
 			this.paddingY = this.calPaddingY(this.height, this.paddingYratio);
 			this.tabLineSpace = this.calTabLineSpace(this.height, this.paddingY);
-			
-			// tab unit cell, cell height = distance between line 
+
+			// tab unit cell, cell height = distance between line
 			this.widthRatio = 0.02;
 			this.cellWidth = this.calUnitCellWidht(this.width, this.widthRatio);
 			console.log('cellWidth:'+this.cellWidth);
 			this.cellHeight = this.tabLineSpace;
-			
 
 			this.intiTabSize($(window).width(), this.height);
 			this.drawTabLines();
+
+			// Event binding
+			this.listenTo(app.MusicNotes, "add", this.addOneMN);
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
 		render: function () {
-			
+
 		},
 		intiTabSize: function(w, h){
 			// init tab width by window width
@@ -71,12 +74,12 @@ var app = app || {};
 		drawTabLines: function(){
 			for (var i = 0; i < 6; i++) {
 				// console.log('initialize in drawTabLines');
-				this.tabLines[i] = this.createTabLine(i, 
-					this.width, this.paddingY, this.tabLineSpace);		
+				this.tabLines[i] = this.createTabLine(i,
+					this.width, this.paddingY, this.tabLineSpace);
 				document.getElementById("tabSVG").appendChild(this.tabLines[i]);
 			}
 		},
-		
+
 		createTabLine: function(lineNum, w, paddingY, tabLineSpace){
 			var xmlns = "http://www.w3.org/2000/svg";
 			var l = document.createElementNS(xmlns, "line");
@@ -89,20 +92,46 @@ var app = app || {};
 			l.setAttributeNS(null,"class","tabLine");
 			return l;
 		},
-	
+
 		// Tab Event Listening
 		coordinateConvert: function (x, y) {
 			 return { 'x':Math.floor( (x-this.origin.x) / this.cellWidth ),
 			 	'y': Math.floor( (y-this.origin.y) / this.cellHeight )
 			 	};
 		},
+		rawPos: function(x, y){
+			return {'x': x, 'y':y};
+		},
 		showMouseDownPos: function(event){
 			console.log("mouse down at X:" + event.pageX +
 		 		" Y:"+ event.pageY);
-			var p = this.coordinateConvert( event.pageX, event.pageY );
-			console.log("cell x:" + p.x + " y:"+ p.y);
+			// var pos = this.coordinateConvert( event.pageX, event.pageY );
+			var rawPos = this.rawPos( event.pageX, event.pageY );
+			// console.log("cell x:" + pos.x + " y:"+ pos.y);
+
+			var musicnote = new app.MusicNote( this.newAttribute(rawPos) );
+			var view = new app.MusicNoteView( {model: musicnote} );
+			view.dump();
+			this.$tabSVG.append(view.drawFretNum());
+			app.MusicNotes.add( musicnote );
+			// new app.MusicNotes();
+		},
+		newAttribute: function (pos) {
+			return {
+				"tabLineNum": 0,
+				"fretNum": 0,
+				"xCellNum": pos.x,
+				"yCellNum": pos.y - this.origin.y,
+				"tech": {}
+			};
+		},
+		addOneMN: function (mn) {
+			console.log('fire MN collection add!');
+			// console.log(mn.toJSON());
+			// var view = new app.MusicNoteView({model: mn} );
+			// view.dump();
+			// this.$tabSVG.append(view.drawFretNum());
 		}
-		
 
 	});
 })(jQuery);

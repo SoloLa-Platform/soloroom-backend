@@ -12,7 +12,6 @@
 
 
 	<style type="text/css">
-		
 	#logo{
 		height: 120px;
 		background-color: #777;
@@ -38,7 +37,6 @@
 	}
 	#ytb{
 		height: 180px;
-		
 	}
 	.editingTool{
 		background-color: #cce2ff;
@@ -55,7 +53,6 @@
 	<div id="header" class="pure-g" >
 		<div id="logo" class="pure-u-1-5 bigText"><p>SoloLa!</p></div>
 		<div id="searchBar" class="pure-u-3-5 bigText">
-			
 		</div>
 		<div id="login" class="pure-u-1-5">
 			<div class="pure-g">
@@ -66,9 +63,9 @@
 					<button class="pure-button"><i class="fa fa-bars"></i>
 						</button>
 				</div>
-			</div>	
-		</div>	
-	</div>	
+			</div>
+		</div>
+	</div>
 	<div id="content" class="pure-g ">
 		<div class="pure-u-1" id="tab">
 			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -77,7 +74,6 @@
 		</div>
 		<div class="dashboard">
 			<iframe class="pure-u-1-4" id="ytb" src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" allowfullscreen></iframe>
-		
 			<div class="pure-u-3-4" class="editingTool">
 				<!-- <button class="pure-button" id="playStop">Play!!</button> -->
 				<button class="pure-button" id="viewbox-play">play</button>
@@ -85,30 +81,36 @@
 				<input type="text" placeholder="update rate(ms)" id="update_rate"/>
 			</div>
 		</div>
-		
-	</div>		
-	
+
+	</div>
+	<!-- <script type="text/template" id="music-note">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> <%= BookName %> </a></li>
+   </script> -->
 <!-- 	{% load static from staticfiles %}
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
 	<div id="footer">
-		<p>All Reserved to Yuan-Ping Chen,Yu-Kang Hu and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p> 
+		<p>All Reserved to Yuan-Ping Chen,Yu-Kang Hu and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
 	</div>
 
 	{% load static from staticfiles %}
-	
+
 	<!-- javascript resource-->
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
 	<script src="{% static "tabproject/backbone/backbone-min.js"%}"></script>
-	
+	<script src="{% static "tabproject/backbone/backbone.localStorage-min.js"%}"></script>
+
 	<!-- javascirpt developing Code -->
-	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote-model.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/models/tab-model.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/views/musicnote-view.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/collections/musicnotes.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/tab-view.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/views/app-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script>
-	
+
 </body>
 </html>
 
