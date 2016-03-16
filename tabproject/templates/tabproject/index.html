@@ -10,16 +10,37 @@
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
 
 	<style type="text/css">
-	#logo{
-		height: 120px;
-		background-color: #777;
-	}
+	body {
+        font-family: 'Montserrat', serif;
+        font-size: 15px;
+        background: #f6f6f6;
 
+    }
+    .header{
+    	height: 160px;
+    }
+	.logoBlock{
+
+		/*background-color: #777;*/
+	}
+	.title{
+		font-family: 'Montserrat', serif;
+        font-size: 50px;
+        text-align: center;
+        color: #777;
+
+	}
+	.titleEn{
+		font-size: 54px;
+		font-weight: 10;
+		color: #473dd4;
+	}
 	#searchBar{
-		height: 120px;
-		background-color: #cce2ff;
+		
+		/*background-color: #cce2ff;*/
 	}
 	#login{
 		background-color: #FBFBFB;
@@ -27,16 +48,23 @@
 	#tab{
 		display: block;
 		height: 300px;
-		margin:0px 0px;
+		margin:20px 0px;
 		background-color: #f1f1f1;
 
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
 	}
 	.dashboard{
 		display: block;
 		height: 200px;
 	}
 	#ytb{
-		height: 180px;
+		height: 220px;
+		/*background: #191818;*/
+
+	}
+	.ytbIframe{
+		height: 200px;
+		margin: 10px
 	}
 	.editingTool{
 		background-color: #cce2ff;
@@ -46,63 +74,71 @@
 		font-weight: 100;
 		text-align: center;
 	}
-
+	.footer p{
+		text-align: right;
+	}
 	</style>
 </head>
-<body class="">
-	<div id="header" class="pure-g" >
-		<div id="logo" class="pure-u-1-5 bigText"><p>SoloLa!</p></div>
-		<div id="searchBar" class="pure-u-3-5 bigText">
+<body>
+	<div class="topContainer pure-g">
+		<div class="pure-u-4-5 ">
 		</div>
-		<div id="login" class="pure-u-1-5">
+		<div class="pure-u-1-5 ">
 			<div class="pure-g">
-				<div class="pure-u-3-5"></div>
-				<div class="pure-u-2-5">
+				<div class="pure-u-4-5"></div>
+				<div class="pure-u-1-5">
 					<button class="pure-button"><i class="fa fa-sign-in"></i>
-						</button>
-					<button class="pure-button"><i class="fa fa-bars"></i>
 						</button>
 				</div>
 			</div>
 		</div>
 	</div>
+<!-- End Top Container  -->
+	<div class="header" class="pure-g" >
+		<div class="logoBlock pure-u-1-5 ">
+			<p class="title"><span class="titleEn">Solo</span>La!</p>
+		</div>
+		<div id="searchBar" class="pure-u-3-5 ">
+		</div>
+	</div>
+<!-- End Header -->
 	<div id="content" class="pure-g ">
 		<div class="pure-u-1" id="tab">
 			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			<!-- viewbox="0,0,1024,100" preserveAspectRatio="xMinYMin meet" -->
     		</svg>
 		</div>
-		<div class="dashboard">
-			<iframe class="pure-u-1-4" id="ytb" src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" allowfullscreen></iframe>
+		<div class="dashboard pure-g">
+			<div class="pure-u-1-4" id="ytb">
+				<iframe src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" class="ytbIframe"></iframe>
+			</div>
+
 			<div class="pure-u-3-4" class="editingTool">
-				<!-- <button class="pure-button" id="playStop">Play!!</button> -->
-				<button class="pure-button" id="viewbox-play">play</button>
-				<input type="text" placeholder="delta_x(px)" id="delta_x"/>/
-				<input type="text" placeholder="update rate(ms)" id="update_rate"/>
+				<button class="pure-button" id="playStop">Play!!</button>
 			</div>
 		</div>
-
 	</div>
+<!-- End Content -->
 	<!-- <script type="text/template" id="music-note">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> <%= BookName %> </a></li>
    </script> -->
 <!-- 	{% load static from staticfiles %}
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
-	<div id="footer">
-		<p>All Reserved to Yuan-Ping Chen,Yu-Kang Hu and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
+	<div class="footer">
+		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
 	</div>
-
+<!-- End Footer -->
 	{% load static from staticfiles %}
 
-	<!-- javascript resource-->
+<!-- javascript resource-->
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
 	<script src="{% static "tabproject/backbone/backbone-min.js"%}"></script>
 	<script src="{% static "tabproject/backbone/backbone.localStorage-min.js"%}"></script>
 
-	<!-- javascirpt developing Code -->
+<!-- javascirpt developing Code -->
 	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/musicnote-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/collections/musicnotes.js" %}"></script>
