@@ -39,7 +39,6 @@
 		color: #473dd4;
 	}
 	#searchBar{
-		
 		/*background-color: #cce2ff;*/
 	}
 	#login{
@@ -53,6 +52,9 @@
 
 		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
 	}
+    form {
+        margin-top: 20px;
+    }
 	.dashboard{
 		display: block;
 		height: 200px;
@@ -99,6 +101,10 @@
 			<p class="title"><span class="titleEn">Solo</span>La!</p>
 		</div>
 		<div id="searchBar" class="pure-u-3-5 ">
+			<form action="#" class="pure-form ">
+                    <p><input type="text" id="search" placeholder="Type something..." autocomplete="off" class="form-control" />
+                    <input type="submit" value="Search" class="pure-button"></p>
+			</form>
 		</div>
 	</div>
 <!-- End Header -->
@@ -132,6 +138,8 @@
 	{% load static from staticfiles %}
 
 <!-- javascript resource-->
+
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
