@@ -13,3 +13,19 @@ $(function () {
 	new app.AppView();
 
 });
+
+//        document.getElementById("mybtn").onclick=function(){changeURL()};
+//        function changeURL()
+//        {
+//            
+//            var x=document.getElementById("search");
+//            document.getElementById("demo").innerHTML=$("#search").val();
+//        }
+        $("form").on("submit", function(e){
+        e.preventDefault();
+        //prepare the request
+            var x=$("#search").val().slice(-11);
+            document.getElementById("demo").innerHTML="https://www.youtube.com/embed/"+x;
+            document.getElementById("ytbox").src="https://www.youtube.com/embed/"+x;
+            document.getElementById('ytbox').contentWindow.location.reload(true);
+        });
