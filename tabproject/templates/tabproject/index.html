@@ -45,6 +45,9 @@
 	#searchBar{
 		/*background-color: #cce2ff;*/
 	}
+    #searchresult{
+        background-color: #cce2ff
+    }
 	#login{
 		background-color: #FBFBFB;
 	}
@@ -79,7 +82,7 @@
 
      input[type="text"]{
 
-         padding:5px 15px; border:2px black solid;
+         padding:5px 15px; border:10px black solid;
          cursor:pointer;
          -webkit-border-radius: 5px;
          border-radius: 5px;
@@ -137,9 +140,11 @@
 			</div>
 			<div class="pure-u-3-4" id="editingTool">
                 <div id="searchBar" class="pure-u-3-5 ">
-			         <form action="#" class="pure-form ">
-                        <p><input type="text" id="search" placeholder="Please enter URL" autocomplete="off"  class="form-control" />
+			         <form action="#" class="pure-form " id="searchForm">
+                         <div id="showSearch"></div>
+                         <p><input type="text" id="search" placeholder="Please enter URL" autocomplete="off"  class="form-control" >
                     <input type="submit" value="submit" class="pure-button" id="searchbtn"></p>
+                
                     </form>
 			    </div>
                 <div class="pure-u-2-5 ">

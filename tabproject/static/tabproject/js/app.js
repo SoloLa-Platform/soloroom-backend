@@ -22,10 +22,18 @@ $(function () {
 //            document.getElementById("demo").innerHTML=$("#search").val();
 //        }
         $("form").on("submit", function(e){
-        e.preventDefault();
-        //prepare the request
-            var x=$("#search").val().slice(-11);
-            document.getElementById("demo").innerHTML="https://www.youtube.com/embed/"+x;
-            document.getElementById("ytbox").src="https://www.youtube.com/embed/"+x;
+            e.preventDefault();
+            //prepare the request
+            
+            var Vid=$("#search").val().slice(-11);
+            var URLtext="https://www.youtube.com/embed/"+Vid;
+            $("#showSearch").append('<div id="searchresult"></div>');
+            $("#searchresult").append('<img src=http://img.youtube.com/vi/'+Vid+'/1.jpg>'+URLtext);
+            document.getElementById("demo").innerHTML=URLtext;
+            document.getElementById("ytbox").src=URLtext;
             document.getElementById('ytbox').contentWindow.location.reload(true);
+
+               
+                    //img.youtube.com/vi/NtWnaD6pnpU/0.jpg
+        
         });
