@@ -45,9 +45,7 @@
 	#searchBar{
 		/*background-color: #cce2ff;*/
 	}
-    #searchresult{
-        background-color: #cce2ff
-    }
+    
 	#login{
 		background-color: #FBFBFB;
 	}
@@ -66,7 +64,27 @@
 		display: block;
 		height: 200px;
 	}
-	#ytb{
+    
+    #controlarea{
+        background-color: #CCEEFF;
+        height: 240px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+        z-index: 3; 
+        position:relative;
+        top:0px;
+    }
+    #videoresult{
+        background-color: #E38EFF;
+        height: 240px;
+        width:100%;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+        z-index: 2; 
+        position:absolute;
+        top:300px;
+        overflow:scroll;
+        display:none;
+    }
+    #ytb{
 		height: 220px;
 		/*background: #191818;*/
 
@@ -132,8 +150,8 @@
     		</svg>
 		</div>
     </div>
-    
-    <div class="dashboard pure-g">
+    <div>
+        <div class="dashboard pure-g" id="controlarea">
 			<div class="pure-u-1-4" id="ytb">
 				<iframe src="https://www.youtube.com/embed/G_rINXF-bzg" frameborder="0" class="ytbIframe" id="ytbox"></iframe>
                 
@@ -142,8 +160,17 @@
                 <div id="searchBar" class="pure-u-3-5 ">
 			         <form action="#" class="pure-form " id="searchForm">
                          <div id="showSearch"></div>
-                         <p><input type="text" id="search" placeholder="Please enter URL" autocomplete="off"  class="form-control" >
-                    <input type="submit" value="submit" class="pure-button" id="searchbtn"></p>
+                         <p>
+                             <input type="text" id="search" placeholder="Please enter URL" autocomplete="off"  class="form-control" >
+                            <input type="submit" value="submit" class="pure-button" id="searchbtn">
+                         </p>
+                
+                    </form>
+                    <form action="#" class="pure-form " id="searchForm2">
+                         <p>
+                             <input type="text" id="keyword" placeholder="Please enter keyword" autocomplete="off"  class="keywordtext" >
+                            <input type="submit" value="enter" class="pure-button" id="searchbtn2">
+                         </p>
                 
                     </form>
 			    </div>
@@ -152,7 +179,12 @@
                     <p id="demo">hhh</p>
                 </div>
 		    </div>
-	   </div>
+        </div>
+        <div id="videoresult">
+            https://www.youtube.com/watch?v=pJI1q1JGhbc 
+            <div id="videoresult_btn"></div>
+        </div>
+    </div>
 <!-- End Content -->
 	<!-- <script type="text/template" id="music-note">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> <%= BookName %> </a></li>
@@ -167,8 +199,7 @@
 	{% load static from staticfiles %}
 
 <!-- javascript resource-->
-
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
@@ -184,6 +215,7 @@
 	<script type="text/javascript" src="{% static "tabproject/js/views/tab-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/app-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
 
 </body>
 </html>

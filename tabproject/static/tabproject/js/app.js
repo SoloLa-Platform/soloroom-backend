@@ -14,26 +14,90 @@ $(function () {
 
 });
 
-//        document.getElementById("mybtn").onclick=function(){changeURL()};
-//        function changeURL()
-//        {
-//            
-//            var x=document.getElementById("search");
-//            document.getElementById("demo").innerHTML=$("#search").val();
-//        }
-        $("form").on("submit", function(e){
+        $("#searchForm").on("submit", function(e){
             e.preventDefault();
-            //prepare the request
+            //prepare the request !=null
             
-            var Vid=$("#search").val().slice(-11);
-            var URLtext="https://www.youtube.com/embed/"+Vid;
-            $("#showSearch").append('<div id="searchresult"></div>');
-            $("#searchresult").append('<img src=http://img.youtube.com/vi/'+Vid+'/1.jpg>'+URLtext);
-            document.getElementById("demo").innerHTML=URLtext;
-            document.getElementById("ytbox").src=URLtext;
-            document.getElementById('ytbox').contentWindow.location.reload(true);
-
+            
+            var Vid=$("#search").val().slice(32);
+           if(Vid=null){     
+                var URLtext="https://www.youtube.com/embed/"+Vid;
+                $("#videoresult").append('<div><img src=https://img.youtube.com/vi/'+Vid+'/1.jpg>'+URLtext+'</div>');
+                /*$("#videoresult").append('<img src=https://img.youtube.com/vi/'+Vid+'/1.jpg>'+URLtext);*/
+                document.getElementById("demo").innerHTML=URLtext;
+                document.getElementById("ytbox").src=URLtext;
+                document.getElementById('ytbox').contentWindow.location.reload(true);
+            };
                
-                    //img.youtube.com/vi/NtWnaD6pnpU/0.jpg
+                    //img.youtube.com/vi/NtWnaD6pnpU/0.jpg_tplawesome(data, [{ "videoid":Vid}])
         
         });
+$(function(){
+    $( "#searchForm2" ).delegate( "#keyword", "focus blur", function() {
+         $("#videoresult").slideToggle("slow");
+    });
+});
+
+$(function(){
+    $("#searchForm2").on("submit", function(e){
+        e.preventDefault();
+        //prepare the request
+        var request = gapi.client.youtube.search.list({
+            part: "snippet",
+            type: "video",
+            q: encodeURIComponent($("#keyword").val()).replace(/%20/g, "+"),
+            maxResults: 4,
+            order: "viewCount",
+            publishedAfter: "2015-01-01T00:00:00Z"
+        });
+        // execute the request
+       request.execute(function(response) {
+           var results = response.result;
+           $("#videoresult_btn").empty();
+           $.each(results.items,function(index,item){
+               
+               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg>'+item.snippet.title+'</div>');
+               
+               /*$.get("./tpl/item.html", function(data) {
+                $("#videoresult").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
+                });
+                
+                '<div><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg>'+item.snippet.title+'</div>'
+                */
+               //$("#results").append(item.id.videoId+""+item.snippet.title+"<br>");
+           });
+       });
+          
+    });
+});
+
+
+$(function(){
+    $(".res_btn").click(function(){
+        var vid="pJI1q1JGhbc";
+        var URLtext="https://www.youtube.com/embed/"+vid;
+        document.getElementById("ytbox").src=URLtext;
+        document.getElementById('ytbox').contentWindow.location.reload(true);
+            
+    });
+});
+
+        function init(){
+            gapi.client.setApiKey("AIzaSyA831jpqrfz8EShm673XANf-fktA-u-1Pw");
+            gapi.client.load("youtube","v3",function(){
+                    //api is ready
+            });
+        }
+        
+        /*
+            animate
+        
+        $(function () {
+	       document.getElementById('search').click = function() {
+               $("#videoresult").slideUp("slow", function() {
+                    //$( this ).css("top","290px");
+               });
+           }
+
+
+        });*/
