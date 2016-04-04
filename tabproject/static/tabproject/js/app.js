@@ -14,13 +14,7 @@ $(function () {
 
 });
 
-//        document.getElementById("mybtn").onclick=function(){changeURL()};
-//        function changeURL()
-//        {
-//            
-//            var x=document.getElementById("search");
-//            document.getElementById("demo").innerHTML=$("#search").val();
-//        }
+
         $("form").on("submit", function(e){
         e.preventDefault();
         //prepare the request

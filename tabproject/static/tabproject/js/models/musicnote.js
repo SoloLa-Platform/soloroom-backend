@@ -13,8 +13,7 @@ var ESC_KEY = 27;
 		defaults:{
 			"tabLineNum": 0,
 			"fretNum": 0,
-			"xCellNum": 0,
-			"yCellNum": 0,
+			"duration": 0,
 			"tech": {}
 		},
 		initialize: function () {
