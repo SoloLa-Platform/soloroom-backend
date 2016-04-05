@@ -57,8 +57,9 @@ $(function(){
            $("#videoresult_btn").empty();
            $.each(results.items,function(index,item){
                
-               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" >'+item.snippet.title+'</div>');
+               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" >'+item.snippet.title+'</div><br>');
                
+               $(".res_btn").css({"background-color":"#4169E1","border":"#000000 solid thin"});
                /*$.get("./tpl/item.html", function(data) {
                 $("#videoresult").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
                 });
