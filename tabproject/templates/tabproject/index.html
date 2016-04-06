@@ -12,11 +12,7 @@
 
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-
-   
-
 	<style type="text/css">
-        
 	body {
         font-family: 'Montserrat', serif;
         font-size: 15px;
@@ -168,14 +164,20 @@
 	<script src="{% static "tabproject/backbone/backbone.localStorage-min.js"%}"></script>
 
 <!-- javascirpt developing Code -->
+	<!-- <script type="text/javascript" src="{% static "tabproject/js/demo/tab.json" %}"></script> -->
 
+	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/musicnote-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/collections/musicnotes.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/tab-view.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/views/app-view.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/controllers/mainController.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script>
+	<!-- Data Structure  -->
+	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/MusicNoteNode.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/MeasureNode.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/TabTree.js" %}"></script>
 
 </body>
 </html>

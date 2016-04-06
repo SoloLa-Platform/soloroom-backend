@@ -8,6 +8,8 @@ var ESC_KEY = 27;
 	// handle MusicXml
 	app.Tab = Backbone.Model.extend({
 
+		tabTree: {},
+
 		defaults:{
 			"url":'parsing',
 			division: 0
@@ -35,34 +37,44 @@ var ESC_KEY = 27;
 
 			var data = JSON.parse(result);
 			var measures = data['score-partwise'].part.measure;
+			console.log(measures);
+
 
 			// need to get first measure attribute, get the divide
 			this.defaults.division = measures[0].attributes.divisions;
 			console.log("total measure: " + measures.length);
 
-			for (var i = 0; i < measures.length - 170; i++) {
+
+			// Get Unique Tree Id and new a TabTree
+			this.tabTree = new app.TabTree();
+			console.log('in tab, dump tabTree object');
+			console.log(this.tabTree);
+
+			for (var i = 0; i < measures.length - 175; i++) {
 				// console.log(" measure: "+i);
+
 				var m = measures[i];
+				this.tabTree.append(m);
+
 				for(var j = 0; j< m.note.length - 1; j++){
-					// console.log(m.note[j].notations.technical.string);
-					// console.log(m.note[j].notations.technical.fret);
-					// console.log(m.note[j].duration);
-					// console.log("note: "+j);
-					var s = m.note[j].notations.technical.string;
-					var f = m.note[j].notations.technical.fret;
-					var d = m.note[j].duration;
+
 					// Create a new MN for each note
-					var musicnote = new app.MusicNote( {
-						tabLineNum: s,
-						fretNum: f,
-						duration: d
-					} );
+					var musicnote = new app.MusicNote({
+
+						tabLineNum: m.note[j].notations.technical.string,
+						fretNum: m.note[j].notations.technical.fret,
+						duration: m.note[j].duration,
+						alter: m.note[j].pitch.alter,
+						octave: m.note[j].pitch.octave,
+						step: m.note[j].pitch.step,
+					});
 
 					// collection add MusicNote Model
 					app.MusicNotes.add( musicnote );
 				}
 			}
-			console.log(app.MusicNotes);
+			console.log('append finish done');
+			this.tabTree.dump();
 
 		},
 		dumpTab: function () {

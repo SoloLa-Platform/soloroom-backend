@@ -2,12 +2,8 @@
 var app = app || {};
 
 (function ($) {
+
 	'use strict';
-
-	// The Application
-	// ---------------
-
-	// Our overall **Tab View** is the top-level piece of UI.
 	app.TabView = Backbone.View.extend({
 
 		// Property
@@ -46,10 +42,6 @@ var app = app || {};
 
 			// Event binding
 			this.listenTo(app.MusicNotes, "add", this.addOneMN);
-
-			// Show the default demo tab, create a TabModel
-			// this part can be improvement by web worker
-			this.tabModel = new app.Tab();
 
 			// Check the JSON all added into MNs Collection
 			$(document).bind("ajaxComplete", this.ajaxHandle.bind(this));

@@ -5,12 +5,13 @@ var ENTER_KEY = 13;
 var ESC_KEY = 27;
 
 
-// var tabCanvas = musicNotes[]
-$(function () {
-	'use strict';
 
-	// start from create tab
-	new app.AppView();
+// app is the global variable as namespace for view, model class and controller //
+// mainController is a singleton object, but others object are newable
+$(function () {
+
+    'use strict';
+	app.mainController.getInstance().startApp();
 
 });
 
