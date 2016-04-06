@@ -2,18 +2,14 @@
 var app = app || {};
 
 (function ($) {
+
 	'use strict';
-
-	// The Application
-	// ---------------
-
-	// Our overall **AppView** is the top-level piece of UI.
 	app.TabView = Backbone.View.extend({
 
-		// Instead of generating a new element, bind to the existing skeleton of
-		// the App already present in the HTML.
+		// Property
 		el: '#tab',
-
+		xPtr: 0,
+		divisionUnit: 256,
 		events:{
 			"mousedown" : "showMouseDownPos"
 		},
@@ -27,26 +23,30 @@ var app = app || {};
 			this.origin =  this.origin2int($("#tab"));
 			console.log(this.origin);
 
-			// tabLine top and bottom padding
-			this.paddingYratio = 0.16;
+			// calculating tabLine top and bottom padding
+			this.paddingYratio = 0.10;
 			this.paddingY = this.calPaddingY(this.height, this.paddingYratio);
 			this.tabLineSpace = this.calTabLineSpace(this.height, this.paddingY);
+			this.firstLineY = 0 * this.tabLineSpace + this.paddingY;
+			this.sixthLineY = 5 * this.tabLineSpace + this.paddingY;
 
 			// tab unit cell, cell height = distance between line
-			this.widthRatio = 0.02;
+			this.widthRatio = 0.01;
 			this.cellWidth = this.calUnitCellWidht(this.width, this.widthRatio);
 			console.log('cellWidth:'+this.cellWidth);
 			this.cellHeight = this.tabLineSpace;
 
 			this.intiTabSize($(window).width(), this.height);
 			this.drawTabLines();
+			this.drawVirtualLine();
 
 			// Event binding
 			this.listenTo(app.MusicNotes, "add", this.addOneMN);
-		},
 
-		// Re-rendering the App just means refreshing the statistics -- the rest
-		// of the app doesn't change.
+			// Check the JSON all added into MNs Collection
+			$(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
+
+		},
 		render: function () {
 
 		},
@@ -74,13 +74,13 @@ var app = app || {};
 		drawTabLines: function(){
 			for (var i = 0; i < 6; i++) {
 				// console.log('initialize in drawTabLines');
-				this.tabLines[i] = this.createTabLine(i,
+				this.tabLines[i] = this.createHorizonalLine(i,
 					this.width, this.paddingY, this.tabLineSpace);
 				document.getElementById("tabSVG").appendChild(this.tabLines[i]);
 			}
 		},
 
-		createTabLine: function(lineNum, w, paddingY, tabLineSpace){
+		createHorizonalLine: function(lineNum, w, paddingY, tabLineSpace){
 			var xmlns = "http://www.w3.org/2000/svg";
 			var l = document.createElementNS(xmlns, "line");
 
@@ -92,7 +92,35 @@ var app = app || {};
 			l.setAttributeNS(null,"class","tabLine");
 			return l;
 		},
+		// Draw Virtual Line for cell alignment
+		drawVirtualLine: function () {
 
+			var HorLineNums = Math.ceil(this.width/this.cellWidth);
+			console.log(HorLineNums);
+			for (var i = HorLineNums - 1; i >= 0; i--) {
+				document.getElementById("tabSVG")
+					.appendChild(this
+						.createVerticalLine(i, this.firstLineY, this.sixthLineY));
+			}
+		},
+		createVerticalLine: function(i,firstLineY, sixthLineY){
+			var xmlns = "http://www.w3.org/2000/svg";
+			var l = document.createElementNS(xmlns, "line");
+			var x = i*this.cellWidth;
+			var color = 'rgb(0,0,0)';
+			var sw = 0.1;
+			if( i % 4 === 0){
+				sw = 0.4;
+				color = 'rgb(0, 153, 0)';
+			}
+			l.setAttributeNS(null,"x1",x);
+			l.setAttributeNS(null,"y1",firstLineY - this.cellHeight/2);
+			l.setAttributeNS(null,"x2",x);
+			l.setAttributeNS(null,"y2",sixthLineY + this.cellHeight/2);
+			l.setAttributeNS(null,"style", "stroke:"+color+";stroke-width:"+sw);
+			l.setAttributeNS(null,"class","virtualLine");
+			return l;
+		},
 		// Tab Event Listening
 		coordinateConvert: function (x, y) {
 			 return { 'x':Math.floor( (x-this.origin.x) / this.cellWidth ),
@@ -103,27 +131,74 @@ var app = app || {};
 			return {'x': x, 'y':y};
 		},
 		showMouseDownPos: function(event){
-			console.log("mouse down at X:" + event.pageX +
-		 		" Y:"+ event.pageY);
-			// var pos = this.coordinateConvert( event.pageX, event.pageY );
-			var rawPos = this.rawPos( event.pageX, event.pageY );
-			// console.log("cell x:" + pos.x + " y:"+ pos.y);
+			console.log("mouse down at X:" + event.pageX +" Y:"+ event.pageY);
+		 	var rawPos = this.rawPos( event.pageX, event.pageY );
+			var pos = this.coordinateConvert(event.pageX, event.pageY);
 
-			var musicnote = new app.MusicNote( this.newAttribute(rawPos) );
-			var view = new app.MusicNoteView( {model: musicnote} );
-			view.dump();
-			this.$tabSVG.append(view.drawFretNum());
-			app.MusicNotes.add( musicnote );
-			// new app.MusicNotes();
+			console.log("cell X: "+ pos.x+ " cell Y: "+ pos.y);
+
+			// Create MusicNote Model and Views
+			// var musicnote = new app.MusicNote( this.newAttribute(rawPos) );
+			// var view = new app.MusicNoteView( {
+				// model: musicnote,
+				// xCellNum: pos.x,
+				// yCellNum: pos.y - this.origin.y} );
+			// view.dump();
+
+			// draw MusicNote to SVG
+			// this.$tabSVG.append(view.drawFretNum());
+
+			// collection add MusicNote Model
+			// app.MusicNotes.add( musicnote );
 		},
 		newAttribute: function (pos) {
 			return {
 				"tabLineNum": 0,
 				"fretNum": 0,
-				"xCellNum": pos.x,
-				"yCellNum": pos.y - this.origin.y,
 				"tech": {}
 			};
+		},
+		// allocate all the MN and assign MN view to draw
+		ajaxHandle: function () {
+			// console.log('ajax complete!');
+ 			// check the context of this function
+ 			// console.log(this);
+ 			this.allocateInitTab();
+
+
+		},
+		allocateInitTab: function () {
+
+			for (var i = 0; i < app.MusicNotes.length - 1; i++) {
+				var mn = app.MusicNotes.at(i);
+				// console.log(this.getMNcells(mn));
+				var view = new app.MusicNoteView({
+						model: mn,
+						cells: this.getMNcells(mn)
+				});
+
+				// view.dump();
+				// draw MusicNote fret to SVG
+				this.$tabSVG.append(
+					view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+
+			}
+		},
+		getMNcells: function (mn) {
+			// Use 1/16 as the cell, equal 256 division
+			var xDuration = mn.get("duration")/this.divisionUnit;
+			var str = mn.get("tabLineNum");
+			var fret = mn.get("fret");
+			var cells = [];
+			// calculate how many cell for x dimension
+
+			for (var i = 0; i < xDuration; i++) {
+				cells.push({'x': i+this.xPtr, 'y': parseInt(str)});
+			}
+			// Move xPtr for insert next note
+			this.xPtr = this.xPtr + xDuration;
+			return cells;
+
 		},
 		addOneMN: function (mn) {
 			console.log('fire MN collection add!');

@@ -6,21 +6,21 @@ var app = app || {};
 	app.MusicNoteView = Backbone.View.extend({
 
 		el:'text',
-		// model:app.MusicNote,
+		cells:[],
 
-		initialize: function () {
+		initialize: function (para) {
 			console.log("MN View create!");
-			// this.drawFretNum('0',300, 0);
+			this.model = para.model;
+			this.cells = para.cells;
 		},
 		render: function () {
 
 		},
-		dump: function () {
-			 console.log(this.model.toJSON());
-		},
-		drawFretNum: function () {
-			var x = this.model.get("xCellNum");
-			var y = this.model.get("yCellNum");
+		drawFretNum: function (w, h, oy) {
+			// draw fret on leftmost cell
+			var x = this.cells[0].x*w;
+			var y = this.cells[0].y*h-18;
+
 			var fretNum = this.model.get("fretNum");
 
 			var xmlns = "http://www.w3.org/2000/svg";
@@ -32,6 +32,14 @@ var app = app || {};
 			n.setAttributeNS(null,"fill","blue");
 			n.textContent = fretNum;
 			return n;
+		},
+		drawDurBar: function () {
+
+		},
+		// Testing Function for Dump
+		dump: function () {
+			console.log(this);
+			 // console.log(this.model.toJSON());
 		}
 	});
 })(jQuery);
