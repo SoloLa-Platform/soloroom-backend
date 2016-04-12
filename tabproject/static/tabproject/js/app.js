@@ -46,10 +46,13 @@ $(function(){
         var request = gapi.client.youtube.search.list({
             part: "snippet",
             type: "video",
-            q: encodeURIComponent($("#keyword").val()).replace(/%20/g, "+"),
-            maxResults: 4,
+            
+            q: $("#keyword").val().replace(/%20/g, "+"),
+            //encodeURIComponent($("#search").val()).replace(/%20/g, "+"),
+            videoCategoryID: "Music",
+            maxResults: 20,
             order: "viewCount",
-            publishedAfter: "2015-01-01T00:00:00Z"
+            publishedAfter: "2000-01-01T00:00:00Z"
         });
         // execute the request
        request.execute(function(response) {
@@ -59,7 +62,9 @@ $(function(){
                
                $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" >'+item.snippet.title+'</div><br>');
                
-               $(".res_btn").css({"background-color":"#4169E1","border":"#000000 solid thin"});
+               $(".res_btn").css({"background-color":"#4169E1","border":"#000000 solid thin","border-radius": "10px"});
+               $(".res_btn").mouseover(function(event){$(event.target).css({"background-color":"#FFDEAD","position": "relative","top": "2px","left": "2px"});});
+               $(".res_btn").mouseout(function(event){$(event.target).css({"background-color":"#4169E1","position":"relative","top": "0px","left": "0px"});});
                /*$.get("./tpl/item.html", function(data) {
                 $("#videoresult").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
                 });
@@ -75,10 +80,12 @@ $(function(){
 
 
         function init(){
+            
             gapi.client.setApiKey("AIzaSyA831jpqrfz8EShm673XANf-fktA-u-1Pw");
             gapi.client.load("youtube","v3",function(){
                     //api is ready
             });
+            //console.log(gapi.client);
         }
         
         
