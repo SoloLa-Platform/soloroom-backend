@@ -3,7 +3,7 @@
 var app = app || {};
 var ENTER_KEY = 13;
 var ESC_KEY = 27;
-
+var disStatus="none";
 
 // var tabCanvas = musicNotes[]
 $(function () {
@@ -30,15 +30,21 @@ $(function () {
                     
         });
 $(function(){
-    $("#searchbtn2").click(function(){
-        console.log(this);
-//            this.focus();
-    });
-    $( "#searchForm2" ).delegate( "#keyword", "focus", function() {
-         $("#videoresult").slideToggle("slow");
-    });
+    
+    var disStatus = document.getElementById("videoresult").style.display;
+        $( "#searchForm2").delegate( "#keyword", "click", function() {
+                 disStatus = document.getElementById("videoresult").style.display;
+            if(disStatus!="block"){    
+                $("#videoresult").slideToggle("slow");
+            }
+            
+        });
+    
 });
 
+$("#videoresult").delegate("button","click",function(){
+              $("#videoresult").slideToggle("slow");       
+                     });
 $(function(){
     $("#searchForm2").on("submit", function(e){
         e.preventDefault();
