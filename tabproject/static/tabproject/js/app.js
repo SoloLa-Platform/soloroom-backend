@@ -3,7 +3,7 @@
 var app = app || {};
 var ENTER_KEY = 13;
 var ESC_KEY = 27;
-
+var disStatus="none";
 
 
 // app is the global variable as namespace for view, model class and controller //
@@ -17,24 +17,22 @@ $(function () {
 
 
 $(function(){
-    $("#searchbtn2").click(function(){
-        // console.log(this);
-//            this.focus();
-    });
-    $( "#searchForm2" ).delegate( "#keyword", "focus", function() {
-         $("#videoresult").slideToggle("slow");
-    });
+
+    
+    var disStatus = document.getElementById("videoresult").style.display;
+        $( "#searchForm2").delegate( "#keyword", "click", function() {
+                 disStatus = document.getElementById("videoresult").style.display;
+            if(disStatus!="block"){    
+                $("#videoresult").slideToggle("slow");
+            }
+            
+        });
+    
 });
 
-
-// Initilize Google Youtube API
-
-(function init(){
-        gapi.client.setApiKey("AIzaSyA831jpqrfz8EShm673XANf-fktA-u-1Pw");
-        gapi.client.load("youtube","v3",function(){
-                console.log('load youtube API is done');
-        });
-})();
+$("#videoresult").delegate("button","click",function(){
+              $("#videoresult").slideToggle("slow");       
+                     });
 
 $(function(){
 
@@ -60,10 +58,13 @@ $(function(){
         var request = gapi.client.youtube.search.list({
             part: "snippet",
             type: "video",
-            q: encodeURIComponent($("#keyword").val()).replace(/%20/g, "+"),
-            maxResults: 4,
+            
+            q: $("#keyword").val().replace(/%20/g, "+"),
+            //encodeURIComponent($("#search").val()).replace(/%20/g, "+"),
+            videoCategoryID: "Music",
+            maxResults: 20,
             order: "viewCount",
-            publishedAfter: "2015-01-01T00:00:00Z"
+            publishedAfter: "2000-01-01T00:00:00Z"
         });
         // execute the request
        request.execute(function(response) {
@@ -72,7 +73,12 @@ $(function(){
            $.each(results.items,function(index,item){
 
                $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" >'+item.snippet.title+'</div><br>');
-               $(".res_btn").css({"background-color":"#e2ebf0"});
+
+               
+               $(".res_btn").css({"background-color":"#4169E1","border":"#000000 solid thin","border-radius": "10px"});
+               $(".res_btn").mouseover(function(event){$(event.target).css({"background-color":"#FFDEAD","position": "relative","top": "2px","left": "2px"});});
+               $(".res_btn").mouseout(function(event){$(event.target).css({"background-color":"#4169E1","position":"relative","top": "0px","left": "0px"});});
+
                /*$.get("./tpl/item.html", function(data) {
                 $("#videoresult").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
                 });
@@ -87,6 +93,19 @@ $(function(){
 });
 
 
+
+        function init(){
+            
+            gapi.client.setApiKey("AIzaSyA831jpqrfz8EShm673XANf-fktA-u-1Pw");
+            gapi.client.load("youtube","v3",function(){
+                    //api is ready
+            });
+            //console.log(gapi.client);
+        }
+        
+        
+        
+        
 
         $(function resultchoice() {
 	       $("#videoresult_btn").delegate(".res_btn","click",function(event){
