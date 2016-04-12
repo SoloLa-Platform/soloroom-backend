@@ -21,7 +21,7 @@ var app = app || {};
 			this.width = $("#tab").width();
 			this.height = $("#tab").height();
 			this.origin =  this.origin2int($("#tab"));
-			console.log(this.origin);
+			// console.log(this.origin);
 
 			// calculating tabLine top and bottom padding
 			this.paddingYratio = 0.10;
@@ -33,7 +33,7 @@ var app = app || {};
 			// tab unit cell, cell height = distance between line
 			this.widthRatio = 0.01;
 			this.cellWidth = this.calUnitCellWidht(this.width, this.widthRatio);
-			console.log('cellWidth:'+this.cellWidth);
+			// console.log('cellWidth:'+this.cellWidth);
 			this.cellHeight = this.tabLineSpace;
 
 			this.intiTabSize($(window).width(), this.height);
@@ -42,6 +42,7 @@ var app = app || {};
 
 			// Event binding
 			this.listenTo(app.MusicNotes, "add", this.addOneMN);
+			this.listenTo(app.Measures, "add", this.addOneMeasure);
 
 			// Check the JSON all added into MNs Collection
 			$(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
@@ -97,7 +98,7 @@ var app = app || {};
 
 			var HorLineNums = Math.ceil(this.width/this.cellWidth);
 			console.log(HorLineNums);
-			for (var i = HorLineNums - 1; i >= 0; i--) {
+			for (var i = 0; i < HorLineNums; i++) {
 				document.getElementById("tabSVG")
 					.appendChild(this
 						.createVerticalLine(i, this.firstLineY, this.sixthLineY));
@@ -109,10 +110,10 @@ var app = app || {};
 			var x = i*this.cellWidth;
 			var color = 'rgb(0,0,0)';
 			var sw = 0.1;
-			if( i % 4 === 0){
-				sw = 0.4;
-				color = 'rgb(0, 153, 0)';
-			}
+			// if( i % 16 === 0){
+			// 	sw = 0.8;
+			// 	color = 'rgb(100, 100, 100)';
+			// }
 			l.setAttributeNS(null,"x1",x);
 			l.setAttributeNS(null,"y1",firstLineY - this.cellHeight/2);
 			l.setAttributeNS(null,"x2",x);
@@ -160,29 +161,43 @@ var app = app || {};
 		},
 		// allocate all the MN and assign MN view to draw
 		ajaxHandle: function () {
-			// console.log('ajax complete!');
- 			// check the context of this function
- 			// console.log(this);
+
  			this.allocateInitTab();
 
 
 		},
 		allocateInitTab: function () {
+			// referenc of 1/4 duration value
+			var tmp_division = 1024;
 
-			for (var i = 0; i < app.MusicNotes.length - 1; i++) {
-				var mn = app.MusicNotes.at(i);
-				// console.log(this.getMNcells(mn));
-				var view = new app.MusicNoteView({
+			for (var i = 0; i < app.Measures.length - 1; i++) {
+
+				var m = app.Measures.at(i);
+				var mv = new app.MeasureView({model: m});
+
+				for( var j = 0; j < m.get("mnsArray").length - 1; j++){
+					var mn = m.get("mnsArray")[j];
+					var view = new app.MusicNoteView({
 						model: mn,
 						cells: this.getMNcells(mn)
-				});
+					});
+					mv.addMView(view);
 
-				// view.dump();
-				// draw MusicNote fret to SVG
-				this.$tabSVG.append(
-					view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+					// draw MusicNote fret to SVG
+					var g = $(view.getSVGGroup()).append(view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+					g.append(view.drawDurBar(this.cellWidth, this.cellHeight));
+					this.$tabSVG.append(g);
+					// this.$tabSVG.append(
+					// 	view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+
+					// this.$tabSVG.append(view.drawDurBar(this.cellWidth, this.cellHeight));
+					// draw MusicNote duration bar to SVG
+					// console.log(mn.get('duration')/tmp_division);
+				}
+				// console.log(mv.getMNViewsArray());
 
 			}
+
 		},
 		getMNcells: function (mn) {
 			// Use 1/16 as the cell, equal 256 division
@@ -201,11 +216,18 @@ var app = app || {};
 
 		},
 		addOneMN: function (mn) {
-			console.log('fire MN collection add!');
+			// console.log('fire MN collection add!');
 			// console.log(mn.toJSON());
 			// var view = new app.MusicNoteView({model: mn} );
 			// view.dump();
 			// this.$tabSVG.append(view.drawFretNum());
+		},
+		//
+		// Measures Collection Handle
+		//
+		addOneMeasure: function (m) {
+			 console.log('fire add one measure');
+			 // console.log(m);
 		}
 
 	});
