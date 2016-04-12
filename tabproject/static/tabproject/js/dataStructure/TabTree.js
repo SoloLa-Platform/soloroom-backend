@@ -2,6 +2,7 @@ var app = app || {};
 
 (function () {
 
+
 	//
 	// Class TabTree :
 	//
@@ -9,29 +10,36 @@ var app = app || {};
 			// ========
 			// Property
 			// ========
-			var measureNodes;
+			var measures;
 			var rootNode;
-
+			var attributes;
 			// ===========
 			// Constructor
 			// ===========
 			console.log('TabTree construct');
 
-			this.measureNodes = {};
 
 			// Init TabTree id
 			var tid = app.mainController.getInstance().getTabTreeId();
+
 			this.rootNode = {"tid": tid };
+			this.attributes = {};
+			// apply Measures Class (inherit Backbone collection)
+			// this.measures = new app.Measures();
+			console.log(this.measures);
 		};
 
 	//
 	// Class TabTree ProtoType Methods
 	//
-	app.TabTree.prototype.append = function(m) {
+	app.TabTree.prototype.appendMeasure = function(m) {
 			// console.log(m);
-			var id = m["@number"];
+			// this.measures.add(new app.Measure(m));
+			// var id = m_model["@number"];
 			// var id = m.key;
-			this.measureNodes[id] = m;
+			// this.measureNodes[id] = m;
+
+			// New a measure model and add to Measures Collection
 	};
 
 	app.TabTree.prototype.dump = function() {

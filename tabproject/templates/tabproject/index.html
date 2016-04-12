@@ -200,7 +200,7 @@
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
 	<div class="footer">
-		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
+		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu,Jyun-Yang KE and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
 	</div>
 <!-- End Footer -->
 	{% load static from staticfiles %}
@@ -215,19 +215,21 @@
 
 <!-- javascirpt developing Code -->
 	<!-- <script type="text/javascript" src="{% static "tabproject/js/demo/tab.json" %}"></script> -->
-
 	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/models/measure.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/views/musicnote-view.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/views/measure-view.js" %}"></script>
+	<script type="text/javascript" src="{% static "tabproject/js/collections/measures.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/collections/musicnotes.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
+
 	<script type="text/javascript" src="{% static "tabproject/js/views/tab-view.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/controllers/mainController.js" %}"></script>
 	<script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script>
 	<!-- Data Structure  -->
-	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/MusicNoteNode.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/MeasureNode.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/dataStructure/TabTree.js" %}"></script>
+	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/MusicNoteNode.js" %}"></script> -->
+	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/MeasureNode.js" %}"></script> -->
+	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/TabTree.js" %}"></script> -->
 
 </body>
 </html>
