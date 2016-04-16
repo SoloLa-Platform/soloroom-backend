@@ -37,7 +37,7 @@ var app = app || {};
 			// console.log('Measure Model construct');
 		},
 		setMNs: function(notes){
-			for(var j = 0; j< notes.length - 1; j++){
+			for(var j = 0; j< notes.length ; j++){
 
 					// Create a new MN for each note
 					var musicnote = new app.MusicNote({
