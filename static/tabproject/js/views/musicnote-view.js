@@ -5,33 +5,57 @@ var app = app || {};
 	'use strict';
 	app.MusicNoteView = Backbone.View.extend({
 
-		el:'text',
-		// model:app.MusicNote,
+		el:'g',
+		cells:[],
+		xmlns: "http://www.w3.org/2000/svg",
 
-		initialize: function () {
-			console.log("MN View create!");
-			// this.drawFretNum('0',300, 0);
+		initialize: function (para) {
+			// console.log("MN View create!");
+			this.model = para.model;
+			this.cells = para.cells;
 		},
 		render: function () {
 
 		},
-		dump: function () {
-			 console.log(this.model.toJSON());
+		getSVGGroup:function () {
+			  return document.createElementNS(this.xmlns, "g");
 		},
-		drawFretNum: function () {
-			var x = this.model.get("xCellNum");
-			var y = this.model.get("yCellNum");
+		drawFretNum: function (w, h, oy) {
+			// draw fret on leftmost cell
+			var x = this.cells[0].x*w;
+			var y = this.cells[0].y*h-25;
 			var fretNum = this.model.get("fretNum");
 
-			var xmlns = "http://www.w3.org/2000/svg";
+			var xmlns = this.xmlns;
 			var n = document.createElementNS(xmlns, "text");
-			var offset = 45;
-			var textOffset = 10;
+
 			n.setAttributeNS(null,"x",x);
 			n.setAttributeNS(null,"y",y);
-			n.setAttributeNS(null,"fill","blue");
+			n.setAttributeNS(null,"fill","black");
+			n.setAttributeNS(null, "font-size", "11");
 			n.textContent = fretNum;
 			return n;
+		},
+		drawDurBar: function (w, h) {
+
+			var x = this.cells[0].x*w;
+			var y = this.cells[0].y*h - 0.5*h;
+			var xmlns = this.xmlns;
+			var n = document.createElementNS(xmlns, "rect");
+			n.setAttributeNS(null,"x",x);
+			n.setAttributeNS(null,"y",y);
+			n.setAttributeNS(null,"rx",2);
+			n.setAttributeNS(null,"ry",2);
+			n.setAttributeNS(null,"width",this.cells.length*w);
+			n.setAttributeNS(null,"height",h/2.5);
+
+			n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:0.7");
+			return n;
+		},
+		// Testing Function for Dump
+		dump: function () {
+			console.log(this);
+			 // console.log(this.model.toJSON());
 		}
 	});
 })(jQuery);
