@@ -33,19 +33,21 @@ var app = app || {};
 			// tab unit cell, cell height = distance between line
 			this.widthRatio = 0.01;
 			this.cellWidth = this.calUnitCellWidht(this.width, this.widthRatio);
-			// console.log('cellWidth:'+this.cellWidth);
 			this.cellHeight = this.tabLineSpace;
 
 			this.intiTabSize($(window).width(), this.height);
 			this.drawTabLines();
-			this.drawVirtualLine();
 
-			// Event binding
+			this.drawVirtualLine(); // ** move to each measure
+
+			//
+			// Event Handler
+			//
 			this.listenTo(app.MusicNotes, "add", this.addOneMN);
 			this.listenTo(app.Measures, "add", this.addOneMeasure);
 
 			// Check the JSON all added into MNs Collection
-			$(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
+			// $(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
 
 		},
 		render: function () {
@@ -56,6 +58,9 @@ var app = app || {};
 			$("#tabSVG").attr("width", w);
 			$("#tabSVG").attr("height", h);
 		},
+		//
+		// This is initilization helper function
+		//
 		origin2int: function (o){
 			return { 'x': Math.ceil($("#tab").offset().left),
 				'y': Math.ceil(o.offset().top) };
@@ -93,7 +98,9 @@ var app = app || {};
 			l.setAttributeNS(null,"class","tabLine");
 			return l;
 		},
-		// Draw Virtual Line for cell alignment
+		//
+		// Draw Virtual Line for cell alignment (this function should move to measure view)
+		//
 		drawVirtualLine: function () {
 
 			var HorLineNums = Math.ceil(this.width/this.cellWidth);
@@ -122,15 +129,7 @@ var app = app || {};
 			l.setAttributeNS(null,"class","virtualLine");
 			return l;
 		},
-		// Tab Event Listening
-		coordinateConvert: function (x, y) {
-			 return { 'x':Math.floor( (x-this.origin.x) / this.cellWidth ),
-			 	'y': Math.floor( (y-this.origin.y) / this.cellHeight )
-			 	};
-		},
-		rawPos: function(x, y){
-			return {'x': x, 'y':y};
-		},
+
 		showMouseDownPos: function(event){
 			console.log("mouse down at X:" + event.pageX +" Y:"+ event.pageY);
 		 	var rawPos = this.rawPos( event.pageX, event.pageY );
@@ -152,6 +151,15 @@ var app = app || {};
 			// collection add MusicNote Model
 			// app.MusicNotes.add( musicnote );
 		},
+		// Coordinate Helper functions
+		coordinateConvert: function (x, y) {
+			 return { 'x':Math.floor( (x-this.origin.x) / this.cellWidth ),
+			 	'y': Math.floor( (y-this.origin.y) / this.cellHeight )
+			 	};
+		},
+		rawPos: function(x, y){
+			return {'x': x, 'y':y};
+		},
 		newAttribute: function (pos) {
 			return {
 				"tabLineNum": 0,
@@ -159,13 +167,8 @@ var app = app || {};
 				"tech": {}
 			};
 		},
-		// allocate all the MN and assign MN view to draw
-		ajaxHandle: function () {
 
- 			this.allocateInitTab();
-
-
-		},
+		// High coupling function, shoulb be in controller
 		allocateInitTab: function () {
 			// referenc of 1/4 duration value
 			var tmp_division = 1024;
@@ -179,7 +182,7 @@ var app = app || {};
 					var mn = m.get("mnsArray")[j];
 					var view = new app.MusicNoteView({
 						model: mn,
-						cells: this.getMNcells(mn)
+						cells: this.getMNcells(mn) // dependency in tab View
 					});
 					mv.addMView(view);
 
@@ -187,6 +190,7 @@ var app = app || {};
 					var g = $(view.getSVGGroup()).append(view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
 					g.append(view.drawDurBar(this.cellWidth, this.cellHeight));
 					this.$tabSVG.append(g);
+
 					// this.$tabSVG.append(
 					// 	view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
 
@@ -199,6 +203,9 @@ var app = app || {};
 			}
 
 		},
+
+		// helper function
+		// this function better to be re-implemented by less objects method
 		getMNcells: function (mn) {
 			// Use 1/16 as the cell, equal 256 division
 			var xDuration = mn.get("duration")/this.divisionUnit;

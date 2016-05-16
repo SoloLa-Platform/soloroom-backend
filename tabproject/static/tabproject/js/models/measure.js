@@ -27,29 +27,35 @@ var app = app || {};
 		},
 		initialize: function(){
 
-			// this.number = m['@number'];
-			// if( m.attributes !== undefined ){
-			// 	this.easureAttrib = m.attributes;
-			// }
-			// init a musicnote array
 
-			// console.log(this.mnsArr);
-			// console.log('Measure Model construct');
 		},
 		setMNs: function(notes){
-			for(var j = 0; j< notes.length ; j++){
+			var l = notes.length;
+			for(var j = 0; j < l; j++){
 
-					// Create a new MN for each note
-					var musicnote = new app.MusicNote({
+					// console.log("MN:"+j);
+					if (notes[j].hasOwnProperty("rest")){
+						console.log('rest');
+						this.defaults.mnsArray.push(new app.MusicNote({
+								duration: notes[j].duration,
+							})
+						);
+					}
+					else{
+						// Create a new MN for each note
+						this.defaults.mnsArray.push(new app.MusicNote({
 
-						tabLineNum: notes[j].notations.technical.string,
-						fretNum: notes[j].notations.technical.fret,
-						duration: notes[j].duration,
-						alter: notes[j].pitch.alter,
-						octave: notes[j].pitch.octave,
-						step: notes[j].pitch.step,
-					});
-					this.defaults.mnsArray.push(musicnote);
+								tabLineNum: notes[j].notations.technical.string,
+								fretNum: notes[j].notations.technical.fret,
+								duration: notes[j].duration,
+								alter: notes[j].pitch.alter,
+								octave: notes[j].pitch.octave,
+								step: notes[j].pitch.step,
+							})
+						);
+
+						// console.log(musicnote);
+					}
 			}
 		},
 		setAttr: function (a) {

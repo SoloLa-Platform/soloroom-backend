@@ -20,14 +20,12 @@ var ESC_KEY = 27;
 			this.requestTabJSON(this.defaults.url);
 		},
 		requestTabJSON: function(tabUrl) {
-			// var addMN = this.retriveMusicNote;
 
 				this.ajax = $.ajax({
-
-				url: tabUrl,
-				datatype:'json',
-				async: 'true',
-				success: this.ajaxHandle.bind(this)
+					url: tabUrl,
+					datatype:'json',
+					async: 'true',
+					success: this.ajaxHandle.bind(this)
 				});
 		},
 		ajaxHandle: function (result) {
@@ -37,31 +35,28 @@ var ESC_KEY = 27;
 
 			var data = JSON.parse(result);
 			var measures = data['score-partwise'].part.measure;
-			// console.log(measures);
+			console.log(measures);
 
 
 			// need to get first measure attribute, get the divide
 			// this.defaults.division = measures[0].attributes.divisions;
 			console.log("total measure: " + measures.length);
 
-
-			// Get Unique Tree Id and new a TabTree
-			// this.tabTree = new app.TabTree();
-			// console.log('in tab, dump tabTree object');
-			// console.log(this.tabTree);
-
-			for (var i = 0; i < measures.length - 175; i++) {
+			// ** Need to test draw all measure
+			for (var i = 0; i < measures.length - 170; i++) {
 				console.log(" measure: "+i);
+				console.log(measures[i]);
 
-				var m = measures[i];
 				var m_model =  new app.Measure();
-				m_model.set({"number": m['@number']});
+				m_model.set({"number": measures[i]['@number']});
 
-				// Here have wired result
-				if (typeof m.attributes !== "undefined")
-					m_model.setAttr(m.attributes);
+				if ( measures[i].hasOwnProperty("attributes") ){
 
-				m_model.setMNs(m.note);
+					m_model.setAttr(measures[i].attributes);
+					console.log('has attributes');
+				}
+
+				m_model.setMNs(measures[i].note);
 				app.Measures.add(m_model);
 
 			}

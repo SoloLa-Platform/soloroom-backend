@@ -26,15 +26,23 @@
 
 		/*background-color: #777;*/
 	}
+	.beta{
+		position: absolute;
+	    left: 0px;
+	    top: 0px;
+	    z-index: -1;
+	}
 	.title{
+		z-index: 2;
 		font-family: 'Montserrat', serif;
-        font-size: 50px;
+        font-size: 68px;
         text-align: center;
         color: #777;
+        margin-top: 8px;
 
 	}
 	.titleEn{
-		font-size: 54px;
+		font-size: 68px;
 		font-weight: 10;
 		color: #473dd4;
 	}
@@ -129,6 +137,7 @@
 		text-align: right;
 	}
 	</style>
+	{% load static from staticfiles %}
 </head>
 <body>
 	<div class="topContainer pure-g">
@@ -146,10 +155,11 @@
 	</div>
 <!-- End Top Container  -->
 	<div class="header" class="pure-g" >
-		<div class="logoBlock pure-u-1-5 ">
-			<p class="title"><span class="titleEn">Solo</span>La!</p>
+		<div class="logoBlock pure-u-1-4 ">
+			<img class="beta" src="{% static "tabproject/media/betaLabelLeft.png" %}">
+			<div class="title"><span class="titleEn">Solo</span>La!</div>
 		</div>
-		<div id="searchBar" class="pure-u-3-5 ">
+		<div id="searchBar" class="pure-u-3-4 ">
 		</div>
 	</div>
 <!-- End Header -->
@@ -172,14 +182,13 @@
                              <input type="text" id="searchurl" placeholder="Please enter URL" autocomplete="off"  class="form-control" >
                             <input type="submit" value="submit" class="pure-button" id="searchbtn">
                          </p>
-                
+
                     </form>
                     <form action="#" class="pure-form " id="searchForm2">
                          <p>
                              <input type="text" id="keyword" placeholder="Please enter keyword" autocomplete="off"  class="keywordtext" >
                             <input type="submit" value="enter" class="pure-button" id="searchbtn2">
                          </p>
-                
                     </form>
 			    </div>
                 <div class="pure-u-2-5 ">
@@ -205,12 +214,12 @@
 		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu,Jyun-Yang KE and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
 	</div>
 <!-- End Footer -->
-	{% load static from staticfiles %}
+
 
 <!-- javascript resource-->
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
 	<script src="{% static "tabproject/jquery/jquery-2.2.0.min.js"%}"></script>
-	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+	<!-- <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script> -->
 	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
 	<script src="{% static "tabproject/backbone/backbone-min.js"%}"></script>
 	<script src="{% static "tabproject/backbone/backbone.localStorage-min.js"%}"></script>

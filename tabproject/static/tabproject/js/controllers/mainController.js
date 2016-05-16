@@ -9,62 +9,57 @@ app.mainController = (function(){
 
 	function init(){
 
-
 		// Private Preporty  //
-		var privateVar = 'private var ';
-		var tabView = {};
-
-		// tabModel including a tree to store and handle
-		var tabModel = {};
 
 		// Global Tree Unique Id
 		var treeId = 0;
 
 		// Private Method
-		function privateMethod() {
-			console.log('I am private method');
-		}
 		function privateContextTest(){
 			console.log(this);
 		}
-		function privateGetTabModel(){
-			return this.tabModel;
-		}
-		function privateSetTabModel(tabModel){
-			this.tabModel = tabModel;
-		}
-		// ===============
-		// Global Function
-		// ===============
-		// Get Unique Tree Id
+
 		function privateGetTreeId() {
 			 return treeId++;
 		}
+
+		//
 		// Public Preporty and Method
+		//
 		return {
 
-			publicVar: 'public var',
+			tabView: {},// tabView
+			tabModel: {},// tabModel including a tree to store and handle
 
-			// Getter and Setter
-			publicSetTabModel:function(tabModel){
-				privateSetTabModel(tabModel);
+			// Tab
+			tabInit: function(){
+				// Start Tab Model (fetch musicXML of tab)
+				this.tabModel = new app.Tab();
+				this.tabModel.fetchRemoteFull();
+
+				// create TabView with TabModel
+				this.tabView = new app.TabView( {model:this.tabModel});
+
+				console.log(window.performance.now());
+				// ajax complete event binding
+				// $(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
 			},
-			privilegeGetTabModel: function () {
-				 return privateGetTabModel();
+			ajaxHandler: function(){
+				// allocate all the MN and assign MN view to draw
+				this.tabView.allocateInitTab(this.tabModel.getMeasureSet());
+
+				console.log(window.performance.now());
 			},
+
 			//============================//
 			// The Entry Point of the app //
 			//============================//
 			startApp: function(){
 
 				// @@ Start daemon for pre-working
+
 				// @@ this part can be improvement by web worker
-
-				// Start Tab Model
-				this.publicSetTabModel(new app.Tab());
-
-				// Start Tab View
-				new app.TabView( {model:this.privilegeGetTabModel()});
+				this.tabInit();
 
 				// Start ControlPanel
 

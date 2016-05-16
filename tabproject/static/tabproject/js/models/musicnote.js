@@ -40,7 +40,7 @@ var ESC_KEY = 27;
 		},
 		initialize: function () {
 
-			 console.log("MN Model Create");
+			 // console.log("MN Model Create");
 			 // console.log(this.defaults);
 		}
 	});

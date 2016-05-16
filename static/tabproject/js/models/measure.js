@@ -37,19 +37,27 @@ var app = app || {};
 			// console.log('Measure Model construct');
 		},
 		setMNs: function(notes){
-			for(var j = 0; j< notes.length - 1; j++){
+			for(var j = 0; j < notes.length; j++){
 
-					// Create a new MN for each note
-					var musicnote = new app.MusicNote({
+					console.log("MN:"+j);
+					if (notes[j].hasOwnProperty("rest")){
+						console.log('rest');
+					}
+					else{
+						// Create a new MN for each note
+						// var musicnote = new app.MusicNote({
 
-						tabLineNum: notes[j].notations.technical.string,
-						fretNum: notes[j].notations.technical.fret,
-						duration: notes[j].duration,
-						alter: notes[j].pitch.alter,
-						octave: notes[j].pitch.octave,
-						step: notes[j].pitch.step,
-					});
-					this.defaults.mnsArray.push(musicnote);
+						// 	tabLineNum: notes[j].notations.technical.string,
+						// 	fretNum: notes[j].notations.technical.fret,
+						// 	duration: notes[j].duration,
+						// 	alter: notes[j].pitch.alter,
+						// 	octave: notes[j].pitch.octave,
+						// 	step: notes[j].pitch.step,
+						// });
+						// console.log(musicnote);
+					}
+
+					// this.defaults.mnsArray.push(musicnote);
 			}
 		},
 		setAttr: function (a) {
