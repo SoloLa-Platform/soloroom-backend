@@ -190,44 +190,48 @@ var app = app || {};
 		//
 		// helper function end
 		//
-
+		makeGeneralSVG: function (tag, attrs){
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (var k in attrs)
+                el.setAttribute(k, attrs[k]);
+            return el;
+		},
 		// High coupling function, shoulb be in controller
+		// Take every mn model in measure to create mapping view
+		// add to document & render
 		allocateInitTab: function (measureSet) {
-			// referenc of 1/4 duration value
-			var tmp_division = 1024;
+
 
 			console.log('in allocateInitTab');
-			var l = measureSet.length; //optimized perf. style
 			var df = document.createDocumentFragment();
-			for (var i = 0; i < l - 100; i++) {
+
+			var l = measureSet.length; //optimized perf. style
+			for (var i = 0; i < l; i++) {
 
 				var mv = new app.MeasureView({model: measureSet.at(i)});
-				// var measG = document.createElementNS(this.xmlns, "g");
-				// measG.setAttributeNS(null,"id","m"+i);
+				var mGroup = this.makeGeneralSVG("g", {id:"m"+i});
 
-				var l2 = measureSet.at(i).get("mnsArray").length; //optimized perf. style
+				var l2 = measureSet.at(i).get("MNsArray").length; //optimized perf. style
 				for( var j = 0; j < l2; j++){
 					var mnv = new app.MusicNoteView({
 
-						model: measureSet.at(i).get("mnsArray")[j],
-						cells: this.getMNcells(measureSet.at(i).get("mnsArray")[j]) // dependency in tab View
+						model: measureSet.at(i).get("MNsArray")[j],
+						cells: this.getMNcells(measureSet.at(i).get("MNsArray")[j]) // dependency in tab View
 					});
 					mv.addMView(mnv);
 
-					// draw MusicNote fret to SVG
-					$(df).append($(mnv.getSVGGroup())
-						.append(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y))
-						.append(mnv.drawDurBar(this.cellWidth, this.cellHeight)));
+					var mnGroup = this.makeGeneralSVG("g");
+					mnGroup.appendChild(mnv.drawDurBar(this.cellWidth, this.cellHeight));
+					mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+					mGroup.appendChild(mnGroup);
 				}
-				// console.log(measG);
-				// df.appendChild(measG);
-				// console.log(mv.getMNViewsArray());
-
+				console.log(mGroup);
+				df.appendChild(mGroup);
+				mGroup = null;
 			}
-			this.$tabSVG.append(df);
+			document.getElementById("tabSVG").appendChild(df);
+			// this.$tabSVG.append(df);
 		},
-
-
 		addOneMN: function (mn) {
 			// console.log('fire MN collection add!');
 			// console.log(mn.toJSON());

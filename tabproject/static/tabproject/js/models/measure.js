@@ -19,31 +19,33 @@ var app = app || {};
 			staff_tuning_4:"D",
 			staff_tuning_5:"A",
 			staff_tuning_6:"E",
+			// ** Array in Model need to set as default
+			// Beats
 
 			// Notes
-			mnsArray:[]
-
-			// Beats
+			MNsArray: [],
 		},
+
 		initialize: function(){
 
 
 		},
 		setMNs: function(notes){
 			var l = notes.length;
+
 			for(var j = 0; j < l; j++){
 
 					// console.log("MN:"+j);
 					if (notes[j].hasOwnProperty("rest")){
 						console.log('rest');
-						this.defaults.mnsArray.push(new app.MusicNote({
+						this.get("mnsArray").push(new app.MusicNote({
 								duration: notes[j].duration,
 							})
 						);
 					}
 					else{
 						// Create a new MN for each note
-						this.defaults.mnsArray.push(new app.MusicNote({
+						this.get("mnsArray").push(new app.MusicNote({
 
 								tabLineNum: notes[j].notations.technical.string,
 								fretNum: notes[j].notations.technical.fret,

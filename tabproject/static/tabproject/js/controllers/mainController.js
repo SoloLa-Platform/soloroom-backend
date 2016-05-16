@@ -42,7 +42,7 @@ app.mainController = (function(){
 
 				console.log(window.performance.now());
 				// ajax complete event binding
-				// $(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
+				$(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
 			},
 			ajaxHandler: function(){
 				// allocate all the MN and assign MN view to draw
@@ -61,9 +61,12 @@ app.mainController = (function(){
 				// @@ this part can be improvement by web worker
 				this.tabInit();
 
-				// Start ControlPanel
+				//
+				// Start ControlPanel (Pure View)
+				//
+				// # Progress Slider
 
-				// Start SearchBar
+				// Start SearchBar (Pure View)
 
 				// Start MIDI player
 			},

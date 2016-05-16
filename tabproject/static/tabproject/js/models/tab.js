@@ -55,14 +55,17 @@ var ESC_KEY = 27;
 			});
 
 		},
-		store: function(){
-
+		privateStore: function(data){
+			this.data = data;
+		},
+		getMeasureLength: function(){
+			return this.data['score-partwise'].part.measure.length;
 		},
 		// This function need to seperate into detail process for preformanace issue
 		ajaxHandle: function (result) {
 
-			var data = JSON.parse(result);
-			var measures = data['score-partwise'].part.measure;
+			this.privateStore(JSON.parse(result));
+			var measures = this.data['score-partwise'].part.measure;
 			console.log(measures);
 
 
@@ -71,25 +74,57 @@ var ESC_KEY = 27;
 			console.log("total measure: " + measures.length);
 
 			// ** Need to test draw all measure
-			for (var i = 0; i < measures.length - 1; i++) {
-				// console.log(" measure: "+i);
+			var l = measures.length;
+			for (var i = 0; i < l; i++) {
+				console.log(" measure: "+i);
 				// console.log(measures[i]);
 
-				var m_model =  new app.Measure();
-				m_model.set({"number": measures[i]['@number']});
+				var m =  new app.Measure({MNsArray:this.retriveMNsArray(measures[i].note)});
+				m.set({"number": measures[i]['@number']});
 
 				if ( measures[i].hasOwnProperty("attributes") ){
-					m_model.setAttr(measures[i].attributes);
+					m.setAttr(measures[i].attributes);
 					// console.log('has attributes');
 				}
 
-				m_model.setMNs(measures[i].note);
-				this.measureSet.add(m_model);
+				console.log(m.get("MNsArray"));
+				this.measureSet.add(m);
 
 			}
 			console.log('append finish done');
 			// this.tabTree.dump();
 
+		},
+		retriveMNsArray: function(notes){
+			var MNsArray = [];
+			var l = notes.length;
+			for(var j = 0; j < l; j++){
+
+					// console.log("MN:"+j);
+					if (notes[j].hasOwnProperty("rest")){
+						console.log('rest');
+						MNsArray.push(new app.MusicNote({
+								duration: notes[j].duration,
+							})
+						);
+					}
+					else{
+						// Create a new MN for each note
+						MNsArray.push(new app.MusicNote({
+
+								tabLineNum: notes[j].notations.technical.string,
+								fretNum: notes[j].notations.technical.fret,
+								duration: notes[j].duration,
+								alter: notes[j].pitch.alter,
+								octave: notes[j].pitch.octave,
+								step: notes[j].pitch.step,
+							})
+						);
+
+						// console.log(musicnote);
+					}
+			}
+			return MNsArray;
 		},
 		dumpTab: function () {
 
