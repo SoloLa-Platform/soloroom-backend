@@ -87,7 +87,7 @@ var ESC_KEY = 27;
 					// console.log('has attributes');
 				}
 
-				console.log(m.get("MNsArray"));
+				// console.log(m.get("MNsArray"));
 				this.measureSet.add(m);
 
 			}

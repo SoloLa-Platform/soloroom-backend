@@ -225,7 +225,7 @@ var app = app || {};
 					mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
 					mGroup.appendChild(mnGroup);
 				}
-				console.log(mGroup);
+				// console.log(mGroup);
 				df.appendChild(mGroup);
 				mGroup = null;
 			}
