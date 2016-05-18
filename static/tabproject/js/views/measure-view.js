@@ -5,6 +5,7 @@ var app = app || {};
 	app.MeasureView = Backbone.View.extend({
 
 		// musicnotesView:[],
+		el:"g",
 		MNViews:[],
 		initialize: function () {
 			// add each view of ecah musicnote

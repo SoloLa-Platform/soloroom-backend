@@ -4,9 +4,7 @@ import os
 
 
 def index(request):
-	itemList = ["apple", "banana", "cream"]
-	context = {'itemList' : itemList}
-	return render(request, 'tabproject/index.html', context)
+	return render(request, 'tabproject/index.html')
 
 def parsing(request):
 	# if request.method == 'get':
@@ -16,3 +14,6 @@ def parsing(request):
 		data = file.read()
 
 	return HttpResponse(data)
+
+def gapiValid(request):
+	return render(request, 'gapi/google3cebc5b9808be979.html')

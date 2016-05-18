@@ -18,7 +18,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 
 urlpatterns = [
- 	url(r'^tabproject/', include('tabproject.urls')),
-    url(r'^adminPy/', admin.site.urls),
 
+    url(r'^adminPy/$', admin.site.urls),
+    url(r'', include('tabproject.urls'))
 ]
