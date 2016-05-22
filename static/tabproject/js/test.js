@@ -75,14 +75,14 @@ $(document).ready(function() {
 		var tabSVG = document.getElementsByTagName("svg")[0];
 		console.log(playing);
 		if( playing == false){
-			
+
 			playing = true;
 			updateAction = setInterval(
 				function(){
 					var xStr = x.toString();
 					tabSVG.setAttribute('viewBox', xStr+=',0,640,400');
 					x+=delta_x;
-					
+
 			}, update_rate);
 			$(this).text("stop");
 		}else{
