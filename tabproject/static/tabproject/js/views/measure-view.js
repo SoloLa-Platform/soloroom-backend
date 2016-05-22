@@ -9,9 +9,7 @@ var app = app || {};
 		MNViews:[],
 		initialize: function () {
 			// add each view of ecah musicnote
-
-
-			console.log('create measure View');
+			// console.log('create measure View');
 
 		},
 		addMView: function (v) {

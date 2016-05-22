@@ -1,13 +1,13 @@
 // Global Variable
 var app = app || {};
-var ENTER_KEY = 13;
-var ESC_KEY = 27;
 
-(function(){
+$(function(){
+
 	'use strict';
 	//
-	// MeasureSet: 	the set collects all the measure from musicXML
-	//				Including find Measure and find MusicNote Function
+	// MeasureSet Class:
+	// 		the set collects all the measure from musicXML
+	//		Including find Measure and find MusicNote Function
 	var MeasureSet = Backbone.Collection.extend({
 		localStorage: new Backbone.LocalStorage('measures'),
 		initialize: function (argument) {
@@ -66,7 +66,7 @@ var ESC_KEY = 27;
 
 			this.privateStore(JSON.parse(result));
 			var measures = this.data['score-partwise'].part.measure;
-			console.log(measures);
+			// console.log(measures);
 
 
 			// need to get first measure attribute, get the divide
@@ -76,7 +76,7 @@ var ESC_KEY = 27;
 			// ** Need to test draw all measure
 			var l = measures.length;
 			for (var i = 0; i < l; i++) {
-				console.log(" measure: "+i);
+				// console.log(" measure: "+i);
 				// console.log(measures[i]);
 
 				var m =  new app.Measure({MNsArray:this.retriveMNsArray(measures[i].note)});
@@ -91,7 +91,7 @@ var ESC_KEY = 27;
 				this.measureSet.add(m);
 
 			}
-			console.log('append finish done');
+			// console.log('append finish done');
 			// this.tabTree.dump();
 
 		},
@@ -102,7 +102,7 @@ var ESC_KEY = 27;
 
 					// console.log("MN:"+j);
 					if (notes[j].hasOwnProperty("rest")){
-						console.log('rest');
+						// console.log('rest');
 						MNsArray.push(new app.MusicNote({
 								duration: notes[j].duration,
 							})
@@ -125,10 +125,6 @@ var ESC_KEY = 27;
 					}
 			}
 			return MNsArray;
-		},
-		dumpTab: function () {
-
-		},
-
+		}
 	});
-})();
+});

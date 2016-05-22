@@ -12,6 +12,7 @@ var app = app || {};
 		el: '#tab',
 		xPtr: 0,
 		divisionUnit: 256,
+		tabSVGLength: -1,
 		events:{
 			"mousedown" : "showMouseDownPos"
 		},
@@ -37,9 +38,8 @@ var app = app || {};
 			this.cellHeight = this.tabLineSpace;
 
 			this.intiTabSize($(window).width(), this.height);
-			this.drawTabLines();
 
-			this.drawVirtualLine(); // ** move to each measure
+			// this.drawVirtualLine(); // ** move to each measure
 
 			//
 			// Event Handler
@@ -58,6 +58,21 @@ var app = app || {};
 			// init tab width by window width
 			$("#tabSVG").attr("width", w);
 			$("#tabSVG").attr("height", h);
+		},
+		calTabSVGLength: function () {
+			var allNodes =document.querySelectorAll("svg g g");
+			var lastIdx = allNodes.length - 1;
+			console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
+			console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
+			console.log(allNodes[0].querySelector("rect").getAttribute("x"));
+
+			this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
+				parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
+				parseFloat (allNodes[0].querySelector("rect").getAttribute("x"));
+
+		},
+		getTabSVGLength: function () {
+			 return this.tabSVGLength;
 		},
 		//
 		// This is initilization helper function
@@ -82,7 +97,7 @@ var app = app || {};
 			for (var i = 0; i < 6; i++) {
 				// console.log('initialize in drawTabLines');
 				this.tabLines[i] = this.createHorizonalLine(i,
-					this.width, this.paddingY, this.tabLineSpace);
+					this.tabSVGLength, this.paddingY, this.tabLineSpace);
 				document.getElementById("tabSVG").appendChild(this.tabLines[i]);
 			}
 		},
@@ -93,7 +108,7 @@ var app = app || {};
 
 			l.setAttributeNS(null,"x1",0);
 			l.setAttributeNS(null,"y1",lineNum*tabLineSpace+paddingY);
-			l.setAttributeNS(null,"x2",w*2);
+			l.setAttributeNS(null,"x2",w);
 			l.setAttributeNS(null,"y2",lineNum*tabLineSpace+paddingY);
 			l.setAttributeNS(null,"style", "stroke:rgb(0,0,0);stroke-width:2");
 			l.setAttributeNS(null,"class","tabLine");
@@ -230,7 +245,8 @@ var app = app || {};
 				mGroup = null;
 			}
 			document.getElementById("tabSVG").appendChild(df);
-			// this.$tabSVG.append(df);
+
+			this.calTabSVGLength();
 		},
 		addOneMN: function (mn) {
 			// console.log('fire MN collection add!');

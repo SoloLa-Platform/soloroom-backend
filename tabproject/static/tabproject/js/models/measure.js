@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+$(function () {
 	"use strict";
 	app.Measure = Backbone.Model.extend({
 		// ===========
@@ -79,4 +79,4 @@ var app = app || {};
 	});
 
 
-})();
+});

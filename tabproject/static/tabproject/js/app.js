@@ -11,7 +11,8 @@ var disStatus="none";
 $(function () {
 
   'use strict';
-	// app.mainController.getInstance().startApp();
+	app.mainController.getInstance().startApp();
+
 
 });
 
