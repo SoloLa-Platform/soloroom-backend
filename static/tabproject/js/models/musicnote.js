@@ -4,7 +4,7 @@ var ENTER_KEY = 13;
 var ESC_KEY = 27;
 
 // Backbone for musicNote model
-(function(){
+$(function(){
 
 	'use strict';
 
@@ -44,4 +44,4 @@ var ESC_KEY = 27;
 			 // console.log(this.defaults);
 		}
 	});
-})();
+});

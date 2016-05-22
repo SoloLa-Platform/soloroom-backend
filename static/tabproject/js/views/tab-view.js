@@ -4,12 +4,15 @@ var app = app || {};
 (function ($) {
 
 	'use strict';
+
+
 	app.TabView = Backbone.View.extend({
 
 		// Property
 		el: '#tab',
 		xPtr: 0,
 		divisionUnit: 256,
+		tabSVGLength: -1,
 		events:{
 			"mousedown" : "showMouseDownPos"
 		},
@@ -21,7 +24,6 @@ var app = app || {};
 			this.width = $("#tab").width();
 			this.height = $("#tab").height();
 			this.origin =  this.origin2int($("#tab"));
-			// console.log(this.origin);
 
 			// calculating tabLine top and bottom padding
 			this.paddingYratio = 0.10;
@@ -36,15 +38,14 @@ var app = app || {};
 			this.cellHeight = this.tabLineSpace;
 
 			this.intiTabSize($(window).width(), this.height);
-			this.drawTabLines();
 
-			this.drawVirtualLine(); // ** move to each measure
+			// this.drawVirtualLine(); // ** move to each measure
 
 			//
 			// Event Handler
 			//
-			this.listenTo(app.MusicNotes, "add", this.addOneMN);
-			this.listenTo(app.Measures, "add", this.addOneMeasure);
+			// this.listenTo(app.MusicNotes, "add", this.addOneMN);
+			// this.listenTo(app.Measures, "add", this.addOneMeasure);
 
 			// Check the JSON all added into MNs Collection
 			// $(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
@@ -57,6 +58,21 @@ var app = app || {};
 			// init tab width by window width
 			$("#tabSVG").attr("width", w);
 			$("#tabSVG").attr("height", h);
+		},
+		calTabSVGLength: function () {
+			var allNodes =document.querySelectorAll("svg g g");
+			var lastIdx = allNodes.length - 1;
+			console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
+			console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
+			console.log(allNodes[0].querySelector("rect").getAttribute("x"));
+
+			this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
+				parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
+				parseFloat (allNodes[0].querySelector("rect").getAttribute("x"));
+
+		},
+		getTabSVGLength: function () {
+			 return this.tabSVGLength;
 		},
 		//
 		// This is initilization helper function
@@ -81,7 +97,7 @@ var app = app || {};
 			for (var i = 0; i < 6; i++) {
 				// console.log('initialize in drawTabLines');
 				this.tabLines[i] = this.createHorizonalLine(i,
-					this.width, this.paddingY, this.tabLineSpace);
+					this.tabSVGLength, this.paddingY, this.tabLineSpace);
 				document.getElementById("tabSVG").appendChild(this.tabLines[i]);
 			}
 		},
@@ -92,14 +108,14 @@ var app = app || {};
 
 			l.setAttributeNS(null,"x1",0);
 			l.setAttributeNS(null,"y1",lineNum*tabLineSpace+paddingY);
-			l.setAttributeNS(null,"x2",w*2);
+			l.setAttributeNS(null,"x2",w);
 			l.setAttributeNS(null,"y2",lineNum*tabLineSpace+paddingY);
 			l.setAttributeNS(null,"style", "stroke:rgb(0,0,0);stroke-width:2");
 			l.setAttributeNS(null,"class","tabLine");
 			return l;
 		},
 		//
-		// Draw Virtual Line for cell alignment (this function should move to measure view)
+		// Draw Virtual Line for cell alignment (this function should move to measure mnv)
 		//
 		drawVirtualLine: function () {
 
@@ -139,19 +155,21 @@ var app = app || {};
 
 			// Create MusicNote Model and Views
 			// var musicnote = new app.MusicNote( this.newAttribute(rawPos) );
-			// var view = new app.MusicNoteView( {
+			// var mnv = new app.MusicNoteView( {
 				// model: musicnote,
 				// xCellNum: pos.x,
 				// yCellNum: pos.y - this.origin.y} );
-			// view.dump();
+			// mnv.dump();
 
 			// draw MusicNote to SVG
-			// this.$tabSVG.append(view.drawFretNum());
+			// this.$tabSVG.append(mnv.drawFretNum());
 
 			// collection add MusicNote Model
 			// app.MusicNotes.add( musicnote );
 		},
-		// Coordinate Helper functions
+		//
+		//  Helper functions
+		//
 		coordinateConvert: function (x, y) {
 			 return { 'x':Math.floor( (x-this.origin.x) / this.cellWidth ),
 			 	'y': Math.floor( (y-this.origin.y) / this.cellHeight )
@@ -167,44 +185,6 @@ var app = app || {};
 				"tech": {}
 			};
 		},
-
-		// High coupling function, shoulb be in controller
-		allocateInitTab: function () {
-			// referenc of 1/4 duration value
-			var tmp_division = 1024;
-
-			for (var i = 0; i < app.Measures.length - 1; i++) {
-
-				var m = app.Measures.at(i);
-				var mv = new app.MeasureView({model: m});
-
-				for( var j = 0; j < m.get("mnsArray").length - 1; j++){
-					var mn = m.get("mnsArray")[j];
-					var view = new app.MusicNoteView({
-						model: mn,
-						cells: this.getMNcells(mn) // dependency in tab View
-					});
-					mv.addMView(view);
-
-					// draw MusicNote fret to SVG
-					var g = $(view.getSVGGroup()).append(view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
-					g.append(view.drawDurBar(this.cellWidth, this.cellHeight));
-					this.$tabSVG.append(g);
-
-					// this.$tabSVG.append(
-					// 	view.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
-
-					// this.$tabSVG.append(view.drawDurBar(this.cellWidth, this.cellHeight));
-					// draw MusicNote duration bar to SVG
-					// console.log(mn.get('duration')/tmp_division);
-				}
-				// console.log(mv.getMNViewsArray());
-
-			}
-
-		},
-
-		// helper function
 		// this function better to be re-implemented by less objects method
 		getMNcells: function (mn) {
 			// Use 1/16 as the cell, equal 256 division
@@ -222,18 +202,64 @@ var app = app || {};
 			return cells;
 
 		},
+		//
+		// helper function end
+		//
+		makeGeneralSVG: function (tag, attrs){
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (var k in attrs)
+                el.setAttribute(k, attrs[k]);
+            return el;
+		},
+		// High coupling function, shoulb be in controller
+		// Take every mn model in measure to create mapping view
+		// add to document & render
+		allocateInitTab: function (measureSet) {
+
+
+			console.log('in allocateInitTab');
+			var df = document.createDocumentFragment();
+
+			var l = measureSet.length; //optimized perf. style
+			for (var i = 0; i < l; i++) {
+
+				var mv = new app.MeasureView({model: measureSet.at(i)});
+				var mGroup = this.makeGeneralSVG("g", {id:"m"+i});
+
+				var l2 = measureSet.at(i).get("MNsArray").length; //optimized perf. style
+				for( var j = 0; j < l2; j++){
+					var mnv = new app.MusicNoteView({
+
+						model: measureSet.at(i).get("MNsArray")[j],
+						cells: this.getMNcells(measureSet.at(i).get("MNsArray")[j]) // dependency in tab View
+					});
+					mv.addMView(mnv);
+
+					var mnGroup = this.makeGeneralSVG("g");
+					mnGroup.appendChild(mnv.drawDurBar(this.cellWidth, this.cellHeight));
+					mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+					mGroup.appendChild(mnGroup);
+				}
+				// console.log(mGroup);
+				df.appendChild(mGroup);
+				mGroup = null;
+			}
+			document.getElementById("tabSVG").appendChild(df);
+
+			this.calTabSVGLength();
+		},
 		addOneMN: function (mn) {
 			// console.log('fire MN collection add!');
 			// console.log(mn.toJSON());
-			// var view = new app.MusicNoteView({model: mn} );
-			// view.dump();
-			// this.$tabSVG.append(view.drawFretNum());
+			// var mnv = new app.MusicNoteView({model: mn} );
+			// mnv.dump();
+			// this.$tabSVG.append(mnv.drawFretNum());
 		},
 		//
 		// Measures Collection Handle
 		//
 		addOneMeasure: function (m) {
-			 console.log('fire add one measure');
+			 // console.log('fire add one measure');
 			 // console.log(m);
 		}
 

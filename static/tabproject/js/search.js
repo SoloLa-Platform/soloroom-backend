@@ -8,24 +8,7 @@ function handleAPILoaded(){
 function startSearchBar(){
 
   console.log('hello! Google API!');
-
-
-
-  var disStatus = document.getElementById("videoresult").style.display;
-
-    $( "#searchForm2").delegate( "#keyword", "click", function() {
-
-      disStatus = document.getElementById("videoresult").style.display;
-      if(disStatus!="block"){
-          $("#videoresult").slideToggle("slow");
-      }
-
-    });
-
-    $("#videoresult").delegate("button","click",function(){
-      $("#videoresult").slideToggle("slow");
-    });
-    // Url Search and replace youtube video
+  // Url Search and replace youtube video
     $("#searchForm").on("submit", function(e){
         e.preventDefault();
         //prepare the request !=null
@@ -70,6 +53,20 @@ function startSearchBar(){
        });
 
     });
+    var disStatus = document.getElementById("videoresult").style.display;
+
+    $( "#searchForm2").delegate( "#keyword", "click", function() {
+
+      disStatus = document.getElementById("videoresult").style.display;
+      if(disStatus!="block"){
+          $("#videoresult").slideToggle("fast");
+      }
+
+    });
+
+    $("#videoresult").delegate("button","click",function(){
+        $("#videoresult").slideToggle("slow");
+    });
     $(function resultchoice() {
      	$("#videoresult_btn").delegate(".res_btn","click",function(event){
             var Vid;
@@ -77,7 +74,6 @@ function startSearchBar(){
            	console.log(Vid);
 
            	var URLtext="https://www.youtube.com/embed/"+Vid;
-            document.getElementById("demo").innerHTML=URLtext;
             document.getElementById("ytbox").src=URLtext;
             document.getElementById('ytbox').contentWindow.location.reload(true);
 

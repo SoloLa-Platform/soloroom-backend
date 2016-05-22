@@ -30,21 +30,31 @@ app.mainController = (function(){
 
 			tabView: {},// tabView
 			tabModel: {},// tabModel including a tree to store and handle
+			tabAnimation: {},
+
+			progSilderJQuery: {}, // slider view
+			progSilderHtml5: {}, // slider view
 
 			// Tab
 			tabInit: function(){
-				// Start Tab Model
-				this.tabModel = new app.Tab();
+				// Start Tab Model (fetch musicXML of tab)
 
-				// Start Tab View
+				this.tabModel = new app.Tab();
+				this.tabModel.fetchRemoteFull();
+
+				// // create TabView with TabModel
 				this.tabView = new app.TabView( {model:this.tabModel});
 
-				// ajax complete event binding
-				// $(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
+				// console.log(window.performance.now());
+				// // ajax complete event binding
+				$(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
 			},
 			ajaxHandler: function(){
 				// allocate all the MN and assign MN view to draw
-				this.tabView.allocateInitTab();
+				this.tabView.allocateInitTab(this.tabModel.getMeasureSet());
+				this.tabView.drawTabLines();
+				console.log(window.performance.now());
+				// console.log(this.tabView.getTabSVGLength());
 			},
 
 			//============================//
@@ -56,10 +66,16 @@ app.mainController = (function(){
 
 				// @@ this part can be improvement by web worker
 				this.tabInit();
+				this.tabAnimation = new app.TabAnimation("#tabSVG", this.tabView);
 
-				// Start ControlPanel
-
-				// Start SearchBar
+				//
+				// Start ControlPanel (Pure View)
+				//
+				// # Progress Slider
+				this.progSilderHtml5 = new app.progSliderHtml5("#prog-sliderHtml5");
+				this.progSilderHtml5.setAnimation(this.tabAnimation);
+				this.progSilderHtml5.startMousemoveListener();
+				// Start SearchBar (Pure View)
 
 				// Start MIDI player
 			},

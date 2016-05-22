@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+$(function () {
 	"use strict";
 	app.Measure = Backbone.Model.extend({
 		// ===========
@@ -19,45 +19,45 @@ var app = app || {};
 			staff_tuning_4:"D",
 			staff_tuning_5:"A",
 			staff_tuning_6:"E",
+			// ** Array in Model need to set as default
+			// Beats
 
 			// Notes
-			mnsArray:[]
-
-			// Beats
+			MNsArray: [],
 		},
+
 		initialize: function(){
 
-			// this.number = m['@number'];
-			// if( m.attributes !== undefined ){
-			// 	this.easureAttrib = m.attributes;
-			// }
-			// init a musicnote array
 
-			// console.log(this.mnsArr);
-			// console.log('Measure Model construct');
 		},
 		setMNs: function(notes){
-			for(var j = 0; j < notes.length; j++){
+			var l = notes.length;
 
-					console.log("MN:"+j);
+			for(var j = 0; j < l; j++){
+
+					// console.log("MN:"+j);
 					if (notes[j].hasOwnProperty("rest")){
 						console.log('rest');
+						this.get("mnsArray").push(new app.MusicNote({
+								duration: notes[j].duration,
+							})
+						);
 					}
 					else{
 						// Create a new MN for each note
-						// var musicnote = new app.MusicNote({
+						this.get("mnsArray").push(new app.MusicNote({
 
-						// 	tabLineNum: notes[j].notations.technical.string,
-						// 	fretNum: notes[j].notations.technical.fret,
-						// 	duration: notes[j].duration,
-						// 	alter: notes[j].pitch.alter,
-						// 	octave: notes[j].pitch.octave,
-						// 	step: notes[j].pitch.step,
-						// });
+								tabLineNum: notes[j].notations.technical.string,
+								fretNum: notes[j].notations.technical.fret,
+								duration: notes[j].duration,
+								alter: notes[j].pitch.alter,
+								octave: notes[j].pitch.octave,
+								step: notes[j].pitch.step,
+							})
+						);
+
 						// console.log(musicnote);
 					}
-
-					// this.defaults.mnsArray.push(musicnote);
 			}
 		},
 		setAttr: function (a) {
@@ -79,4 +79,4 @@ var app = app || {};
 	});
 
 
-})();
+});
