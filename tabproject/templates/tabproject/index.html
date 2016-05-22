@@ -152,7 +152,7 @@
 	<!-- Google API-->
 	<script type="text/javascript" src="{% static "tabproject/js/search.js" %}" ></script>
 	<script src="https://apis.google.com/js/client.js?onload=handleAPILoaded" ></script>
-	<!-- <script type="text/javascript" data-main="js/main" src="{% static "tabproject/lib/requirejs/require.js"%}"></script> -->
+	<!-- <script type="text/javascript" src="{% static "tabproject/lib/requirejs/require.js"%}"></script> -->
 </head>
 <body>
 	<div class="topContainer pure-g">
@@ -261,12 +261,12 @@
 	<script src="{% static "tabproject/lib/jquery/jquery-2.2.0.min.js"%}"></script>
 	<script src="{% static "tabproject/lib/jquery-ui/jquery-ui.min.js"%}"></script>
 	<!-- <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script> -->
-	<script src="{% static "tabproject/backbone/underscore.js"%}"></script>
-	<script src="{% static "tabproject/backbone/backbone-min.js"%}"></script>
-	<script src="{% static "tabproject/backbone/backbone.localStorage-min.js"%}"></script>
+	<script src="{% static "tabproject/lib/underscore/underscore.js"%}"></script>
+	<script src="{% static "tabproject/lib/backbone/backbone-min.js"%}"></script>
+	<script src="{% static "tabproject/lib/backbone.localStorage/backbone.localStorage-min.js"%}"></script>
 
 <!-- Exist Animation polyfill for global -->
-	<!-- <script type="text/javascript" src="{% static "tabproject/js/global/animation.js" %}"></script> -->
+	<script type="text/javascript" src="{% static "tabproject/js/global/animation.js" %}"></script>
 
 <!-- javascirpt developing Code -->
 
