@@ -23,7 +23,7 @@ build/
 develop-eggs/
 dist/
 eggs/
-lib/
+#lib/ still in developing status
 lib64/
 parts/
 sdist/

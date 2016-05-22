@@ -13,7 +13,7 @@ var app = {} || app;
 	 	// moving animation render
 	 	this.render = function () {
 	 		this.xStr = String(this.viewBox_x);
-	 		this.obj.setAttribute('viewBox', this.xStr+=',0,2144,300');
+	 		this.obj.setAttribute('viewBox', this.xStr+=',0,1440,300');
 	 		this.viewBox_x+=this.padDelta;
 
 	 		window.requestAnimationFrame(this.render);
