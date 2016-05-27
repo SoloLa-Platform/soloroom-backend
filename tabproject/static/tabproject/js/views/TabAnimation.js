@@ -12,11 +12,15 @@ define(
 
 		 	// moving animation render
 		 	this.render = function () {
-		 		this.xStr = String(this.viewBox_x);
-		 		this.obj.setAttribute('viewBox', this.xStr+=',0,1440,300');
-		 		this.viewBox_x+=this.padDelta;
+		 		// @ I guess access the object too fast causing retriving undefined object
+		 		if(this.obj != null){
+		 			this.xStr = String(this.viewBox_x);
+			 		this.obj.setAttribute('viewBox', this.xStr+=',0,1440,300');
+			 		this.viewBox_x+=this.padDelta;
 
-		 		window.requestAnimationFrame(this.render);
+			 		window.requestAnimationFrame(this.render);
+		 		}
+
 		 	};
 
 		 	this.setPadSpeed = function (delta) {
