@@ -8,7 +8,7 @@ define(
 		var MeasureSet = Backbone.Collection.extend({
 			localStorage: new backboneLocalstorage('measures'),
 			initialize: function (argument) {
-				 console.log("measures Collection create!");
+				 // console.log("measures Collection create!");
 			}
 
 		});

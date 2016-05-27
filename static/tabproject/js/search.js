@@ -7,7 +7,7 @@ function handleAPILoaded(){
 
 function startSearchBar(){
 
-  console.log('hello! Google API!');
+  // console.log('hello! Google API!');
   // Url Search and replace youtube video
     $("#searchForm").on("submit", function(e){
         e.preventDefault();

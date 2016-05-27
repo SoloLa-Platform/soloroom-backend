@@ -2,7 +2,7 @@ define(['backbone', 'measure_model', 'musicnote_model', 'measure_set'],
 function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 
 	'use strict';
-	console.log('hello from Tab_model');
+	// console.log('hello from Tab_model');
 	var tab_model =Backbone.Model.extend({
 
 		// Tab: the Model of Tab from XML
@@ -16,7 +16,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 			},
 
 			initialize: function(){
-				console.log('init tabModel!');
+				// console.log('init tabModel!');
 
 				// Create MeasureSet
 				this.measureSet = new Measure_Set();
@@ -51,7 +51,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 			},
 			// This function need to seperate into detail process for preformanace issue
 			ajaxHandle: function (result) {
-				console.log('Tab_model @ajaxHandle');
+				// console.log('Tab_model @ajaxHandle');
 				this.privateStore(JSON.parse(result));
 				var measures = this.data['score-partwise'].part.measure;
 				// console.log(measures);

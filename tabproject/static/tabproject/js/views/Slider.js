@@ -1,7 +1,7 @@
 define(['jquery'],
 	function ($) {
 
-		"use strict";
+		// "use strict";
 
 			//  Backup
 			// app.progSliderJQuery = function Slider(selector) {
@@ -58,8 +58,9 @@ define(['jquery'],
 
 				// Mouse Moving Event Handler
 				this.mousemoveHandler = function () {
+					// console.log(this);
 					// console.log(this.getValue());
-					console.log(this.getValue()/100);
+					// console.log(this.getValue()/100);
 					this.Animation.setViewBox_x(this.getValue()/100);
 					this.Animation.render();
 				};

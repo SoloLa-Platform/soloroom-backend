@@ -38,10 +38,9 @@ define([
 				ajaxHandler: function(){
 					// allocate all the MN and assign MN view to draw
 
-					console.log('@ajaxHandler');
+					// console.log('@ajaxHandler');
 					this.tabView.allocateInitTab(this.tabModel.getMeasureSet());
-					this.tabView.drawTabLines();
-					console.log(window.performance.now());
+					// console.log(window.performance.now());
 					// console.log(this.tabView.getTabSVGLength());
 				},
 
@@ -63,6 +62,7 @@ define([
 					this.progSilderHtml5 = new Slider("#prog-sliderHtml5");
 					this.progSilderHtml5.setAnimation(this.tabAnimation);
 					this.progSilderHtml5.startMousemoveListener();
+					console.log(this.progSilderHtml5);
 					// Start SearchBar (Pure View)
 
 					// Start MIDI player

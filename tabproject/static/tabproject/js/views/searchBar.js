@@ -1,10 +1,11 @@
+
 function handleAPILoaded(){
 
-            gapi.client.setApiKey("AIzaSyDb7YrcXiIUZ9_egPvtFkQ9SWjOEyYJJ_E");
-            gapi.client.load("youtube","v3").then(startSearchBar);
-            //console.log(gapi.client);
+      gapi.client.setApiKey("AIzaSyDb7YrcXiIUZ9_egPvtFkQ9SWjOEyYJJ_E");
+      gapi.client.load("youtube","v3").then(startSearchBar);
+        //console.log(gapi.client);
+      // console.log('hello! handleAPILoaded');
 }
-
 function startSearchBar(){
 
   console.log('hello! Google API!');
@@ -42,12 +43,14 @@ function startSearchBar(){
            var results = response.result;
            $("#videoresult_btn").empty();
            $.each(results.items,function(index,item){
+                console.log(_);
+               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;">'+
+                  '<tr><td><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" ></td >'+
+                  '<td style="line-height: 100px;text-align: center;">'+item.snippet.title+'</td> </div>');
 
-               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;"><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" >'+item.snippet.title+'</div><br>');
-
-               $(".res_btn").css({"background-color":"#4169E1","border":"#000000 solid thin","border-radius": "10px"});
+               $(".res_btn").css({"background-color":"#e6e6e6"});
                $(".res_btn").mouseover(function(event){$(event.target).css({"background-color":"#FFDEAD","position": "relative","top": "2px","left": "2px"});});
-               $(".res_btn").mouseout(function(event){$(event.target).css({"background-color":"#4169E1","position":"relative","top": "0px","left": "0px"});});
+               $(".res_btn").mouseout(function(event){$(event.target).css({"background-color":"#e6e6e6","position":"relative","top": "0px","left": "0px"});});
 
            });
        });
@@ -68,15 +71,18 @@ function startSearchBar(){
         $("#videoresult").slideToggle("slow");
     });
     $(function resultchoice() {
-     	$("#videoresult_btn").delegate(".res_btn","click",function(event){
+      $("#videoresult_btn").delegate(".res_btn","click",function(event){
             var Vid;
             Vid=$(event.target).attr("id");
-           	console.log(Vid);
+            console.log(Vid);
 
-           	var URLtext="https://www.youtube.com/embed/"+Vid;
+            var URLtext="https://www.youtube.com/embed/"+Vid;
             document.getElementById("ytbox").src=URLtext;
             document.getElementById('ytbox').contentWindow.location.reload(true);
 
        });
     });
 }
+
+
+

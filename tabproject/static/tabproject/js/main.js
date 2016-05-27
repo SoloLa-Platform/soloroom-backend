@@ -55,6 +55,10 @@ require.config({
 		measure_view: 'views/measure-view',
 		musicnote_view: 'views/musicnote-view',
 		slider: 'views/slider',
+		search_bar: 'views/searchBar'
+
+		//== Internet Resource ==//
+		// gapi: 'https://apis.google.com/js/client.js?onload=handleAPILoaded'
 
 	}
 });
@@ -62,15 +66,19 @@ require.config({
 require([
 	'backbone',
 	'app',
-	'routers/router'
+	'routers/router',
+	'search_bar'
+
 ], function (Backbone, App, Workspace) {
 	/*jshint nonew:false*/
 	// Initialize routing and start Backbone.history()
 	new Workspace();
 	Backbone.history.start();
 
-	console.log('hello require JS');
+	// console.log('hello require JS');
 	// Initialize the application view
 	// console.log(App);
 	new App().getInstance().start();
+
+
 });

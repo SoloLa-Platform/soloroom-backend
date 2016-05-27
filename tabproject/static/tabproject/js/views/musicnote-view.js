@@ -22,7 +22,7 @@ define([
 			drawFretNum: function (w, h, oy) {
 				// draw fret on leftmost cell
 				var x = this.cells[0].x*w;
-				var y = this.cells[0].y*h-25;
+				var y = this.cells[0].y*h-30;
 				var fretNum = this.model.get("fretNum");
 
 				var xmlns = this.xmlns;
@@ -38,17 +38,17 @@ define([
 			drawDurBar: function (w, h) {
 
 				var x = this.cells[0].x*w;
-				var y = this.cells[0].y*h - 0.5*h;
+				var y = this.cells[0].y*h - 0.55*h;
 				var xmlns = this.xmlns;
 				var n = document.createElementNS(xmlns, "rect");
 				n.setAttributeNS(null,"x",x);
 				n.setAttributeNS(null,"y",y);
-				n.setAttributeNS(null,"rx",2);
-				n.setAttributeNS(null,"ry",2);
+				n.setAttributeNS(null,"rx",5);
+				n.setAttributeNS(null,"ry",5);
 				n.setAttributeNS(null,"width",this.cells.length*w);
 				n.setAttributeNS(null,"height",h/2.5);
 
-				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:0.7");
+				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:1;z-index:5;");
 				return n;
 			},
 			// Testing Function for Dump

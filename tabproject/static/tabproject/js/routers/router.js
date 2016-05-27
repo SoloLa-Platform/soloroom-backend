@@ -5,14 +5,14 @@ define(
 	function (Backbone, $) {
 
 		'use strict';
-		console.log('hello from router');
+		// console.log('hello from router');
 		 var router = Backbone.Router.extend({
 		 	routes:{
 		 		'': 'index',
 		 		'loading': 'loading'
 		 	},
 		 	index: function (argument) {
-		 		 console.log('hello from router index');
+		 		 // console.log('hello from router index');
 		 		 // View doing work
 		 	}
 

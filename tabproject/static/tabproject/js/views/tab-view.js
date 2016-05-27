@@ -13,6 +13,7 @@ define([
 				xPtr: 0,
 				divisionUnit: 256,
 				tabSVGLength: -1,
+				tabLines: [],
 				events:{
 					"mousedown" : "showMouseDownPos"
 				},
@@ -20,7 +21,6 @@ define([
 
 					// temp tabLine
 					this.$tabSVG = $("#tabSVG");
-					this.tabLines = [];
 					this.width = $("#tab").width();
 					this.height = $("#tab").height();
 					this.origin =  this.origin2int($("#tab"));
@@ -38,7 +38,6 @@ define([
 					this.cellHeight = this.tabLineSpace;
 
 					this.intiTabSize($(window).width(), this.height);
-
 					// this.drawVirtualLine(); // ** move to each measure
 
 					//
@@ -62,9 +61,9 @@ define([
 				calTabSVGLength: function () {
 					var allNodes =document.querySelectorAll("svg g g");
 					var lastIdx = allNodes.length - 1;
-					console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
-					console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
-					console.log(allNodes[0].querySelector("rect").getAttribute("x"));
+					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
+					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
+					// console.log(allNodes[0].querySelector("rect").getAttribute("x"));
 
 					this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
 						parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
@@ -94,11 +93,13 @@ define([
 
 				// TabLine Svg Drawing Function
 				drawTabLines: function(){
+					var tabSVG = document.getElementById("tabSVG");
+					var firstGroup = document.querySelector("svg #m0");
 					for (var i = 0; i < 6; i++) {
 						// console.log('initialize in drawTabLines');
 						this.tabLines[i] = this.createHorizonalLine(i,
 							this.tabSVGLength, this.paddingY, this.tabLineSpace);
-						document.getElementById("tabSVG").appendChild(this.tabLines[i]);
+							tabSVG.insertBefore(this.tabLines[i], firstGroup);
 					}
 				},
 
@@ -217,7 +218,7 @@ define([
 				allocateInitTab: function (measureSet) {
 
 
-					console.log('in allocateInitTab');
+					// console.log('in allocateInitTab');
 					var df = document.createDocumentFragment();
 
 					var l = measureSet.length; //optimized perf. style
@@ -247,6 +248,7 @@ define([
 					document.getElementById("tabSVG").appendChild(df);
 
 					this.calTabSVGLength();
+					this.drawTabLines();
 				},
 				addOneMN: function (mn) {
 					// console.log('fire MN collection add!');

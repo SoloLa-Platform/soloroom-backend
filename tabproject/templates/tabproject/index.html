@@ -11,146 +11,14 @@
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
-	<style type="text/css">
-	body {
-        font-family: 'Montserrat', serif;
-        font-size: 15px;
-        background: #f6f6f6;
 
-    }
-    .header{
-    	height: 160px;
-    }
-	.logoBlock{
-
-		/*background-color: #777;*/
-	}
-	.beta{
-		position: absolute;
-	    left: 0px;
-	    top: 0px;
-	    z-index: -1;
-	}
-	.title{
-		z-index: 2;
-		font-family: 'Montserrat', serif;
-        font-size: 68px;
-        text-align: center;
-        color: #777;
-        margin-top: 8px;
-
-	}
-	.titleEn{
-		font-size: 68px;
-		font-weight: 10;
-		color: #473dd4;
-	}
-	#searchBar{
-		/*background-color: #cce2ff;*/
-	}
-
-	#login{
-		background-color: #FBFBFB;
-	}
-	#tab{
-		display: block;
-		height: 300px;
-		margin:20px 0px;
-		background-color: #f1f1f1;
-
-		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
-	}
-
-    .box {
-    	padding: 5px;
-    }
-    .block-box{
-    	padding: 10px;
-    }
-	.dashboard{
-		display: block;
-		height: 200px;
-	}
-    
-    #controlarea{
-        background: #b8c8d6;
-		opacity: 1;
-		-webkit-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-		-moz-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-		box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-
-		-webkit-border-radius: 15px;
-		-moz-border-radius: 15px;
-		border-radius: 15px;
-
-        height: 240px;
-        z-index: 3;
-        position:relative;
-        top:0px;
-    }
-    #videoresult{
-
-        background-color: #00BFFF;
-
-        height: 240px;
-        width:100%;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
-        z-index: 2; 
-        position:absolute;
-        top:300px;
-        overflow:scroll;
-        display:none;
-    }
-    #ytb{
-		/*height: 220px;*/
-
-		/*background: #191818;*/
-
-	}
-	.ytbIframe{
-		height: 200px;
-		margin: 10px
-	}
-	.editingTool{
-		background: #423e5c;
-		opacity: 0.4;
-		-webkit-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-		-moz-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-		box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
-	}
-	#content{
-		height: 350px;
-	}
-
-    input[type="text"]{
-
-         padding:5px 15px; border:10px black solid;
-         cursor:pointer;
-         -webkit-border-radius: 5px;
-         border-radius: 5px;
-
-         width:450px;
-    }
-
-
-	.bigText{
-		font-size: 40px;
-		font-weight: 100;
-		text-align: center;
-	}
-	.footer p{
-		text-align: right;
-	}
-	#progress-slider{
-		z-index: 5;
-		width: 200px;
-	}
-	</style>
 	{% load static from staticfiles %}
-	<link rel="stylesheet" href="{% static "tabproject/css/jquery-ui/jquery-ui.structure.min.css" %}">
-	<link rel="stylesheet" href="{% static "tabproject/css/jquery-ui/jquery-ui.theme.min.css" %}">
+	<link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="{% static "tabproject/css/index.css" %}">
+	<!-- <link rel="stylesheet" href="{% static "tabproject/css/jquery-ui/jquery-ui.structure.min.css" %}"> -->
+	<!-- <link rel="stylesheet" href="{% static "tabproject/css/jquery-ui/jquery-ui.theme.min.css" %}"> -->
 	<!-- Google API-->
-	<script type="text/javascript" src="{% static "tabproject/js/search.js" %}" ></script>
+	<script type="text/javascript" src="{% static "tabproject/js/views/searchBar.js" %}" ></script>
 	<script src="https://apis.google.com/js/client.js?onload=handleAPILoaded" ></script>
 	<script type="text/javascript" data-main="static/tabproject/js/main" src="{% static "tabproject/lib/requirejs/require.js"%}"></script>
 </head>
@@ -160,10 +28,10 @@
 		</div>
 		<div class="pure-u-1-5 ">
 			<div class="pure-g">
-				<div class="pure-u-4-5"></div>
-				<div class="pure-u-1-5">
-					<button class="pure-button"><i class="fa fa-sign-in"></i>
-						</button>
+				<div class="pure-u-5-5">
+					<button class="pure-button">About</button>
+					<a class="pure-button" href="https://github.com/srviest/SoloLa-">Github</a>
+					<button class="pure-button">Login</button>
 				</div>
 			</div>
 		</div>
@@ -171,8 +39,10 @@
 <!-- End Top Container  -->
 	<div class="header" class="pure-g" >
 		<div class="logoBlock pure-u-1-4 ">
-			<img class="beta" src="{% static "tabproject/media/betaLabelLeft.png" %}">
-			<div class="title"><span class="titleEn">Solo</span>La!</div>
+			<!-- <img class="beta" src="{% static "tabproject/media/betaLabelLeft.png" %}"> -->
+			<!-- <div class="title"><span class="titleEn">Solo</span>La!</div> -->
+			<!-- <div class="version">alpha version</div> -->
+			<img id="logo" src="{% static "tabproject/media/SoloLa_logo.png"%}">
 		</div>
 		<div id="searchBar" class="pure-u-3-4 pure-g">
 		</div>
@@ -188,48 +58,48 @@
     <div>
         <div class="dashboard pure-g" id="controlarea">
 			<div class="pure-u-1-4" id="ytb">
-			<div class="block-box">
-				<iframe src="https://www.youtube.com/embed/ovgzbSaswzY" frameborder="0" class="ytbIframe" id="ytbox"></iframe>
-			</div>
-
+				<div class="block-box">
+					<iframe src="https://www.youtube.com/embed/ovgzbSaswzY" frameborder="0" class="ytbIframe" id="ytbox"></iframe>
+				</div>
 			</div>
 			<div class="pure-u-3-4" id="">
 				<div class="pure-g">
-					<div class="block-box">
+					<div class="block-box" class="pure-u-3-5">
 						<!-- Search Bar Start-->
-		                <div id="searchBar" class="pure-u-3-5 ">
-		                	<div class="box">
-		                		<!-- <div id="prog-sliderJQuery"></div> -->
-		                		<input type="range" id="prog-sliderHtml5" width="300px" name="prog" min="0" max="100" step="1" value="0"></input>
-		                		<!-- <span><span id="prog-presentage"></span>%</span> -->
-		                	</div>
-		                	<div class="box">
-		                		<button class="pure-button" id="playStop">Play!!</button>
-		                	</div>
-		                	<div>
-		                		<div class="box">
-				                    <form action="#" class="pure-form " id="searchForm2">
-				                            <input type="text" id="keyword" placeholder="Please enter keyword" autocomplete="off" class="keywordtext" width="48">
-				                            <input type="submit" value="enter" class="pure-button" id="searchbtn2">
-				                    </form>
-			                    </div>
-			                    <div class="box">
-				                    <form action="#" class="pure-form " id="searchForm">
-				                            <input type="text" id="searchurl" placeholder="Please enter URL" autocomplete="off"  class="form-control" >
-				                            <input type="submit" value="submit" class="pure-button" id="searchbtn">
-				                    </form>
-			                    </div>
+						<div class="play-control">
+							<a href="#" id="playButton" class="hvr-pulse-grow">
+								<i class="fa fa-play-circle-o fa-3x" aria-hidden="true">
+								</i>
+							</a>
+
+	                		<div id="prog-sliderHtml5-block">
+	                			<input id="prog-sliderHtml5" type="range" name="prog" min="0" max="100" step="1" value="0"></input>
+	                		</div>
+
+		                </div>
+		                <div id="searchBar box">
+	                		<div class="box">
+			                    <form action="#" class="pure-form " id="searchForm2">
+			                            <input type="text" id="keyword" placeholder="Search Song" autocomplete="off" class="keywordtext" width="48">
+			                            <!-- <input > -->
+			                             <button class="pure-button margin-box" type="submit" value="enter" id="searchbtn2"> <i class="fa fa-search" aria-hidden="true"></i></button>
+			                    </form>
+		                    </div>
+		                    <div class="box">
+			                    <form action="#" class="pure-form " id="searchForm">
+			                            <input type="text" id="searchurl" placeholder="Youtube URL" autocomplete="off"  class="form-control" >
+			                            <button class="pure-button margin-box" type="submit" value="submit" id="searchbtn">
+			                            	<i class="fa fa-youtube-play" aria-hidden="true"></i>
+			                            </button>
+
+			                    </form>
 		                    </div>
 					    </div>
 					    <!-- Search Bar End-->
 				    </div>
+				    <div class="block-box" class="pure-u-2-5">
 
-				    <!-- Playing Control Start-->
-	                <div class="pure-u-2-5 ">
-
-	                </div>
-	                <!-- Playing Control End-->
-
+				    </div>
 				</div>
 
 
@@ -249,45 +119,12 @@
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
 	<div class="footer">
-		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu,Jyun-Yang KE and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016 </p>
-		<p>Email: solola.service@gmail.com  </p>
+		<p class="">All Reserved to Yuan-Ping Chen,Yu-Kang Hu,Jyun-Yang KE and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016, Email: solola.service@gmail.com </p>
 	</div>
 <!-- End Footer -->
 
 
 <!-- javascript resource-->
-
-<!-- 	<script src="{% static "tabproject/lib/jquery/jquery-2.2.0.min.js"%}"></script>
-	<script src="{% static "tabproject/lib/jquery-ui/jquery-ui.min.js"%}"></script>
-	<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-	<script src="{% static "tabproject/lib/underscore/underscore.js"%}"></script>
-	<script src="{% static "tabproject/lib/backbone/backbone-min.js"%}"></script>
-	<script src="{% static "tabproject/lib/backbone.localStorage/backbone.localStorage-min.js"%}"></scrip -->t>
-
-<!-- Exist Animation polyfill for global -->
-	<!-- <script type="text/javascript" src="{% static "tabproject/js/global/animation.js" %}"></script> -->
-
-<!-- javascirpt developing Code -->
-<!-- 
-	<script type="text/javascript" src="{% static "tabproject/js/models/musicnote.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/models/measure.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/models/tab.js" %}"></script>
-
-
-	<script type="text/javascript" src="{% static "tabproject/js/views/TabAnimation.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/views/Slider.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/views/musicnote-view.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/views/measure-view.js" %}"></script>
-
-	<script type="text/javascript" src="{% static "tabproject/js/collections/musicnotes.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/views/tab-view.js" %}"></script>
-
-	<script type="text/javascript" src="{% static "tabproject/js/controllers/mainController.js" %}"></script>
-	<script type="text/javascript" src="{% static "tabproject/js/app.js" %}"></script> -->
-	<!-- Data Structure  -->
-	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/MusicNoteNode.js" %}"></script> -->
-	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/MeasureNode.js" %}"></script> -->
-	<!-- <script type="text/javascript" src="{% static "tabproject/js/dataStructure/TabTree.js" %}"></script> -->
 
 </body>
 </html>
