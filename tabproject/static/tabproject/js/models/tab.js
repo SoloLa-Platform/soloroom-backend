@@ -27,12 +27,13 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 			},
 
 			// fetch remote alg. result from server by ajax
-			fetchRemoteFull: function(tabUrl) {
-
-				if (typeof tabUrl === "undefined"){
+			fetchRemoteFull: function( rsc_url ) {
+				var tabUrl = "";
+				if (typeof rsc_url === "undefined"){
 					tabUrl = this.defaults.url;
 				}else{
 					console.log('use tabURL');
+					tabUrl = rsc_url;
 				}
 
 				this.ajax = $.ajax({

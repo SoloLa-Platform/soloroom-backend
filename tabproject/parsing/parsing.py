@@ -7,9 +7,20 @@ from parser.parser import Tab
 # The excution flow is as following:
 # 1. Add the 4 type of guitar techinque: (bend, hammer/pull-off, slide, vibrato)
 # 2. Convert XML to JSON
-t1 = Tab()
-t1.createNewXML()
-t1.dump()
+
+beat_file = "../data/lick_13/S0.Beat/lick_13.beat"
+downbeat_file = "../data/lick_13/S0.Beat/lick_13.downbeat"
+esn_file = "../data/lick_13/S4.ExpressionStyle/lick_13.esn"
+fingering_file = "../data/lick_13/S5.Fingering/lick_13.fingering"
+
+t = Tab()
+t.createXMLTemplate()
+t.parseNoteTech(esn_file, fingering_file, downbeat_file, beat_file)
+t.dump()
+t.write2XML("../data/lick_13.xml")
+t.convert2JSON("../data/lick_13/data.xml", "../data/lick_13/data.json")
+# convert musicXML to JSON
+
 
 
 # exmaple_tux_guiatr.xml is plain music note without tech. note
