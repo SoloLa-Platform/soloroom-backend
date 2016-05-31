@@ -11,7 +11,8 @@ define([
 				// Property
 				el: '#tab',
 				xPtr: 0,
-				divisionUnit: 256,
+				startOffset: 720, // offset for notes inilization to set notes start in middel
+				divisionUnit: 0.1,
 				tabSVGLength: -1,
 				tabLines: [],
 				events:{
@@ -37,7 +38,7 @@ define([
 					this.cellWidth = this.calUnitCellWidht(this.width, this.widthRatio);
 					this.cellHeight = this.tabLineSpace;
 
-					this.intiTabSize($(window).width(), this.height);
+					this.intiTabSize(1440, 320);
 					// this.drawVirtualLine(); // ** move to each measure
 
 					//
@@ -46,8 +47,6 @@ define([
 					// this.listenTo(app.MusicNotes, "add", this.addOneMN);
 					// this.listenTo(app.Measures, "add", this.addOneMeasure);
 
-					// Check the JSON all added into MNs Collection
-					// $(document).bind("ajaxComplete", this.ajaxHandle.bind(this));
 
 				},
 				render: function () {
@@ -68,6 +67,7 @@ define([
 					this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
 						parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
 						parseFloat (allNodes[0].querySelector("rect").getAttribute("x"));
+					this.tabSVGLength += 2*this.startOffset;
 
 				},
 				getTabSVGLength: function () {
@@ -230,16 +230,16 @@ define([
 						var l2 = measureSet.at(i).get("MNsArray").length; //optimized perf. style
 						for( var j = 0; j < l2; j++){
 							var mnv = new MusicNote_view({
-
 								model: measureSet.at(i).get("MNsArray")[j],
 								cells: this.getMNcells(measureSet.at(i).get("MNsArray")[j]) // dependency in tab View
 							});
 							mv.addMView(mnv);
 
 							var mnGroup = this.makeGeneralSVG("g");
-							mnGroup.appendChild(mnv.drawDurBar(this.cellWidth, this.cellHeight));
-							mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y));
+							mnGroup.appendChild(mnv.drawDurBar(this.cellWidth, this.cellHeight, this.startOffset));
+							mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y, this.startOffset));
 							mGroup.appendChild(mnGroup);
+
 						}
 						// console.log(mGroup);
 						df.appendChild(mGroup);

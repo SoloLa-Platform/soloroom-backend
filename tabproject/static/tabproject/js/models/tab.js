@@ -70,7 +70,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 
 				var l = measures.length;
 				for( var i = 0; i < l; i++){
-					console.log("index:"+measures[i]['@number']);
+					// console.log("index:"+measures[i]['@number']);
 
 					var m =  new Measure_model();
 					if( measures[i].hasOwnProperty("note") ){
@@ -87,10 +87,10 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 						m.setAttr(measures[i].attributes);
 						// console.log('has attributes');
 					}
-					console.log(m.get("MNsArray"));
+					// console.log(m.get("MNsArray"));
 					this.measureSet.add(m);
 				}
-				console.log(this.measureSet);
+				// console.log(this.measureSet);
 				console.log('append finish done');
 
 

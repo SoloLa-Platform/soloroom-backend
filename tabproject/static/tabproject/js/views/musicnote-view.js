@@ -19,10 +19,10 @@ define([
 			getSVGGroup:function () {
 				  return document.createElementNS(this.xmlns, "g");
 			},
-			drawFretNum: function (w, h, oy) {
+			drawFretNum: function (w, h, oy, startOffset) {
 				// draw fret on leftmost cell
-				var x = this.cells[0].x*w;
-				var y = this.cells[0].y*h-30;
+				var x = this.cells[0].x*w + startOffset;
+				var y = this.cells[0].y*h - 15;
 				var fretNum = this.model.get("fretNum");
 
 				var xmlns = this.xmlns;
@@ -35,9 +35,9 @@ define([
 				n.textContent = fretNum;
 				return n;
 			},
-			drawDurBar: function (w, h) {
+			drawDurBar: function (w, h, startOffset) {
 
-				var x = this.cells[0].x*w;
+				var x = this.cells[0].x*w + startOffset;
 				var y = this.cells[0].y*h - 0.55*h;
 				var xmlns = this.xmlns;
 				var n = document.createElementNS(xmlns, "rect");

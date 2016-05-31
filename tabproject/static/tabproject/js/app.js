@@ -33,7 +33,7 @@ define([
 
 					// console.log(window.performance.now());
 					// // ajax complete event binding
-					// $(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
+					$(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
 				},
 				ajaxHandler: function(){
 					// allocate all the MN and assign MN view to draw

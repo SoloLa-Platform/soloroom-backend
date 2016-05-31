@@ -28,7 +28,9 @@ define(
 		 	};
 
 		 	this.setViewBox_x = function (presentage) {
-		 		 this.viewBox_x = presentage * this.tabView.getTabSVGLength();
+		 		 // 0.5 scaling is for fixing over viewbox range
+		 		 this.viewBox_x = presentage * this.tabView.getTabSVGLength() * 0.5;
+		 		 console.log(this.viewBox_x);
 		 	};
 
 	};
