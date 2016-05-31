@@ -13,7 +13,7 @@ define([
 			defaults:{
 
 				"duration": 0,
-
+				"onset": -1, // Custom Defintion
 				// Original hierarchy of <notation>
 				// - technical
 				// 	 - fret
@@ -29,6 +29,7 @@ define([
 				"alter": '',
 				"octave": '',
 				"step": '',
+				"freq": -1, // Custom Defintion
 
 				// Custom Tag for MusicXML
 				// it will map to <notation>/<technical>

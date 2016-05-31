@@ -24,6 +24,9 @@ define(['backbone'], function (Backbone) {
 
 				// Notes
 				MNsArray: [],
+
+				// Beats
+				BeatsArray: []
 			},
 
 			initialize: function(){

@@ -125,7 +125,7 @@ class Tab:
 			dur.text =  list_esn[2]
 
 			# Notation - Fret & String
-			nota = etree.SubElement(n, "notation")
+			nota = etree.SubElement(n, "notations")
 			string = etree.SubElement(nota, "string")
 			string.text = list_finger[0]
 			fret = etree.SubElement(nota, "fret")

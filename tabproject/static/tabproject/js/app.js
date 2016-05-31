@@ -26,14 +26,14 @@ define([
 				tabInit: function(){
 					// Start Tab Model (fetch musicXML of tab)
 					this.tabModel = new Tab_model();
-					this.tabModel.fetchRemoteFull();
+					this.tabModel.fetchRemoteFull("data");
 
 					// // create TabView with TabModel
 					this.tabView = new Tab_view( {model:this.tabModel});
 
 					// console.log(window.performance.now());
 					// // ajax complete event binding
-					$(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
+					// $(document).bind("ajaxComplete",this.ajaxHandler.bind(this));
 				},
 				ajaxHandler: function(){
 					// allocate all the MN and assign MN view to draw

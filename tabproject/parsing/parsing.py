@@ -18,7 +18,7 @@ t.createXMLTemplate()
 t.parseNoteTech(esn_file, fingering_file, downbeat_file, beat_file)
 t.dump()
 t.write2XML("../data/lick_13.xml")
-t.convert2JSON("../data/lick_13/data.xml", "../data/lick_13/data.json")
+t.convert2JSON("../data//lick_13.xml", "../data/lick_13.json")
 # convert musicXML to JSON
 
 
