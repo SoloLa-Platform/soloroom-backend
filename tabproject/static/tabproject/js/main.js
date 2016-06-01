@@ -55,10 +55,13 @@ require.config({
 		measure_view: 'views/measure-view',
 		musicnote_view: 'views/musicnote-view',
 		slider: 'views/slider',
-		search_bar: 'views/searchBar'
+		search_bar: 'views/searchBar',
 
 		//== Internet Resource ==//
 		// gapi: 'https://apis.google.com/js/client.js?onload=handleAPILoaded'
+
+		/* Helper function for view*/
+		helper_draw: 'helpers/draw'
 
 	}
 });

@@ -87,11 +87,12 @@ class Tab:
 		#  Pull-off | Hammer-on | legato slide | Slide In | Slide Out | Vibrato
 		#  6          7           8              9          10          11
 		fp2 = open(esn_file, "r")
-		dict_esn_name = { 	1: "pitch",
-							2: "onset",
-							3: "duration",
-							4: "prebend",
-							5: "bend",
+		dict_esn_name = { 	0: "pitch",
+							1: "onset",
+							2: "duration",
+							3: "prebend",
+							4: "bend",
+							5: "release",
 							6: "pullOff",
 							7: "hammerOn",
 							8: "legatoSlide",
@@ -133,10 +134,11 @@ class Tab:
 
 			# Tech (index: 3~11)
 			tech = etree.SubElement(n, "technical")
-			for i in range(3,12):
+			for i in range(4,12):
 				if float(list_esn[i]) != 0.0:
 					t = etree.SubElement(tech, dict_esn_name[i])
 					t.text = list_esn[i]
+
 
 		# === Insert Beats (unfinish) ===
 		fp = open(beat_file, "r")

@@ -1,8 +1,9 @@
 define([
 		'backbone',
 		'measure_view',
-		'musicnote_view'
-	],function(Backbone, Measure_view, MusicNote_view){
+		'musicnote_view',
+		'helper_draw'
+	],function(Backbone, Measure_view, MusicNote_view, Helper_draw){
 
 
 	'use strict';
@@ -12,9 +13,12 @@ define([
 				el: '#tab',
 				xPtr: 0,
 				startOffset: 720, // offset for notes inilization to set notes start in middel
-				divisionUnit: 0.1,
+				divisionUnit: 0.05,
 				tabSVGLength: -1,
+
 				tabLines: [],
+
+				measureViewSet: {}, // Collection for measure view
 				events:{
 					"mousedown" : "showMouseDownPos"
 				},
@@ -22,12 +26,14 @@ define([
 
 					// temp tabLine
 					this.$tabSVG = $("#tabSVG");
-					this.width = $("#tab").width();
-					this.height = $("#tab").height();
+					// this.width = $("#tab").width();
+					this.width = 1440;
+					// this.height = $("#tab").height();
+					this.height = 320;
 					this.origin =  this.origin2int($("#tab"));
 
 					// calculating tabLine top and bottom padding
-					this.paddingYratio = 0.10;
+					this.paddingYratio = 0.15;
 					this.paddingY = this.calPaddingY(this.height, this.paddingYratio);
 					this.tabLineSpace = this.calTabLineSpace(this.height, this.paddingY);
 					this.firstLineY = 0 * this.tabLineSpace + this.paddingY;
@@ -58,13 +64,14 @@ define([
 					$("#tabSVG").attr("height", h);
 				},
 				calTabSVGLength: function () {
-					var allNodes =document.querySelectorAll("svg g g");
+					var allNodes =document.querySelectorAll("svg .measure .note");
 					var lastIdx = allNodes.length - 1;
 					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
 					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
 					// console.log(allNodes[0].querySelector("rect").getAttribute("x"));
 
-					this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
+					this.tabSVGLength = parseFloat(
+						allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
 						parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
 						parseFloat (allNodes[0].querySelector("rect").getAttribute("x"));
 					this.tabSVGLength += 2*this.startOffset;
@@ -90,29 +97,56 @@ define([
 				calUnitCellWidht: function (w, ratio) {
 					 return w * ratio;
 				},
-
+				// Draw time line
+				drawTimeAxis: function (argument) {
+					 var tabSVG = document.getElementById("tabSVG");
+					 var y = this.sixthLineY + 0.5 * this.cellHeight;
+					 var timeAxis = this.createHorizonalLine(
+					 	0,
+					 	y,
+					 	this.tabSVGLength,
+					 	y,
+					 	"stroke:rgb(28, 28, 74);stroke-width:5",
+						"timeAxis"
+					 );
+					 tabSVG.appendChild(timeAxis);
+				},
 				// TabLine Svg Drawing Function
 				drawTabLines: function(){
 					var tabSVG = document.getElementById("tabSVG");
-					var firstGroup = document.querySelector("svg #m0");
+					var firstGroup = document.querySelector("svg #m1");
+					console.log(firstGroup);
 					for (var i = 0; i < 6; i++) {
 						// console.log('initialize in drawTabLines');
-						this.tabLines[i] = this.createHorizonalLine(i,
-							this.tabSVGLength, this.paddingY, this.tabLineSpace);
+						this.tabLines[i] = this.createHorizonalTabLine(
+							i,
+							this.tabSVGLength,
+							this.paddingY,
+							this.tabLineSpace);
 							tabSVG.insertBefore(this.tabLines[i], firstGroup);
 					}
 				},
 
-				createHorizonalLine: function(lineNum, w, paddingY, tabLineSpace){
+				createHorizonalTabLine: function(lineNum, w, paddingY, tabLineSpace){
+
+					return this.createHorizonalLine( 0,
+													lineNum*tabLineSpace+paddingY,
+													w,
+													lineNum*tabLineSpace+paddingY,
+													"stroke:rgb(0,0,0);stroke-width:2",
+													"tabLine"
+					) ;
+				},
+				createHorizonalLine: function(x1, y1, x2, y2, style, className){
 					var xmlns = "http://www.w3.org/2000/svg";
 					var l = document.createElementNS(xmlns, "line");
 
-					l.setAttributeNS(null,"x1",0);
-					l.setAttributeNS(null,"y1",lineNum*tabLineSpace+paddingY);
-					l.setAttributeNS(null,"x2",w);
-					l.setAttributeNS(null,"y2",lineNum*tabLineSpace+paddingY);
-					l.setAttributeNS(null,"style", "stroke:rgb(0,0,0);stroke-width:2");
-					l.setAttributeNS(null,"class","tabLine");
+					l.setAttributeNS(null,"x1", x1);
+					l.setAttributeNS(null,"y1", y1);
+					l.setAttributeNS(null,"x2", x2);
+					l.setAttributeNS(null,"y2", y2);
+					l.setAttributeNS(null,"style", style);
+					l.setAttributeNS(null,"class", className);
 					return l;
 				},
 				//
@@ -206,12 +240,7 @@ define([
 				//
 				// helper function end
 				//
-				makeGeneralSVG: function (tag, attrs){
-					var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
-		            for (var k in attrs)
-		                el.setAttribute(k, attrs[k]);
-		            return el;
-				},
+
 				// High coupling function, shoulb be in controller
 				// Take every mn model in measure to create mapping view
 				// add to document & render
@@ -225,23 +254,36 @@ define([
 					for (var i = 0; i < l; i++) {
 
 						var mv = new Measure_view({model: measureSet.at(i)});
-						var mGroup = this.makeGeneralSVG("g", {id:"m"+i});
+						var mGroup = Helper_draw.makeGeneralSVG("g",
+								 { id:"m"+(i+1), class:"measure" } );
 
 						var l2 = measureSet.at(i).get("MNsArray").length; //optimized perf. style
 						for( var j = 0; j < l2; j++){
+
 							var mnv = new MusicNote_view({
 								model: measureSet.at(i).get("MNsArray")[j],
 								cells: this.getMNcells(measureSet.at(i).get("MNsArray")[j]) // dependency in tab View
 							});
 							mv.addMView(mnv);
 
-							var mnGroup = this.makeGeneralSVG("g");
+							// Create MN view svg duration & fret
+							// Append to SVG
+							var mnGroup = Helper_draw.makeGeneralSVG("g",
+															{ id:"n"+(j+1), class:"note" });
 							mnGroup.appendChild(mnv.drawDurBar(this.cellWidth, this.cellHeight, this.startOffset));
 							mnGroup.appendChild(mnv.drawFretNum(this.cellWidth, this.cellHeight, this.origin.y, this.startOffset));
+
+
+							// Create MN veiw technical
+							var tech = measureSet.at(i).get("MNsArray")[j].get("tech");
+							if (tech){
+								console.log('m: '+(i+1)+ " n:"+(j+1));
+								console.log(tech);
+								mnGroup.appendChild( this.drawTech(mnv, tech) );
+							}
 							mGroup.appendChild(mnGroup);
 
 						}
-						// console.log(mGroup);
 						df.appendChild(mGroup);
 						mGroup = null;
 					}
@@ -249,7 +291,71 @@ define([
 
 					this.calTabSVGLength();
 					this.drawTabLines();
+					// this.drawTimeAxis();
 				},
+				drawTech: function  (mnv, tech) {
+					var techGroup = Helper_draw.makeGeneralSVG("g", {class:"tech"});
+					 if (tech.vibrato){
+					 	techGroup.appendChild( mnv.drawVibrato(this.cellWidth, this.cellHeight, this.startOffset) );
+					 }
+
+					 if ( tech.pullOff && tech.pullOff === "1.0" ){
+					 	techGroup.appendChild( mnv.drawHamPull(this.cellWidth, this.cellHeight, this.startOffset, 'p') );
+					 }else if ( tech.hammerOn && tech.hammerOn === "1.0") {
+					 	techGroup.appendChild( mnv.drawHamPull(this.cellWidth, this.cellHeight, this.startOffset, 'h') );
+					 }
+
+					 if ( tech.prebend ){
+					 	techGroup.appendChild(mnv.drawPrebend(this.cellWidth, this.cellHeight, this.startOffset, tech.prebend ));
+					 }else if ( tech.bend ) {
+					 	techGroup.appendChild(mnv.drawBend(this.cellWidth, this.cellHeight, this.startOffset, tech.bend ));
+					 }
+					 if ( tech.release ){
+					 	techGroup.appendChild(mnv.drawRelease(this.cellWidth, this.cellHeight, this.startOffset, tech.release ));
+					 }
+
+					 return techGroup;
+				},
+
+				/* Experiment function*/
+				// allocateInitTabTech: function (measureSet) {
+
+				// 	// console.log('in allocateInitTab');
+				// 	var df = document.createDocumentFragment();
+
+				// 	var l = measureSet.length; //optimized perf. style
+				// 	for (var i = 0; i < l; i++) {
+
+				// 		// var mv = new Measure_view({model: measureSet.at(i)});
+				// 		// var mGroup = Helper_draw.makeGeneralSVG("g", {id:"m"+i});
+
+				// 		var l2 = measureSet.at(i).get("MNsArray").length; //optimized perf. style
+				// 		for( var j = 0; j < l2; j++){
+
+				// 			var mnv = new MusicNote_view({
+				// 				model: measureSet.at(i).get("MNsArray")[j],
+				// 				cells: this.getMNcells(measureSet.at(i).get("MNsArray")[j]) // dependency in tab View
+				// 			});
+				// 			mv.addMView(mnv);
+
+				// 			// Create MN veiw technical
+				// 			var tech = measureSet.at(i).get("MNsArray")[j].get("tech");
+				// 			if (tech){
+				// 				console.log(tech);
+				// 				// Vibrato
+				// 			}
+				// 			// console.log(measureSet.at(i).get("MNsArray")[j].get("tech"));
+				// 		}
+				// 		// console.log(mGroup);
+				// 		df.appendChild(mGroup);
+				// 		mGroup = null;
+				// 	}
+				// 	document.getElementById("tabSVG").appendChild(df);
+
+				// 	this.calTabSVGLength();
+				// 	this.drawTabLines();
+				// 	// this.drawTimeAxis();
+				// },
 				addOneMN: function (mn) {
 					// console.log('fire MN collection add!');
 					// console.log(mn.toJSON());

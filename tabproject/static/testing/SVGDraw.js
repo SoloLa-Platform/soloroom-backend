@@ -97,7 +97,7 @@ var app = app || {};
             l.setAttributeNS(null,"d","M1.7898050944010038,0.7112915039062386 C9.539805094401004,1.2112915039062386 9.539805094401004,39.71129150390624 9.539805094401004,39.71129150390624");
             l.setAttributeNS(null,"style","stroke:rgba(0,0,0,1); stroke-width:1;" );
             l.setAttributeNS(null,"fill","none");
-               
+
 			return l;
 		},
         PushDownTriangel: function(){
@@ -108,5 +108,86 @@ var app = app || {};
 			    l.setAttributeNS(null,"style","stroke-width:1;" );
                 l.setAttributeNS(null,"fill","rgba(0,0,0,1)");
 			return l;
+		},
+        DrawPreBend: function(START_X,START_Y){
+			var tempX=START_X;
+            var tempY=START_Y;//A&B is the right place put the sign
+            var i=1;
+            temp = 100+i*10;
+            this.tabLines[i] = this.PreBend(START_X,START_Y);
+            this.tabLines[i+1] = this.PreBendTriangel(START_X,START_Y);
+            //this.tabLines[i+1].setAttributeNS(null,"transform"," translate("START_X","+START_Y+")");
+            document.getElementById("tabSVG").appendChild(this.tabLines[i]);
+            document.getElementById("tabSVG").appendChild(this.tabLines[i+1]);
+		},
+
+		PreBend: function(){
+			var xmlns = "http://www.w3.org/2000/svg";
+			var l = document.createElementNS(xmlns, "path");
+            var l = document.createElementNS(xmlns, "path");
+            var temp;
+            temp = START_Y+27.5;//<path d=" M502,188.7 L499,194.7 L505,194.7 z" style="fill:rgba(0,0,0,1)" stroke="none"></path>
+            l.setAttributeNS(null,"d","M"+START_X+","temp" L"START_X","+START_Y+"");
+            l.setAttributeNS(null,"style","stroke:rgba(0,0,0,1); stroke-width:1;" );
+            l.setAttributeNS(null,"fill","none");
+               
+			return l;
+		},
+            
+        PreBendTriangel: function(START_X,START_Y){
+			var xmlns = "http://www.w3.org/2000/svg";
+			var l = document.createElementNS(xmlns, "path");
+                var l = document.createElementNS(xmlns, "path");
+                l.setAttributeNS(null,"d","M"+START_X+","+START_Y+" L"+(START_X-3)+","+(START_Y+6)+" L"+(START_X+3)+","+(START_Y+6)+" z");
+			    l.setAttributeNS(null,"style","stroke-width:1;" );
+                l.setAttributeNS(null,"fill","rgba(0,0,0,1)");
+			return l;
+		},
+            
+        drawSlidLines: function(START_X,START_Y,END_X,END_Y,TYPE_line){
+			var temp_X;
+            var temp_Y;
+            var temp_X2;
+            var temp_Y2;
+            var i=1;
+            temp_X = START_X;//slid in only end of point
+            temp_Y = START_Y;//slid out only start of point
+            temp_X2 = END_X;//slid between 2 node you need to send start & end point
+            temp_Y2 = END_Y;
+            switch(TYPE_line)
+            {
+                case 1://sild in from high
+                    temp_X = temp_X2 - 32 ;
+                    temp_Y = temp_Y2 - 10 ;
+                    break;
+                case 2://sild in from low
+                    temp_X = temp_X2 - 32 ;
+                    temp_Y = temp_Y2 + 10 ;
+                    break;
+                case 3://sild out from low
+                    temp_X2 = temp_X + 32 ;
+                    temp_Y2 = temp_Y - 10 ;
+                    break;
+                case 4://sild out from high
+                    temp_X2 = temp_X + 32 ;
+                    temp_Y2 = temp_Y + 10 ;
+                    break;
+                case 5:
+                    break;
+            }
+            this.tabLines[i] = this.SildlLine(START_X,START_Y,END_X,END_Y);
+            document.getElementById("tabSVG").appendChild(this.tabLines[i]);
+		},
+            
+        SildlLine: function(START_X,START_Y,END_X,END_Y){
+			var xmlns = "http://www.w3.org/2000/svg";
+            var l = document.createElementNS(xmlns, "line");
+            l.setAttributeNS(null,"x1",START_X);
+            l.setAttributeNS(null,"y1",START_Y);
+            l.setAttributeNS(null,"x2",END_X);
+            l.setAttributeNS(null,"y2",END_Y);
+            l.setAttributeNS(null,"style","stroke:rgba(0,0,0,1); stroke-width:2;" );
+            l.setAttributeNS(null,"fill","none");
+            return l;
 		},
  }

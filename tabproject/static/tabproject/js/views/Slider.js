@@ -31,7 +31,7 @@ define(['jquery'],
 				// clear Jquery Style Selector
 				// this.selector = selectorId.substring(1, selectorId.length);
 				// console.log(selectorId);
-
+				this.selectorId = selectorId;
 				this.obj = document.querySelector(selectorId);
 				this.Animation = {};
 				// startListener
@@ -41,15 +41,15 @@ define(['jquery'],
 					this.obj.addEventListener("mousedown", $.proxy(function() {
 
 							console.log('fire mousedown!');
-
-						  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this));
-						  	// obj.focus();
+						  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this), false);
 
 					}, this));
 					this.obj.addEventListener("mouseup", $.proxy(function() {
 
 							console.log('fire mouseup!');
-						  	this.obj.removeEventListener("mousemove", this.mousemoveHandler);
+							console.log(this.obj);
+							// == BUG ==  it does not removeEventListener
+						  	this.obj.removeEventListener("mousemove", this.mousemoveHandler, false);
 
 
 					}, this ));
@@ -58,6 +58,7 @@ define(['jquery'],
 
 				// Mouse Moving Event Handler
 				this.mousemoveHandler = function () {
+					console.log('mousemovig');
 					// console.log(this);
 					// console.log(this.getValue());
 					// console.log(this.getValue()/100);
