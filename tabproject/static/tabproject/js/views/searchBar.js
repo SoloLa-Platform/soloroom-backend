@@ -97,14 +97,16 @@ define(['text!templates/searchResult.tpl'],
     };
     SearchBar.prototype.initResultSelectedHandle = function () {
 
-          $("#videoresult_btns").delegate(".res_btn","click",function(event){
-                var vid;
-                vid = $(event.target).attr("id");
+          $("#videoresult_btns").delegate( ".res_btn", "click", function(event){
+
+                var vid = $(event.target).attr("id");
+                console.log(event.target);
+                console.log("vid"+vid);
 
                 $("#videoresult").animate({width:'toggle'}, 100);
                 var URLtext="https://www.youtube.com/embed/" + vid;
-                document.getElementById("ytbox").src = URLtext;
-                document.getElementById('ytbox').contentWindow.location.reload(true);
+                document.getElementById("ytbIframeAPI").src = URLtext;
+                document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
 
                 // $("#videoresult").slideToggle("fast");
            });
