@@ -1,11 +1,11 @@
 
 /*global require*/
-'use strict';
+// 'use strict';
 
 // Require.js allows us to configure shortcut alias
 require.config({
-	
-	baseURI: "static/tabproject/js/main",
+
+	// baseURI: "static/tabproject/js/main",
 	// The shim config allows us to configure dependencies for
 	// scripts that do not call define() to register a module
 	shim: {
@@ -23,26 +23,62 @@ require.config({
 			deps: ['backbone'],
 			exports: 'Store'
 		}
+		// app: {
+		// 	deps:[
+		// 	'tab_model',
+		// 	'tab_view',
+		// 	'tab_animation',
+		// 	'slider'
+		// 	]
+		// }
 	},
 	paths: {
+		// Library
 		jquery: '../lib/jquery/jquery-2.2.0.min',
 		underscore: '../lib/underscore/underscore',
 		backbone: '../lib/backbone/backbone-min',
-		backboneLocalstorage: '../lib/backbone.localstorage/backbone.localStorage',
+		backboneLocalstorage: '../lib/backbone.localStorage/backbone.localStorage-min',
+
+		// Developing MVC Javascript module
+
+		//==	Model 	==//
+		tab_model: 'models/tab',
+		measure_model: 'models/measure',
+		musicnote_model: 'models/musicnote',
+
+		//== Collection	==//
+		measure_set: 'collections/measureSet',
+
+		//==	View 	==//
+		tab_view: 'views/tab-view',
+		tab_animation: 'views/tabAnimation',
+		measure_view: 'views/measure-view',
+		musicnote_view: 'views/musicnote-view',
+		slider: 'views/slider',
+		search_bar: 'views/searchBar'
+
+		//== Internet Resource ==//
+		// gapi: 'https://apis.google.com/js/client.js?onload=handleAPILoaded'
 
 	}
 });
 
 require([
 	'backbone',
-	// 'views/app',
-	// 'routers/router'
-], function (Backbone, AppView, Workspace) {
+	'app',
+	'routers/router',
+	'search_bar'
+
+], function (Backbone, App, Workspace) {
 	/*jshint nonew:false*/
 	// Initialize routing and start Backbone.history()
-	// new Workspace();
+	new Workspace();
 	Backbone.history.start();
 
+	// console.log('hello require JS');
 	// Initialize the application view
-	// new AppView();
+	// console.log(App);
+	new App().getInstance().start();
+
+
 });

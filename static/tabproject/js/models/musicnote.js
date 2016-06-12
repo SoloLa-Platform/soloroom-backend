@@ -1,47 +1,46 @@
-// Global Variable
-var app = app || {};
-var ENTER_KEY = 13;
-var ESC_KEY = 27;
+define([
+	'backbone'
 
-// Backbone for musicNote model
-$(function(){
+	],function(Backbone){
 
-	'use strict';
-
-	app.MusicNote = Backbone.Model.extend({
+		'use strict';
+		var MusicNote =  Backbone.Model.extend({
 		// Data Structure is mapping to MusicXML <note> tag
 		// Main 3 compoment are:
 		// - <duration>
 		// - <notations>
 		// - <pitch>
-		defaults:{
+			defaults:{
 
-			"duration": 0,
+				"duration": 0,
 
-			// Original hierarchy of <notation>
-			// - technical
-			// 	 - fret
-			//   - string
-			"tabLineNum": 0,
-			"fretNum": 0,
+				// Original hierarchy of <notation>
+				// - technical
+				// 	 - fret
+				//   - string
+				"tabLineNum": 0,
+				"fretNum": 0,
 
-			// Original hierarchy of <pitch>
-			// - pitch
-			//	 - alter
-			//   - octave
-			//   - step
-			"alter": '',
-			"octave": '',
-			"step": '',
+				// Original hierarchy of <pitch>
+				// - pitch
+				//	 - alter
+				//   - octave
+				//   - step
+				"alter": '',
+				"octave": '',
+				"step": '',
 
-			// Custom Tag for MusicXML
-			// it will map to <notation>/<technical>
-			"tech": {}
-		},
-		initialize: function () {
+				// Custom Tag for MusicXML
+				// it will map to <notation>/<technical>
+				"tech": {}
+			},
+			initialize: function () {
 
-			 // console.log("MN Model Create");
-			 // console.log(this.defaults);
-		}
-	});
+				 // console.log("MN Model Create");
+				 // console.log(this.defaults);
+			}
+		});
+		return MusicNote;
 });
+
+

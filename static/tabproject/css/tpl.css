@@ -1,0 +1,12 @@
+.res_btn:hover{
+	background-color: #ffcc00!important;
+	position: relative;
+	top: 2px;
+	left: 2px;
+}
+#closeButton:hover{
+	background-color: #ffcc00!important;
+	position: relative;
+	top: 1px;
+	left: 1px;
+}

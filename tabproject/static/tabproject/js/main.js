@@ -29,7 +29,7 @@ require.config({
 		jquery: '../lib/jquery/jquery-2.2.0.min',
 		underscore: '../lib/underscore/underscore',
 		backbone: '../lib/backbone/backbone-min',
-		backboneLocalstorage: '../lib/backbone.localstorage/backbone.localStorage-min',
+		backboneLocalstorage: '../lib/backbone.localStorage/backbone.localStorage-min',
 
 		// RequireJS plugin
 		text: '../lib/requirejs-plugin/text',

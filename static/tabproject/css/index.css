@@ -1,0 +1,312 @@
+body {
+        font-family: 'Droid Sans', sans-serif;
+        font-size: 15px;
+        background: #F2F2F2;
+
+}
+.topContainer{
+	background: #e6e6e6;
+	border-bottom:1px solid #ffffff;
+}
+.header{
+	height: 130px;
+}
+#logo{
+
+
+}
+.beta{
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+}
+.title{
+	font-style: bold italic;
+	font-weight: 700;
+	z-index: 2;
+    font-size: 68px;
+    text-align: center;
+    color: #777;
+    margin: 14px;
+    padding: 5px;
+
+}
+.titleEn{
+	font-size: 68px;
+	font-weight: 10;
+	color: #00adb5;
+}
+.version{
+	text-align: center;
+	color: red;
+	font-style: italic;
+	font-size: 18px;
+}
+
+
+#login{
+	background-color: #FBFBFB;
+}
+
+/* Main SVG for drawing note and tech. */
+#tab{
+	display: block;
+	height: 320px;
+	margin:20px 0px;
+	background-color: #fafafa;
+
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+}
+
+.box {
+	padding: 5px;
+	margin: 5px;
+}
+.margin-box{
+	margin: 5px;
+}
+/*.block-box{
+	padding: 10px;
+}*/
+.dashboard{
+	display: block;
+	height: 260px;
+}
+
+#controlarea{
+    background: #79bcd2;
+	opacity: 1;
+	-webkit-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+	-moz-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+	box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+
+    height: 240px;
+    z-index: 3;
+    position:relative;
+    top:0px;
+}
+
+/* Prompt Box for showing search result*/
+#videoresult{
+
+    background-color: #cccccc;
+
+    height: 440px;
+    width: 24%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    z-index: 2;
+    position:absolute;
+    top: 160px;
+    left: 5px;
+    overflow:scroll;
+    display:none;
+}
+#ytb{
+	/*height: 220px;*/
+
+	/*background: #191818;*/
+
+}
+.ytbIframe{
+	height: 200px;
+	margin: 10px
+}
+.editingTool{
+	background: #423e5c;
+	opacity: 0.4;
+	-webkit-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+	-moz-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+	box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.4);
+}
+#content{
+	height: 350px;
+}
+
+input[type="text"]{
+
+     padding:5px 15px; border:10px black solid;
+     cursor:pointer;
+     -webkit-border-radius: 5px;
+     border-radius: 5px;
+
+     width:250px;
+}
+
+
+.bigText{
+	font-size: 40px;
+	font-weight: 100;
+	text-align: center;
+}
+.footer p{
+	text-align: right;
+}
+#progress-slider{
+	z-index: 5;
+	width: 200px;
+}
+
+/*==============*/
+/* Play Control */
+/*==============*/
+.play-control{
+	margin: 10px;
+	background: #e6e6e6;
+	-webkit-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: 8px 7px 9px 0px rgba(0,0,0,0.1);
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+/* Play Button */
+#playButton{
+	color: black;
+	margin: 8px;
+	/*background: transparent;*/
+	/*cursor :pointer;*/
+}
+#playButton a:visited {
+    color: pink;
+    background-color: transparent;
+    text-decoration: none;
+}
+/* Start  hover animarion */
+/* Pulse Grow */
+@-webkit-keyframes hvr-pulse-grow {
+  to {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+
+@keyframes hvr-pulse-grow {
+  to {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+
+.hvr-pulse-grow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+}
+.hvr-pulse-grow:hover, .hvr-pulse-grow:focus, .hvr-pulse-grow:active {
+  -webkit-animation-name: hvr-pulse-grow;
+  animation-name: hvr-pulse-grow;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+/* End hover animarion */
+
+/* html5 input range Slider */
+#prog-sliderHtml5-block{
+	padding: 10px;
+	width: 300px;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #2497E3;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #2497E3;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #A1D0FF;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #2497E3;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #2497E3;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #2497E3;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #A1D0FF;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2497E3;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #2497E3;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #2497E3;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #A1D0FF;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #2497E3;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #2497E3;
+}
+
+
