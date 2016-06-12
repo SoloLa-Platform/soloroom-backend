@@ -1,6 +1,15 @@
 define([
-			'backbone', 'jquery', 'tab_model', 'tab_view', 'tab_animation', 'slider'],
-	function (Backbone, $, Tab_model, Tab_view, Tab_animation, Slider) {
+			'backbone',
+			'jquery',
+			'tab_model',
+			'tab_view',
+			'tab_animation',
+			'slider',
+			'playDashboard',
+			'api_manager',
+			'search_bar'
+		],
+	function (Backbone, $, Tab_model, Tab_view, Tab_animation, Slider, PlayDashboard, API_manager, Search_bar) {
 
 	'use strict';
 	var app = function(){
@@ -14,13 +23,17 @@ define([
 			// Public Preporty and Method
 			//
 			return {
+				// API_manager
+				api_manager: {},
 
 				tabView: {},// tabView
 				tabModel: {},// tabModel including a tree to store and handle
 				tabAnimation: {},
 
-				progSilderJQuery: {}, // slider view
+				// progSilderJQuery: {}, // slider view
 				progSilderHtml5: {}, // slider view
+				playDashboard: {},
+				searchBar: {},
 
 				// Tab
 				tabInit: function(){
@@ -51,7 +64,13 @@ define([
 				//============================//
 				start: function(){
 
-					// @@ Start daemon for pre-working
+					// (Caution: api_manager depend on SearchBar, Exection order cannot be violated)
+					// Start SearchBar
+					this.SearchBar = new Search_bar();
+
+					// @@ API
+					this.api_manager = new API_manager();
+					this.api_manager.setLoadedCallback(this.SearchBar.init, this.SearchBar);
 
 					// @@ this part can be improvement by web worker
 					this.tabInit();
@@ -60,12 +79,17 @@ define([
 					//
 					// Start ControlPanel (Pure View)
 					//
+
 					// # Progress Slider
 					this.progSilderHtml5 = new Slider("#prog-sliderHtml5");
 					this.progSilderHtml5.setAnimation(this.tabAnimation);
 					this.progSilderHtml5.startMousemoveListener();
 
-					// Start SearchBar (Pure View)
+					/* Play Dashboard */
+					this.playDashboard = new PlayDashboard(".playDashboard a");
+					this.playDashboard.setAnimation(this.tabAnimation);
+					this.playDashboard.startListenPlayButton();
+
 
 					// Start MIDI player
 				},

@@ -27,7 +27,7 @@ define(['jquery'],
 			// cross different browser
 		var slider = function progSliderHtml5 ( selectorId ) {
 
-				console.log('Constructor of prog-slider html5');
+				// console.log('Constructor of prog-slider html5');
 				// clear Jquery Style Selector
 				// this.selector = selectorId.substring(1, selectorId.length);
 				// console.log(selectorId);
@@ -40,17 +40,14 @@ define(['jquery'],
 					// callback.bind(this);
 					this.obj.addEventListener("mousedown", $.proxy(function() {
 
-							console.log('fire mousedown!');
-						  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this), false);
+						console.log('fire mousedown!');
+					  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this), false);
 
 					}, this));
 					this.obj.addEventListener("mouseup", $.proxy(function() {
 
-							console.log('fire mouseup!');
-							console.log(this.obj);
-							// == BUG ==  it does not removeEventListener
-						  	this.obj.removeEventListener("mousemove", this.mousemoveHandler, false);
-
+						console.log('fire mouseup!');
+					  	this.obj.removeEventListener("mousemove", this.mousemoveHandler, false);
 
 					}, this ));
 

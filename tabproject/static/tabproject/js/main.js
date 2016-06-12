@@ -23,14 +23,6 @@ require.config({
 			deps: ['backbone'],
 			exports: 'Store'
 		}
-		// app: {
-		// 	deps:[
-		// 	'tab_model',
-		// 	'tab_view',
-		// 	'tab_animation',
-		// 	'slider'
-		// 	]
-		// }
 	},
 	paths: {
 		// Library
@@ -39,6 +31,9 @@ require.config({
 		backbone: '../lib/backbone/backbone-min',
 		backboneLocalstorage: '../lib/backbone.localstorage/backbone.localStorage-min',
 
+		// RequireJS plugin
+		text: '../lib/requirejs-plugin/text',
+		async: '../lib/requirejs-plugin/async',
 		// Developing MVC Javascript module
 
 		//==	Model 	==//
@@ -54,15 +49,27 @@ require.config({
 		tab_animation: 'views/tabAnimation',
 		measure_view: 'views/measure-view',
 		musicnote_view: 'views/musicnote-view',
+
 		slider: 'views/slider',
-		search_bar: 'views/searchBar',
+		playDashboard: 'views/playDashboard',
+		search_bar: 'views/searchBar', // This module depend on Google API
+		yt_player: 'views/YTplayer',
 
-		//== Internet Resource ==//
-		// gapi: 'https://apis.google.com/js/client.js?onload=handleAPILoaded'
+		/* == Internet Resource == */
+		/* Google API */
+		gapi_config: 'gapi/config',
 
+		/* Api mananger */
+		api_manager: 'gapi/APImanager',
 		/* Helper function for view*/
-		helper_draw: 'helpers/draw'
+		helper_draw: 'helpers/draw',
 
+		/* Testing Animation */
+		test_animation: 'sandbox/animation',
+
+
+		/* Templates */
+		search_result: 'templates/searchResult'
 	}
 });
 
@@ -70,13 +77,15 @@ require([
 	'backbone',
 	'app',
 	'routers/router',
-	'search_bar'
-
-], function (Backbone, App, Workspace) {
+	'yt_player'
+], function ( Backbone, App, Workspace, YT_player ) {
 	/*jshint nonew:false*/
 	// Initialize routing and start Backbone.history()
+
+
 	new Workspace();
 	Backbone.history.start();
+	
 
 	// console.log('hello require JS');
 	// Initialize the application view

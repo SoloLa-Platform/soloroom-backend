@@ -277,8 +277,8 @@ define([
 							// Create MN veiw technical
 							var tech = measureSet.at(i).get("MNsArray")[j].get("tech");
 							if (tech){
-								console.log('m: '+(i+1)+ " n:"+(j+1));
-								console.log(tech);
+								// console.log('m: '+(i+1)+ " n:"+(j+1));
+								// console.log(tech);
 								mnGroup.appendChild( this.drawTech(mnv, tech) );
 							}
 							mGroup.appendChild(mnGroup);
