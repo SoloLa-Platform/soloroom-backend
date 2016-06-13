@@ -178,10 +178,23 @@ input[type="text"]{
 	/*background: transparent;*/
 	/*cursor :pointer;*/
 }
+.playDashboard{
+  margin: 10px;
+}
 #playButton a:visited {
     color: pink;
     background-color: transparent;
     text-decoration: none;
+}
+#forwardButton{
+  color: black;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+#backwardButton{
+  color: black;
+  margin-bottom: 20px;
+  padding: 5px;
 }
 /* Start  hover animarion */
 /* Pulse Grow */

@@ -7,9 +7,21 @@ define([
 			'slider',
 			'playDashboard',
 			'api_manager',
-			'search_bar'
+			'search_bar',
+			'yt_player',
+			'player_clock'
 		],
-	function (Backbone, $, Tab_model, Tab_view, Tab_animation, Slider, PlayDashboard, API_manager, Search_bar) {
+	function (	Backbone,
+				$,
+				Tab_model,
+				Tab_view,
+				Tab_animation,
+				Slider,
+				PlayDashboard,
+				API_manager,
+				Search_bar,
+				YT_player,
+				Player_clock ) {
 
 	'use strict';
 	var app = function(){
@@ -30,10 +42,12 @@ define([
 				tabModel: {},// tabModel including a tree to store and handle
 				tabAnimation: {},
 
-				// progSilderJQuery: {}, // slider view
 				progSilderHtml5: {}, // slider view
 				playDashboard: {},
 				searchBar: {},
+
+				ytPlayer: {},
+				playerClock: {},
 
 				// Tab
 				tabInit: function(){
@@ -42,7 +56,7 @@ define([
 					this.tabModel.fetchRemoteFull("data");
 
 					// // create TabView with TabModel
-					this.tabView = new Tab_view( {model:this.tabModel});
+					this.tabView = new Tab_view({ model: this.tabModel });
 
 					// console.log(window.performance.now());
 					// // ajax complete event binding
@@ -64,17 +78,29 @@ define([
 				//============================//
 				start: function(){
 
-					// (Caution: api_manager depend on SearchBar, Exection order cannot be violated)
-					// Start SearchBar
-					this.SearchBar = new Search_bar();
 
-					// @@ API
+					// PlayerClock for handle timing & playing event
+					this.playerClock = new Player_clock();
+					console.log( this.playerClock.get('value') );
+					//  Caution:SearchBar and ytPlayer to be instantiated after api_manager
+					//			load GAPI, YT then call the callback
+					//			Therefore, the order of api_manager and SearchBar, ytPlayer can
+					//			Not be violated!
+
+					//  SearchBar
+					this.SearchBar = new Search_bar(); // Does Not real instantiation
+					// Youtube iFrame Player
+					this.ytPlayer = new YT_player( this.playerClock ); // Does Not real instantiation
+
+					// API
 					this.api_manager = new API_manager();
-					this.api_manager.setLoadedCallback(this.SearchBar.init, this.SearchBar);
+					this.api_manager.setGapiLoadedCallback(this.SearchBar.init, this.SearchBar);
+					this.api_manager.setYTLoadedCallback(this.ytPlayer.init, this.ytPlayer);
 
 					// @@ this part can be improvement by web worker
 					this.tabInit();
 					this.tabAnimation = new Tab_animation("#tabSVG", this.tabView);
+					// this.playerClock.setPlayTabAnimation( this.tabAnimation );
 
 					//
 					// Start ControlPanel (Pure View)
@@ -86,7 +112,13 @@ define([
 					this.progSilderHtml5.startMousemoveListener();
 
 					/* Play Dashboard */
-					this.playDashboard = new PlayDashboard(".playDashboard a");
+					this.playDashboard = new PlayDashboard(
+						['#backwardButton',
+						'#playButton',
+						'#forwardButton']);
+					this.playDashboard.setYTStopPlayCB(this.ytPlayer, this.ytPlayer.playStopHandler);
+					this.playDashboard.setYTbackwardCB(this.ytPlayer, this.ytPlayer.backwardHandler);
+					this.playDashboard.setYTforwardCB(this.ytPlayer, this.ytPlayer.forwardHandler);
 					this.playDashboard.setAnimation(this.tabAnimation);
 					this.playDashboard.startListenPlayButton();
 

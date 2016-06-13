@@ -41,6 +41,8 @@ require.config({
 		measure_model: 'models/measure',
 		musicnote_model: 'models/musicnote',
 
+		player_clock: 'models/playerClock',
+
 		//== Collection	==//
 		measure_set: 'collections/measureSet',
 
@@ -76,9 +78,9 @@ require.config({
 require([
 	'backbone',
 	'app',
-	'routers/router',
-	'yt_player'
-], function ( Backbone, App, Workspace, YT_player ) {
+	'routers/router'
+
+], function ( Backbone, App, Workspace ) {
 	/*jshint nonew:false*/
 	// Initialize routing and start Backbone.history()
 

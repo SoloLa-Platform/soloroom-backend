@@ -11,7 +11,7 @@ define(['text!templates/searchResult.tpl'],
        function checkYoutubeAPIloaded() {
          if (gapi && gapi.client.youtube) {
 
-                console.log('Youtube API setup done! Start to init SearchBar');
+                console.log('Youtube data API loaded! Start to init SearchBar');
 
                 self.initUrlBarEvent();
                 self.initKeywordBarEvnet();

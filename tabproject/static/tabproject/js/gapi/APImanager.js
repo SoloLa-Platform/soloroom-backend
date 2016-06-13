@@ -9,13 +9,18 @@ define(
       	// Constructor
 		function APIManager(){
 		 	this.loadGAPI();
+		 	this.loadYTAPI();
 		}
 
 		_.extend( APIManager.prototype, Backbone.Events );
 
-		APIManager.prototype.setLoadedCallback = function ( callback, context ) {
-			this.loadedCallback = callback;
-			this.callbackContext = context;
+		APIManager.prototype.setGapiLoadedCallback = function ( callback, context ) {
+			this.gapiCB = callback;
+			this.gapiCBContext = context;
+		};
+		APIManager.prototype.setYTLoadedCallback = function ( callback, context ) {
+			this.ytCB = callback;
+			this.ytCBContext = context;
 		};
 
 		APIManager.prototype.init = function() {
@@ -23,8 +28,7 @@ define(
 			var self = this;
 			 function handleClientLoad() {
 				gapi.client.setApiKey(GAPI_config.key);
-		  		// gapi.client.load("youtube","v3").then(startSearchBar);
-		  		gapi.client.load("youtube","v3").then(self.loadedCallback.bind(self.callbackContext));
+		  		gapi.client.load("youtube","v3").then(self.gapiCB.bind(self.gapiCBContext));
 
 		  	}
 		  	handleClientLoad();
@@ -58,8 +62,37 @@ define(
 
 
 		};
-		APIManager.prototype.checkYT_APIloaded = function (argument) {
-			 /* body... */ 
+		APIManager.prototype.loadYTAPI = function () {
+
+				var self = this;
+			  	require(['async!//www.youtube.com/iframe_api!undefined:onYouTubeIframeAPIReady'], 
+
+			  		function () {
+			  			console.log('Youtube iFrame Player API loaded!');
+				  		self.YT = YT;
+
+				  		// Poll until gapi is ready
+						var id;
+					    function checkYTAPI() {
+
+							if ( YT ) {
+						        clearTimeout(id);
+						        self.YT = YT;
+
+						        self.ytCB.call( self.ytCBContext,  self.YT );
+							} else {
+							    id = setTimeout(checkGAPI, 100);
+							}
+						}
+						checkYTAPI();
+
+				 });
+		};
+
+		APIManager.prototype.getYTAPI = function () {
+
+			 return this.YT;
+
 		};
 		return APIManager;
 });

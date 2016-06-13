@@ -1,80 +1,161 @@
 // 'async!//www.youtube.com/iframe_api!null:onYouTubeIframeAPIReady'
 define(
-  ['jquery'],
-  function($) {
+            ['jquery'],
+    function( $     ) {
 
-      require(['async!//www.youtube.com/iframe_api!undefined:onYouTubeIframeAPIReady'], function () {
 
-          var player  = new YT.Player('ytbIframeAPI', {
-              height: '200',
-              width: '300',
-              videoId: 'ihehC2qtMSY',
-              playerVars: { 'autohide': 1, 'controls': 0 },
-              events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-              }
-            });
 
-          console.log(player);
-          // 4. The API will call this function when the video player is ready.
-          function onPlayerReady(event) {
-            // event.target.playVideo();
+          // Constructor
+          function YTplayer ( clock ) {
+            this.playerClock = clock;
           }
 
-          /* Get CurrentTime from Youtube Player */
-          var done = false;
-          var id;
-          function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-              id = triggerInterval();
-            }
-            if (event.data == YT.PlayerState.PAUSED){
-              window.clearInterval( id );
-            }
-          }
-          function triggerInterval(){
+          YTplayer.prototype.init = function ( YT ) {
 
-          return window.setInterval(function(){
-                console.log(player.getCurrentTime().toFixed(1));
-              }.bind(this),100);
-          }
-          /* Request Video duration */
-          var url1 = "https://www.googleapis.com/youtube/v3/videos?id=ihehC2qtMSY&key=AIzaSyDYwPzLevXauI-kTSVXTLroLyHEONuF9Rw&part=snippet,contentDetails";
-          $.ajax({
-              async: false,
-              type: 'GET',
-              url: url1,
-              success: function(data) {
-                  if (data.items.length > 0) {
-                      var output = getResults(data.items[0]);
-                      $('#results').append(output);
+              var self = this;
+              self.player = new YT.Player('ytbIframeAPI', {
+
+                  height: '200',
+                  width: '300',
+                  videoId: 'ihehC2qtMSY',
+                  playerVars: { 'autohide': 1, 'controls': 1 },
+                  events: {
+                    'onStateChange': self.onPlayerStateChange.bind(self)
                   }
+              });
+              // console.log(this.player);
+              // this.duration = this.player.getDuration();
+              // console.log('duration: ' + this.duration);
+          };
+          // Check the fire YT state chanage from click event
+          YTplayer.prototype.playDashboardClicked = false;
+
+          YTplayer.prototype.playStopHandler = function () {
+
+              this.playDashboardClicked = true;
+              switch (this.player.getPlayerState()) {
+
+                case YT.PlayerState.PLAYING:
+                  // YT player
+                  this.player.pauseVideo();
+                  // playerClock Maintain
+                  var t = this.player.getCurrentTime().toFixed(1);
+                  this.playerClock.stopTime( parseFloat(t) );
+                  break;
+
+                case YT.PlayerState.PAUSED:
+                case YT.PlayerState.CUED:
+                  // YT player
+                  this.player.playVideo();
+                  // playerClock Maintain
+                  this.playerClock.startTime();
+                  break;
+
+                default:
+                  console.log('undefine YT state');
+                  break;
               }
-          });
 
-          function startVideo() {
-            player.playVideo();
-          }
-          function stopVideo(){
-            player.stopVideo();
-          }
-          function pauseVideo() {
-            player.pauseVideo();
-          }
+          };
+          YTplayer.prototype.backwardHandler = function () {
 
-          var playingActive = false;
-          var playButton = document.querySelector("#playButton");
-          playButton.addEventListener("click", function (argument) {
-              if ( playingActive === false ){
-                startVideo();
-                playingActive = true;
-              }else{
-                pauseVideo();
-                playingActive = false;
+              switch (this.player.getPlayerState()) {
+
+                case YT.PlayerState.PLAYING:
+                case YT.PlayerState.PAUSED:
+                  // playerClock Reset
+                  this.playerClock.resetTime();
+                  // YT player set to 0
+                  this.player.seekTo( 0, true );
+                  console.log("backward: "+ this.player.getCurrentTime());
+                  break;
+
+                default:
+                  console.log('undefine YT state');
+                  break;
               }
-          });
 
-          console.log('iFrame Player');
-      });
+          };
+           YTplayer.prototype.forwardHandler = function () {
+
+              var t = this.player.getCurrentTime() + this.player.getDuration()/5;
+              switch (this.player.getPlayerState()) {
+
+                case YT.PlayerState.PLAYING:
+                  this.player.seekTo(t, true);
+                  this.playerClock.setTime( parseFloat(t) );
+                  console.log("playing forward: "+ this.player.getCurrentTime());
+                  break;
+
+                case YT.PlayerState.PAUSED:
+                  this.player.seekTo(t, true);
+                  this.playerClock.stopTime( parseFloat(t) );
+                  console.log("paused forward: "+ this.player.getCurrentTime());
+                  break;
+
+                default:
+                  console.log('undefine YT state');
+                  break;
+              }
+
+          };
+
+          YTplayer.prototype.onPlayerStateChange = function (event) {
+              // This section handles the event of user use directly
+              // youtube iframe player, the playerClock should be sync
+              var t = 0;
+              console.log(event.data);
+              if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
+                    event.data == YT.PlayerState.PLAYING  && !this.playDashboardClicked ){
+
+                  console.log('fire yt state change: playing');
+                  this.playerClock.startTime();
+
+                  // Clean flag
+                  this.playDashboardClicked = false;
+              }
+              if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
+                    event.data == YT.PlayerState.PAUSED && !this.playDashboardClicked ){
+
+                  console.log('fire yt state change: paused');
+                  t = this.player.getCurrentTime().toFixed(1);
+                  this.playerClock.stopTime( parseFloat(t) );
+
+                  // Clean flag
+                  this.playDashboardClicked = false;
+
+              }
+
+          };
+          // YTplayer.prototype.requestVideoDuration = function ( vid ) {
+          //    /* Request Video duration */
+          //     var url1 = "https://www.googleapis.com/youtube/v3/videos?id="+vid+
+          //     "&key="+GAPI_config.key+"&part=snippet,contentDetails";
+          //     $.ajax({
+          //         async: false,
+          //         type: 'GET',
+          //         url: url1,
+          //         success: function(data) {
+          //             if (data.items.length > 0) {
+          //                 console.log( getResults(data.items[0]) );
+          //             }
+          //         }
+          //     });
+          // };
+          return YTplayer;
+
+
+          // var playingActive = false;
+          // var playButton = document.querySelector("#playButton");
+          // playButton.addEventListener("click", function (argument) {
+          //     if ( playingActive === false ){
+          //       startVideo();
+          //       playingActive = true;
+          //     }else{
+          //       pauseVideo();
+          //       playingActive = false;
+          //     }
+          // });
+
+
 });

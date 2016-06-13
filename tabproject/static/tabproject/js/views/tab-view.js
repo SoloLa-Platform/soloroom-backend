@@ -115,7 +115,7 @@ define([
 				drawTabLines: function(){
 					var tabSVG = document.getElementById("tabSVG");
 					var firstGroup = document.querySelector("svg #m1");
-					console.log(firstGroup);
+					// console.log(firstGroup);
 					for (var i = 0; i < 6; i++) {
 						// console.log('initialize in drawTabLines');
 						this.tabLines[i] = this.createHorizonalTabLine(
