@@ -46,16 +46,19 @@ require.config({
 		//== Collection	==//
 		measure_set: 'collections/measureSet',
 
-		//==	View 	==//
+		//==	Views 	==//
 		tab_view: 'views/tab-view',
-		tab_animation: 'views/tabAnimation',
 		measure_view: 'views/measure-view',
 		musicnote_view: 'views/musicnote-view',
 
-		slider: 'views/slider',
+		prog_slider: 'views/progSlider',
 		playDashboard: 'views/playDashboard',
 		search_bar: 'views/searchBar', // This module depend on Google API
 		yt_player: 'views/YTplayer',
+
+		/* === Views Animation === */
+		tab_animation: 'views/tabAnimation',
+		prog_animation: 'views/progAnimation',
 
 		/* == Internet Resource == */
 		/* Google API */

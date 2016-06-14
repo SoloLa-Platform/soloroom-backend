@@ -13,13 +13,6 @@ define(
 		}
 		// console.log(this.buttons);
 	}
-	playDashboard.prototype.playingActive = false;
-
-
-	playDashboard.prototype.setCallback = function () {
-		// { target: #id, context: context, callback: callback }
-
-	};
 
 	playDashboard.prototype.setYTStopPlayCB = function ( context, callback ) {
 
@@ -41,28 +34,6 @@ define(
 			console.log('fire forwardButton');
 			 callback.call(context);
 		}, false);
-	};
-	playDashboard.prototype.startListenPlayButton = function () {
-
-		this.buttons.playButton.addEventListener("click", $.proxy(function() {
-
-		 	if( this.playingActive === false ){
-
-		 		this.playingActive = true;
-		 		this.tabAnimation.renderPlaying();
-		 		console.log('playDashboard play animation');
-
-		 	}else{
-		 		this.playingActive = false;
-		 		this.tabAnimation.stopRenderPlaying();
-		 		console.log('playDashboard stop animation!');
-		 	}
-
-		 },this ), false);
-	};
-
-	playDashboard.prototype.setAnimation = function (animation) {
-		this.tabAnimation = animation;
 	};
 
 	return playDashboard;

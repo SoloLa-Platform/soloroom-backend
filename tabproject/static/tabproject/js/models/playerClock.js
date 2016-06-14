@@ -9,21 +9,46 @@ define(['backbone'],
           		value: 0,
              	tick: 50,
               	id: 0,
-                tabAnimation: null
+                active: false,
+                tabAnimation: null,
+                progAnimation: null
           	},
 
 
             initialize: function() {
                 this.on('change:value', this.changeHangle, this );
+                this.on('change:active', this.onActiveChanged, this );
+            },
+            setProgAnimation: function ( animation ) {
+                 this.set({ 'progAnimation': animation });
+            },
+            setTabAnimation: function ( animation ) {
+                 this.set({ 'tabAnimation': animation });
+            },
+            onActiveChanged: function () {
+                 console.log('playerClock fire active value change');
+                 console.log('active: '+this.get('active'));
+                 var tabAnim = this.get('tabAnimation');
+                 var progAnim = this.get('progAnimation');
+                 console.log( progAnim );
+
+                 if ( this.get('active') === false ){
+                    tabAnim.stopRenderPlaying();
+                    progAnim.stopRenderPlaying();
+                 }else{
+                    tabAnim.renderPlaying();
+                    progAnim.renderPlaying();
+                 }
             },
             changeHangle: function () {
-                console.log('playerClock change fire');
+                // console.log('playerClock change fire');
                 // this.tabAnimation.renderPlaying();
             },
             setPlayTabAnimation: function ( callback ) {
                  this.tabAnimation = callback;
             },
             startTime: function () {
+                this.set({ 'active': true });
 
                 console.log(' clock start !');
             	var self = this;
@@ -35,7 +60,7 @@ define(['backbone'],
                 	// console.log(tick/1000);
 				 	t += (tick/1000) ;
                 	self.set({ 'value': t });
-                	// console.log(t);
+                	// console.log(t); // playerClock time show
 
                 },
                 tick );
@@ -47,6 +72,8 @@ define(['backbone'],
                  this.set({ 'value': t });
             },
             stopTime: function ( correctT ) {
+
+                this.set({ 'active': false });
                 console.log(' clock stop !');
                 clearInterval( this.get('id') );
                 this.set({ 'value': correctT });

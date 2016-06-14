@@ -18,7 +18,7 @@ define(
                   height: '200',
                   width: '300',
                   videoId: 'ihehC2qtMSY',
-                  playerVars: { 'autohide': 1, 'controls': 1 },
+                  playerVars: { 'autohide': 0, 'controls': 0 },
                   events: {
                     'onStateChange': self.onPlayerStateChange.bind(self)
                   }
@@ -32,6 +32,9 @@ define(
 
           YTplayer.prototype.playStopHandler = function () {
 
+              console.log('fire playStop button');
+              // document.querySelector("#ytbIframeAPI").dispatchEvent(this.player.onStateChange);
+              // $("#ytbIframeAPI").trigger( "onStateChange" );
               this.playDashboardClicked = true;
               switch (this.player.getPlayerState()) {
 
@@ -39,8 +42,8 @@ define(
                   // YT player
                   this.player.pauseVideo();
                   // playerClock Maintain
-                  var t = this.player.getCurrentTime().toFixed(1);
-                  this.playerClock.stopTime( parseFloat(t) );
+                  // var t = this.player.getCurrentTime().toFixed(1);
+                  // this.playerClock.stopTime( parseFloat(t) );
                   break;
 
                 case YT.PlayerState.PAUSED:
@@ -48,7 +51,7 @@ define(
                   // YT player
                   this.player.playVideo();
                   // playerClock Maintain
-                  this.playerClock.startTime();
+                  // this.playerClock.startTime();
                   break;
 
                 default:
@@ -63,10 +66,11 @@ define(
 
                 case YT.PlayerState.PLAYING:
                 case YT.PlayerState.PAUSED:
-                  // playerClock Reset
-                  this.playerClock.resetTime();
                   // YT player set to 0
                   this.player.seekTo( 0, true );
+                  // playerClock Reset
+                  this.playerClock.resetTime();
+
                   console.log("backward: "+ this.player.getCurrentTime());
                   break;
 
@@ -82,13 +86,17 @@ define(
               switch (this.player.getPlayerState()) {
 
                 case YT.PlayerState.PLAYING:
+                  // YT player
                   this.player.seekTo(t, true);
+                  // Clock
                   this.playerClock.setTime( parseFloat(t) );
                   console.log("playing forward: "+ this.player.getCurrentTime());
                   break;
 
                 case YT.PlayerState.PAUSED:
+                  // YT player
                   this.player.seekTo(t, true);
+                  // Clock
                   this.playerClock.stopTime( parseFloat(t) );
                   console.log("paused forward: "+ this.player.getCurrentTime());
                   break;
@@ -104,25 +112,31 @@ define(
               // This section handles the event of user use directly
               // youtube iframe player, the playerClock should be sync
               var t = 0;
-              console.log(event.data);
+              console.log('fire onPlayerStateChange');
+              console.log('[event type]:'+ event.data);
+
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
-                    event.data == YT.PlayerState.PLAYING  && !this.playDashboardClicked ){
+                    event.data == YT.PlayerState.PLAYING  ){
 
                   console.log('fire yt state change: playing');
+
+                  // this.player.pauseVideo();
                   this.playerClock.startTime();
 
                   // Clean flag
-                  this.playDashboardClicked = false;
+                  // this.playDashboardClicked = false;
               }
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
-                    event.data == YT.PlayerState.PAUSED && !this.playDashboardClicked ){
+                    event.data == YT.PlayerState.PAUSED ){
 
                   console.log('fire yt state change: paused');
+
+                  // this.player.playVideo();
                   t = this.player.getCurrentTime().toFixed(1);
                   this.playerClock.stopTime( parseFloat(t) );
 
                   // Clean flag
-                  this.playDashboardClicked = false;
+                  // this.playDashboardClicked = false;
 
               }
 

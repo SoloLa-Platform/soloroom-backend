@@ -4,7 +4,8 @@ define([
 			'tab_model',
 			'tab_view',
 			'tab_animation',
-			'slider',
+			'prog_slider',
+			'prog_animation',
 			'playDashboard',
 			'api_manager',
 			'search_bar',
@@ -16,7 +17,8 @@ define([
 				Tab_model,
 				Tab_view,
 				Tab_animation,
-				Slider,
+				ProgSlider,
+				Prog_animation,
 				PlayDashboard,
 				API_manager,
 				Search_bar,
@@ -43,6 +45,8 @@ define([
 				tabAnimation: {},
 
 				progSilderHtml5: {}, // slider view
+				progAnimatoin: {},
+
 				playDashboard: {},
 				searchBar: {},
 
@@ -81,18 +85,19 @@ define([
 
 					// PlayerClock for handle timing & playing event
 					this.playerClock = new Player_clock();
-					console.log( this.playerClock.get('value') );
+
+					/*
 					//  Caution:SearchBar and ytPlayer to be instantiated after api_manager
 					//			load GAPI, YT then call the callback
 					//			Therefore, the order of api_manager and SearchBar, ytPlayer can
 					//			Not be violated!
-
+					*/
 					//  SearchBar
 					this.SearchBar = new Search_bar(); // Does Not real instantiation
 					// Youtube iFrame Player
 					this.ytPlayer = new YT_player( this.playerClock ); // Does Not real instantiation
 
-					// API
+					// Google API & Youtube API
 					this.api_manager = new API_manager();
 					this.api_manager.setGapiLoadedCallback(this.SearchBar.init, this.SearchBar);
 					this.api_manager.setYTLoadedCallback(this.ytPlayer.init, this.ytPlayer);
@@ -100,16 +105,21 @@ define([
 					// @@ this part can be improvement by web worker
 					this.tabInit();
 					this.tabAnimation = new Tab_animation("#tabSVG", this.tabView);
-					// this.playerClock.setPlayTabAnimation( this.tabAnimation );
+					this.playerClock.setTabAnimation( this.tabAnimation );
+
 
 					//
 					// Start ControlPanel (Pure View)
 					//
 
-					// # Progress Slider
-					this.progSilderHtml5 = new Slider("#prog-sliderHtml5");
+					/*  Progress Slider  */
+					this.progSilderHtml5 = new ProgSlider("#prog-sliderHtml5");
 					this.progSilderHtml5.setAnimation(this.tabAnimation);
 					this.progSilderHtml5.startMousemoveListener();
+					/*  Progress Slider  Animation */
+					this.progAnimatoin = new Prog_animation( this.progSilderHtml5 );
+					this.progAnimatoin.setPadSpeed( 1 ); // set animation moving speed (presentage)
+					this.playerClock.setProgAnimation( this.progAnimatoin ); // bind to playerClock
 
 					/* Play Dashboard */
 					this.playDashboard = new PlayDashboard(
@@ -119,8 +129,6 @@ define([
 					this.playDashboard.setYTStopPlayCB(this.ytPlayer, this.ytPlayer.playStopHandler);
 					this.playDashboard.setYTbackwardCB(this.ytPlayer, this.ytPlayer.backwardHandler);
 					this.playDashboard.setYTforwardCB(this.ytPlayer, this.ytPlayer.forwardHandler);
-					this.playDashboard.setAnimation(this.tabAnimation);
-					this.playDashboard.startListenPlayButton();
 
 
 					// Start MIDI player
