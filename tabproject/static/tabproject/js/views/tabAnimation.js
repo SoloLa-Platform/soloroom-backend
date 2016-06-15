@@ -12,6 +12,7 @@ define(
 	TabAnimation.prototype.padDelta = 5;
 	TabAnimation.prototype.playId = 0;
 
+	TabAnimation.prototype.infoPrefix = "[TabAnimation]:";
 
 	// Slider moving animation render
  	TabAnimation.prototype.render = function () {
@@ -21,12 +22,20 @@ define(
 	 		window.requestAnimationFrame(this.render.bind(this));
 
  	};
+ 	TabAnimation.prototype.setPosition = function( x ){
+ 			console.log(this.infoPrefix+' setPosition');
+ 			var xStr = String( x );
+	 		this.obj.setAttribute('viewBox', xStr+=',0,1440,300');
+	 		this.viewBox_x = x;
+	 		// window.requestAnimationFrame(this.render.bind(this));
+
+ 	};
  	// Playing with YT trigger by playStop button
  	TabAnimation.prototype.renderPlaying = function () {
 
 		this.xStr = String(this.viewBox_x);
  		this.obj.setAttribute('viewBox', this.xStr+=',0,1440,300');
- 		this.viewBox_x+=this.padDelta;
+ 		this.viewBox_x += this.padDelta;
  		this.playId = window.requestAnimationFrame(this.renderPlaying.bind(this));
 
  	};

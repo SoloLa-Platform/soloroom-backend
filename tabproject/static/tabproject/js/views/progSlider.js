@@ -6,16 +6,21 @@ define(['jquery'],
 				console.log('Constructor of prog-slider html5');
 
 				this.obj = document.querySelector(selectorId);
-
 		}
-		progSliderHtml5.prototype.progressNumValue = 0;
+		progSliderHtml5.prototype.infoPrefix = "[progSldier]: ";
 
-		progSliderHtml5.prototype.getProgressNumValue = function () {
-			return this.progressNumValue;
+		progSliderHtml5.prototype.setProgSliderPlayValue = function ( x ) {
+			 console.log(this.infoPrefix+' fire setProgSliderPlayValue');
+			 this.obj.value = x;
 		};
-		progSliderHtml5.prototype.setProgressNumValue = function ( v ) {
-			this.progressNumValue = v;
-		};
+		// progSliderHtml5.prototype.progressNumValue = 0;
+
+		// progSliderHtml5.prototype.getProgressNumValue = function () {
+		// 	return this.progressNumValue;
+		// };
+		// progSliderHtml5.prototype.setProgressNumValue = function ( v ) {
+		// 	this.progressNumValue = v;
+		// };
 
 		/* == Mouse Event need to re-design */
 		progSliderHtml5.prototype.startMousemoveListener = function () {

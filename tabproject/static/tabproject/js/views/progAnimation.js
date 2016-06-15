@@ -12,13 +12,22 @@ define(['jquery'],
 			this.padDeltaPresentage = delta;
 			console.log(this.padDeltaPresentage);
 		};
+
 		progAnimation.prototype.increment = function () {
 			 this.playValue += parseFloat(this.padDeltaPresentage);
-			 this.progSlider.setProgressNumValue( this.playValue );
+			 // this.progSlider.setProgressNumValue( this.playValue );
+		};
+		progAnimation.prototype.stopIncrement = function () {
+
+		};
+
+		progAnimation.prototype.setProgSliderPlayValue = function ( x ) {
+			this.playValue = x;
+			this.progSlider.setProgSliderPlayValue( x );
 		};
 		progAnimation.prototype.renderPlaying = function () {
-			console.log( this.playValue );
-			console.log( this.progSlider.obj.value );
+			// console.log( this.playValue );
+			// console.log( this.progSlider.obj.value );
 			this.increment();
 			this.progSlider.obj.value = String(this.playValue);
 			this.playId = window.requestAnimationFrame( this.renderPlaying.bind(this) );

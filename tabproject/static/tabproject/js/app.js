@@ -118,7 +118,7 @@ define([
 					this.progSilderHtml5.startMousemoveListener();
 					/*  Progress Slider  Animation */
 					this.progAnimatoin = new Prog_animation( this.progSilderHtml5 );
-					this.progAnimatoin.setPadSpeed( 1 ); // set animation moving speed (presentage)
+					this.progAnimatoin.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
 					this.playerClock.setProgAnimation( this.progAnimatoin ); // bind to playerClock
 
 					/* Play Dashboard */

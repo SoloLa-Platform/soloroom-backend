@@ -13,7 +13,7 @@ define(['backbone'],
                 tabAnimation: null,
                 progAnimation: null
           	},
-
+            infoPrefix:'[playerClock]:',
 
             initialize: function() {
                 this.on('change:value', this.changeHangle, this );
@@ -26,11 +26,12 @@ define(['backbone'],
                  this.set({ 'tabAnimation': animation });
             },
             onActiveChanged: function () {
-                 console.log('playerClock fire active value change');
+
+                 console.log(this.infoPrefix+'playerClock fire active value change');
                  console.log('active: '+this.get('active'));
+
                  var tabAnim = this.get('tabAnimation');
                  var progAnim = this.get('progAnimation');
-                 console.log( progAnim );
 
                  if ( this.get('active') === false ){
                     tabAnim.stopRenderPlaying();
@@ -50,7 +51,7 @@ define(['backbone'],
             startTime: function () {
                 this.set({ 'active': true });
 
-                console.log(' clock start !');
+                console.log(this.infoPrefix+' clock start !');
             	var self = this;
                 var t = self.get('value');
                 var tick = self.get('tick');
@@ -68,19 +69,24 @@ define(['backbone'],
 
             },
             setTime: function ( t ) {
-                 console.log(' clock set !');
+                 console.log(this.infoPrefix+' clock set !');
                  this.set({ 'value': t });
             },
             stopTime: function ( correctT ) {
 
+                console.log(this.infoPrefix+' clock stop !');
                 this.set({ 'active': false });
-                console.log(' clock stop !');
                 clearInterval( this.get('id') );
                 this.set({ 'value': correctT });
 
             },
             resetTime: function () {
+                console.log( this.infoPrefix+' fire resetTime! ');
                 this.set({ 'value': 0 }) ;
+                this.get('tabAnimation').setPosition( 0 );
+                this.get('progAnimation').setProgSliderPlayValue( 0 );
+                console.log( this.infoPrefix+'resetTime, value: '+String( this.get('value') ) );
+
             },
 
         });

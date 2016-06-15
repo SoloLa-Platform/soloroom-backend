@@ -18,7 +18,7 @@ define(
                   height: '200',
                   width: '300',
                   videoId: 'ihehC2qtMSY',
-                  playerVars: { 'autohide': 0, 'controls': 0 },
+                  playerVars: { 'autohide': 0, 'controls': 1 },
                   events: {
                     'onStateChange': self.onPlayerStateChange.bind(self)
                   }
@@ -29,6 +29,8 @@ define(
           };
           // Check the fire YT state chanage from click event
           YTplayer.prototype.playDashboardClicked = false;
+
+          YTplayer.prototype.infoPrefix = "[YTplayer]:";
 
           YTplayer.prototype.playStopHandler = function () {
 
@@ -71,7 +73,7 @@ define(
                   // playerClock Reset
                   this.playerClock.resetTime();
 
-                  console.log("backward: "+ this.player.getCurrentTime());
+                  console.log(this.infoPrefix+" backward: "+ this.player.getCurrentTime());
                   break;
 
                 default:
@@ -90,7 +92,7 @@ define(
                   this.player.seekTo(t, true);
                   // Clock
                   this.playerClock.setTime( parseFloat(t) );
-                  console.log("playing forward: "+ this.player.getCurrentTime());
+                  console.log(this.infoPrefix+" playing forward: "+ this.player.getCurrentTime());
                   break;
 
                 case YT.PlayerState.PAUSED:
@@ -98,7 +100,7 @@ define(
                   this.player.seekTo(t, true);
                   // Clock
                   this.playerClock.stopTime( parseFloat(t) );
-                  console.log("paused forward: "+ this.player.getCurrentTime());
+                  console.log(this.infoPrefix+" paused forward: "+ this.player.getCurrentTime());
                   break;
 
                 default:
@@ -112,7 +114,7 @@ define(
               // This section handles the event of user use directly
               // youtube iframe player, the playerClock should be sync
               var t = 0;
-              console.log('fire onPlayerStateChange');
+              console.log(this.infoPrefix+' fire onPlayerStateChange');
               console.log('[event type]:'+ event.data);
 
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
@@ -129,7 +131,7 @@ define(
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
                     event.data == YT.PlayerState.PAUSED ){
 
-                  console.log('fire yt state change: paused');
+                  console.log(this.infoPrefix+' fire yt state change: paused');
 
                   // this.player.playVideo();
                   t = this.player.getCurrentTime().toFixed(1);
