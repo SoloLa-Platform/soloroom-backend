@@ -4,11 +4,13 @@ define([
 			'tab_model',
 			'tab_view',
 			'tab_animation',
+
 			'prog_slider',
 			'prog_animation',
 			'playDashboard',
 			'api_manager',
 			'search_bar',
+
 			'yt_player',
 			'player_clock'
 		],
@@ -17,11 +19,13 @@ define([
 				Tab_model,
 				Tab_view,
 				Tab_animation,
+
 				ProgSlider,
 				Prog_animation,
 				PlayDashboard,
 				API_manager,
 				Search_bar,
+
 				YT_player,
 				Player_clock ) {
 
@@ -44,8 +48,8 @@ define([
 				tabModel: {},// tabModel including a tree to store and handle
 				tabAnimation: {},
 
-				progSilderHtml5: {}, // slider view
-				progAnimatoin: {},
+				progSliderHtml5: {}, // slider view
+				progAnimation: {},
 
 				playDashboard: {},
 				searchBar: {},
@@ -92,15 +96,18 @@ define([
 					//			Therefore, the order of api_manager and SearchBar, ytPlayer can
 					//			Not be violated!
 					*/
-					//  SearchBar
+					/*  SearchBar */
 					this.SearchBar = new Search_bar(); // Does Not real instantiation
-					// Youtube iFrame Player
+					/*  progress Slider (html5) */
+					this.progSliderHtml5 = new ProgSlider("#prog-sliderHtml5");
+					/*  Youtube iFrame Player */
 					this.ytPlayer = new YT_player( this.playerClock ); // Does Not real instantiation
+					this.ytPlayer.setReadyCallback( this.progSliderHtml5 , this.progSliderHtml5.initDuration );
 
 					// Google API & Youtube API
 					this.api_manager = new API_manager();
-					this.api_manager.setGapiLoadedCallback(this.SearchBar.init, this.SearchBar);
-					this.api_manager.setYTLoadedCallback(this.ytPlayer.init, this.ytPlayer);
+					this.api_manager.setGapiLoadedCallback( this.SearchBar, this.SearchBar.init ); // Instantilize SearchBar
+					this.api_manager.setYTLoadedCallback( this.ytPlayer, this.ytPlayer.init );  // Instantilize ytPlayer
 
 					// @@ this part can be improvement by web worker
 					this.tabInit();
@@ -112,23 +119,28 @@ define([
 					// Start ControlPanel (Pure View)
 					//
 
-					/*  Progress Slider  */
-					this.progSilderHtml5 = new ProgSlider("#prog-sliderHtml5");
-					this.progSilderHtml5.setAnimation(this.tabAnimation);
-					this.progSilderHtml5.startMousemoveListener();
-					/*  Progress Slider  Animation */
-					this.progAnimatoin = new Prog_animation( this.progSilderHtml5 );
-					this.progAnimatoin.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
-					this.playerClock.setProgAnimation( this.progAnimatoin ); // bind to playerClock
+					/*  Progress Slider Setting */
+					this.progSliderHtml5.setTabAnimation( this.tabAnimation );
+					this.progSliderHtml5.setPlayerClockUpdateFn( this.playerClock, this.playerClock.setTime  );
+					this.progSliderHtml5.setYTplayerUpdateFn( this.ytPlayer, this.ytPlayer.setCurrencyTime );
+
+					// this.progSliderHtml5.startMousemoveListener();
+					this.progSliderHtml5.startInputListener();
+
+					/*  Progress Slider Animation */
+					this.progAnimation = new Prog_animation( this.progSliderHtml5 );
+					this.progAnimation.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
+					// this.progAnimation.startListenProgInputChange();
+					this.playerClock.setProgAnimation( this.progAnimation ); // bind to playerClock
 
 					/* Play Dashboard */
 					this.playDashboard = new PlayDashboard(
 						['#backwardButton',
 						'#playButton',
 						'#forwardButton']);
-					this.playDashboard.setYTStopPlayCB(this.ytPlayer, this.ytPlayer.playStopHandler);
-					this.playDashboard.setYTbackwardCB(this.ytPlayer, this.ytPlayer.backwardHandler);
-					this.playDashboard.setYTforwardCB(this.ytPlayer, this.ytPlayer.forwardHandler);
+					this.playDashboard.bindYTStopPlayCB(this.ytPlayer, this.ytPlayer.playStopHandler);
+					this.playDashboard.bindYTbackwardCB(this.ytPlayer, this.ytPlayer.backwardHandler);
+					this.playDashboard.bindYTforwardCB(this.ytPlayer, this.ytPlayer.forwardHandler);
 
 
 					// Start MIDI player

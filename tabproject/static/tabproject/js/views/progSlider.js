@@ -4,23 +4,57 @@ define(['jquery'],
 		function progSliderHtml5 ( selectorId ) {
 
 				console.log('Constructor of prog-slider html5');
-
 				this.obj = document.querySelector(selectorId);
-		}
-		progSliderHtml5.prototype.infoPrefix = "[progSldier]: ";
 
+				// console.log(this.infoPrefix+' :ytPlayer');
+				// console.log(ytPlayer);
+				// var self = this;
+				// ytPlayrt.addEventListener("onReady",
+				// 	self.apply( self, selectorId, ytPlayer.getDuration() ), false );
+
+		}
+		/* Constant Variable */
+		progSliderHtml5.prototype.infoPrefix = "[progSldier]: ";
+		progSliderHtml5.prototype.getHtmlNode = function () {
+			 return this.obj;
+		};
+		progSliderHtml5.prototype.initDuration = function ( duration ) {
+			this.videoDuration = duration;
+			console.log(this.infoPrefix+' : init duration: ' + this.videoDuration);
+		};
+
+
+		// Maintain html5 input value
 		progSliderHtml5.prototype.setProgSliderPlayValue = function ( x ) {
 			 console.log(this.infoPrefix+' fire setProgSliderPlayValue');
 			 this.obj.value = x;
 		};
-		// progSliderHtml5.prototype.progressNumValue = 0;
+		progSliderHtml5.prototype.setTabAnimation = function (animation) {
+			 this.tabAnimation = animation;
+		};
+		progSliderHtml5.prototype.setYTplayerUpdateFn = function ( context , handler ) {
+			 this.ytPlayerFn = handler;
+			 this.ytPlayerC = context;
+		};
+		progSliderHtml5.prototype.setPlayerClockUpdateFn = function ( context , handler ) {
+			 this.playerClockFn = handler;
+			 this.playerClockC = context;
+		};
+		progSliderHtml5.prototype.startInputListener = function () {
 
-		// progSliderHtml5.prototype.getProgressNumValue = function () {
-		// 	return this.progressNumValue;
-		// };
-		// progSliderHtml5.prototype.setProgressNumValue = function ( v ) {
-		// 	this.progressNumValue = v;
-		// };
+			this.obj.addEventListener("change", $.proxy(function(event) {
+				// console.log( this.infoPrefix+' fire value change' );
+				// console.log( this.infoPrefix+' : value:'+this.videoDuration*this.obj.value/100 );
+				// console.log( this.infoPrefix +': videoDuration: '+ this.videoDuration );
+
+				this.tabAnimation.setPosition( this.obj.value/100 );
+				/* update playerClock */
+				this.ytPlayerFn.call( this.ytPlayerC, this.videoDuration*this.obj.value/100 );
+				/* update YT player */
+				this.playerClockFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
+			}, this));
+
+		};
 
 		/* == Mouse Event need to re-design */
 		progSliderHtml5.prototype.startMousemoveListener = function () {
@@ -28,17 +62,15 @@ define(['jquery'],
 			// callback.bind(this);
 			this.obj.addEventListener("mousedown", $.proxy(function() {
 
-					console.log('fire mousedown!');
-
+					console.log(this.infoPrefix+'fire mousedown!');
 				  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this));
-				  	// obj.focus();
 
 			}, this));
 			this.obj.addEventListener("mouseup", $.proxy(function() {
 
-					console.log('fire mouseup!');
-				  	this.obj.removeEventListener("mousemove", this.mousemoveHandler);
-
+					console.log(this.infoPrefix+' :fire mouseup!');
+				  	this.obj.removeEventListener("mousemove", this.mousemoveHandler.bind(this), false);
+				  	console.log(this.obj.mousemove);
 
 			}, this ));
 
@@ -46,19 +78,24 @@ define(['jquery'],
 
 		// Mouse Moving Event Handler
 		progSliderHtml5.prototype.mousemoveHandler = function () {
-			// console.log(this);
-			// console.log(this.getValue());
-			// console.log(this.getValue()/100);
-			this.Animation.setViewBox_x(this.getValue()/100);
-			this.Animation.render();
+
+			console.log(this.infoPrefix+' :mousemoveHandler');
+			this.tabAnimation.setViewBox_x( this.obj.value/100 );
+			/* update playerClock */
+			this.ytPlayerFn.call( this.ytPlaterC, this.videoDuration*this.obj.value/100 );
+			/* update YT player */
+			this.playerClockFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
+			this.tabAnimation.render();
 		};
 		// Get Presentage Value
 		progSliderHtml5.prototype.getValue = function () {
 			 return this.obj.value;
 		};
-		progSliderHtml5.prototype.setAnimation = function (animation) {
-			 this.Animation = animation;
-		};
+
+		/* Animation */
+
+
+
 		return progSliderHtml5;
 
 });

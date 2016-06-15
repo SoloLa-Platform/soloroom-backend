@@ -13,25 +13,26 @@ define(
 		}
 		// console.log(this.buttons);
 	}
+	playDashboard.prototype.infoPrefix = "[playDashboard]:";
+	playDashboard.prototype.bindYTStopPlayCB = function ( context, callback ) {
 
-	playDashboard.prototype.setYTStopPlayCB = function ( context, callback ) {
-
+		var self = this;
 		this.buttons.playButton.addEventListener("click", function () {
-			 console.log('fire playButton');
+			 console.log(self.infoPrefix+' fire playButton');
 			 callback.call(context);
 		}, false);
 	};
-	playDashboard.prototype.setYTbackwardCB = function ( context, callback ) {
+	playDashboard.prototype.bindYTbackwardCB = function ( context, callback ) {
 
 		this.buttons.backwardButton.addEventListener("click", function () {
-			console.log('fire backwardButton');
+			console.log(this.infoPrefix+' fire backwardButton');
 			 callback.call(context);
 		}, false);
 	};
-	playDashboard.prototype.setYTforwardCB = function ( context, callback ) {
+	playDashboard.prototype.bindYTforwardCB = function ( context, callback ) {
 
 		this.buttons.forwardButton.addEventListener("click", function () {
-			console.log('fire forwardButton');
+			console.log(this.infoPrefix+' fire forwardButton');
 			 callback.call(context);
 		}, false);
 	};

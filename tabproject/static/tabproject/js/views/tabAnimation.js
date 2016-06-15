@@ -22,11 +22,15 @@ define(
 	 		window.requestAnimationFrame(this.render.bind(this));
 
  	};
- 	TabAnimation.prototype.setPosition = function( x ){
+ 	 TabAnimation.prototype.setViewBox_x = function (presentage) {
+ 		 this.viewBox_x = presentage * this.tabView.getTabSVGLength();
+ 	};
+ 	TabAnimation.prototype.setPosition = function( presentage ){
  			console.log(this.infoPrefix+' setPosition');
- 			var xStr = String( x );
-	 		this.obj.setAttribute('viewBox', xStr+=',0,1440,300');
-	 		this.viewBox_x = x;
+ 			this.viewBox_x = presentage * this.tabView.getTabSVGLength();
+ 			this.xStr = String( this.viewBox_x );
+	 		this.obj.setAttribute('viewBox', this.xStr+=',0,1440,300');
+
 	 		// window.requestAnimationFrame(this.render.bind(this));
 
  	};
@@ -50,9 +54,7 @@ define(
  		this.padDelta = delta;
  	};
 
- 	TabAnimation.prototype.setViewBox_x = function (presentage) {
- 		 this.viewBox_x = presentage * this.tabView.getTabSVGLength();
- 	};
+
 
 	return TabAnimation;
 

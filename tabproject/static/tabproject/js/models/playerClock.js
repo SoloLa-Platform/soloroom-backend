@@ -61,7 +61,7 @@ define(['backbone'],
                 	// console.log(tick/1000);
 				 	t += (tick/1000) ;
                 	self.set({ 'value': t });
-                	// console.log(t); // playerClock time show
+                	console.log(t); // playerClock time show
 
                 },
                 tick );

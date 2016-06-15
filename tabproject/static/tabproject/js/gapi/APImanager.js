@@ -14,11 +14,11 @@ define(
 
 		_.extend( APIManager.prototype, Backbone.Events );
 
-		APIManager.prototype.setGapiLoadedCallback = function ( callback, context ) {
+		APIManager.prototype.setGapiLoadedCallback = function (  context, callback ) {
 			this.gapiCB = callback;
 			this.gapiCBContext = context;
 		};
-		APIManager.prototype.setYTLoadedCallback = function ( callback, context ) {
+		APIManager.prototype.setYTLoadedCallback = function ( context, callback ) {
 			this.ytCB = callback;
 			this.ytCBContext = context;
 		};

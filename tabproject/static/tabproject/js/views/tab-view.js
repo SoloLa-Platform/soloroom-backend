@@ -63,17 +63,20 @@ define([
 					$("#tabSVG").attr("width", w);
 					$("#tabSVG").attr("height", h);
 				},
+				/* Calculate the SVG tab length from alg result */
 				calTabSVGLength: function () {
+
 					var allNodes =document.querySelectorAll("svg .measure .note");
 					var lastIdx = allNodes.length - 1;
 					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("x"));
 					// console.log(allNodes[lastIdx].querySelector("rect").getAttribute("width"));
 					// console.log(allNodes[0].querySelector("rect").getAttribute("x"));
 
-					this.tabSVGLength = parseFloat(
-						allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
+					/* Find x of first muscinote and x of last musicnote*/
+					this.tabSVGLength = parseFloat(allNodes[lastIdx].querySelector("rect").getAttribute("x"))  +
 						parseFloat (allNodes[lastIdx].querySelector("rect").getAttribute("width")) -
 						parseFloat (allNodes[0].querySelector("rect").getAttribute("x"));
+
 					this.tabSVGLength += 2*this.startOffset;
 
 				},

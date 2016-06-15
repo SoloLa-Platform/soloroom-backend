@@ -9,7 +9,7 @@ define(
           function YTplayer ( clock ) {
             this.playerClock = clock;
           }
-
+          /* Async. execute by API_manager when it's ready */
           YTplayer.prototype.init = function ( YT ) {
 
               var self = this;
@@ -20,24 +20,41 @@ define(
                   videoId: 'ihehC2qtMSY',
                   playerVars: { 'autohide': 0, 'controls': 1 },
                   events: {
-                    'onStateChange': self.onPlayerStateChange.bind(self)
+                    'onStateChange': self.onPlayerStateChange.bind( self ),
+                    'onReady': self.onReadyHandler.bind( self )
                   }
               });
-              // console.log(this.player);
-              // this.duration = this.player.getDuration();
-              // console.log('duration: ' + this.duration);
+
           };
-          // Check the fire YT state chanage from click event
-          YTplayer.prototype.playDashboardClicked = false;
-
+          YTplayer.prototype.setCurrencyTime = function ( t ) {
+            // console.log( this.infoPrefix+ ' :');
+            // console.log( this );
+             this.player.seekTo( t, true );
+          };
+          /* Constant Variable */
           YTplayer.prototype.infoPrefix = "[YTplayer]:";
+          /* Variable*/
+          YTplayer.prototype.duration = -1;
 
+          /* Callback function */
+          YTplayer.prototype.setReadyCallback = function ( context,  callback ) {
+
+             this.readyContext = context;
+             this.readyCallback = callback;
+          };
+          YTplayer.prototype.onReadyHandler = function () {
+            var dur = this.player.getDuration();
+            console.log( this.infoPrefix + ' :'+ dur );
+            console.log( this );
+            this.readyCallback.call(this.readyContext, dur);
+          };
+          /* UI Event Handler */
           YTplayer.prototype.playStopHandler = function () {
 
-              console.log('fire playStop button');
+              // console.log('fire playStop button');
               // document.querySelector("#ytbIframeAPI").dispatchEvent(this.player.onStateChange);
               // $("#ytbIframeAPI").trigger( "onStateChange" );
-              this.playDashboardClicked = true;
+
               switch (this.player.getPlayerState()) {
 
                 case YT.PlayerState.PLAYING:
@@ -92,7 +109,7 @@ define(
                   this.player.seekTo(t, true);
                   // Clock
                   this.playerClock.setTime( parseFloat(t) );
-                  console.log(this.infoPrefix+" playing forward: "+ this.player.getCurrentTime());
+                  // console.log(this.infoPrefix+" playing forward: "+ this.player.getCurrentTime());
                   break;
 
                 case YT.PlayerState.PAUSED:
@@ -100,7 +117,7 @@ define(
                   this.player.seekTo(t, true);
                   // Clock
                   this.playerClock.stopTime( parseFloat(t) );
-                  console.log(this.infoPrefix+" paused forward: "+ this.player.getCurrentTime());
+                  // console.log(this.infoPrefix+" paused forward: "+ this.player.getCurrentTime());
                   break;
 
                 default:
@@ -109,24 +126,21 @@ define(
               }
 
           };
-
           YTplayer.prototype.onPlayerStateChange = function (event) {
               // This section handles the event of user use directly
               // youtube iframe player, the playerClock should be sync
               var t = 0;
-              console.log(this.infoPrefix+' fire onPlayerStateChange');
-              console.log('[event type]:'+ event.data);
+              // console.log(this.infoPrefix+' fire onPlayerStateChange');
+              // console.log(this.infoPrefix+' event type:'+ event.data);
 
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
                     event.data == YT.PlayerState.PLAYING  ){
 
-                  console.log('fire yt state change: playing');
+                  console.log(this.infoPrefix+' :fire yt state change: playing');
 
                   // this.player.pauseVideo();
                   this.playerClock.startTime();
 
-                  // Clean flag
-                  // this.playDashboardClicked = false;
               }
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
                     event.data == YT.PlayerState.PAUSED ){
@@ -136,9 +150,6 @@ define(
                   // this.player.playVideo();
                   t = this.player.getCurrentTime().toFixed(1);
                   this.playerClock.stopTime( parseFloat(t) );
-
-                  // Clean flag
-                  // this.playDashboardClicked = false;
 
               }
 
@@ -159,19 +170,5 @@ define(
           //     });
           // };
           return YTplayer;
-
-
-          // var playingActive = false;
-          // var playButton = document.querySelector("#playButton");
-          // playButton.addEventListener("click", function (argument) {
-          //     if ( playingActive === false ){
-          //       startVideo();
-          //       playingActive = true;
-          //     }else{
-          //       pauseVideo();
-          //       playingActive = false;
-          //     }
-          // });
-
 
 });
