@@ -123,12 +123,12 @@ define([
 					this.progSliderHtml5.setPlayerClockUpdateFn( this.playerClock, this.playerClock.setTime  );
 					this.progSliderHtml5.setYTplayerUpdateFn( this.ytPlayer, this.ytPlayer.setCurrencyTime );
 
-					// this.progSliderHtml5.startMousemoveListener();
+					this.progSliderHtml5.startMousemoveListener();
 					this.progSliderHtml5.startInputListener();
 
 					/*  Progress Slider Animation */
-					this.progSliderHtml5.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
-					// this.playerClock.setProgAnimation( this.progSliderHtml5 ); // bind to playerClock
+					this.progSliderHtml5.setPadSpeed( (1/23)*0.017 ); // set animation moving speed (presentage)
+					this.playerClock.setProgSlider( this.progSliderHtml5 ); // bind to playerClock
 
 					/* Play Dashboard */
 					this.playDashboard = new PlayDashboard(

@@ -18,7 +18,7 @@ define(
                   height: '200',
                   width: '300',
                   videoId: 'ihehC2qtMSY',
-                  playerVars: { 'autohide': 0, 'controls': 1 },
+                  playerVars: { 'autohide': 0, 'controls': 1, 'showinfo': 1 },
                   events: {
                     'onStateChange': self.onPlayerStateChange.bind( self ),
                     'onReady': self.onReadyHandler.bind( self )
@@ -35,6 +35,7 @@ define(
           YTplayer.prototype.infoPrefix = "[YTplayer]:";
           /* Variable*/
           YTplayer.prototype.duration = -1;
+          YTplayer.prototype.previousState = null;
 
           /* Callback function */
           YTplayer.prototype.setReadyCallback = function ( context,  callback ) {
@@ -63,19 +64,12 @@ define(
               switch (this.player.getPlayerState()) {
 
                 case YT.PlayerState.PLAYING:
-                  // YT player
                   this.player.pauseVideo();
-                  // playerClock Maintain
-                  // var t = this.player.getCurrentTime().toFixed(1);
-                  // this.playerClock.stopTime( parseFloat(t) );
                   break;
 
                 case YT.PlayerState.PAUSED:
                 case YT.PlayerState.CUED:
-                  // YT player
                   this.player.playVideo();
-                  // playerClock Maintain
-                  // this.playerClock.startTime();
                   break;
 
                 default:
@@ -136,48 +130,39 @@ define(
               // youtube iframe player, the playerClock should be sync
               var t = 0;
               console.log(this.infoPrefix+' fire onPlayerStateChange');
-              console.log(this.infoPrefix+' event type:'+ event.data);
+              console.log(this.infoPrefix+' Event :'+ event.data);
+              console.log(this.infoPrefix+' Previous Event :'+  this.previousState );
+              console.log(this.infoPrefix+' Player Time :'+ this.player.getCurrentTime() );
 
+              // Init: Unstart(-1) -> Buffering(3) -> Playing(1)
+              // Play from pause: Pause(2) -> Playing(1)
+              // Change on playing (Forward & Backword): Buffering(3) -> Playing(1)
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
                     event.data == YT.PlayerState.PLAYING  ){
 
                   console.log(this.infoPrefix+' :fire yt state change: playing');
 
-                  // this.player.pauseVideo();
-                  this.playerClock.startTime();
+                  t = this.player.getCurrentTime().toFixed(2);
+                  this.playerClock.startTime( parseFloat(t) );
 
               }
+              // Change on pause: Pause(2) -> Pause(2)
+              // Pause on playing: Playing(1) -> Pause(2)
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
-                    event.data == YT.PlayerState.PAUSED ){
+                    event.data == YT.PlayerState.PAUSED ||
+                      event.data == YT.PlayerState.ENDED ){
 
                   console.log(this.infoPrefix+' fire yt state change: paused');
 
                   // this.player.playVideo();
-                  t = this.player.getCurrentTime().toFixed(1);
+                  t = this.player.getCurrentTime().toFixed(2);
                   this.playerClock.stopTime( parseFloat(t) );
 
               }
-               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
-                   event.data == YT.PlayerState.ENDED ){
-                  t = this.player.getCurrentTime().toFixed(1);
-                  this.playerClock.stopTime( parseFloat(t) );
-               }
+              this.previousState = event.data;
+
           };
-          // YTplayer.prototype.requestVideoDuration = function ( vid ) {
-          //    /* Request Video duration */
-          //     var url1 = "https://www.googleapis.com/youtube/v3/videos?id="+vid+
-          //     "&key="+GAPI_config.key+"&part=snippet,contentDetails";
-          //     $.ajax({
-          //         async: false,
-          //         type: 'GET',
-          //         url: url1,
-          //         success: function(data) {
-          //             if (data.items.length > 0) {
-          //                 console.log( getResults(data.items[0]) );
-          //             }
-          //         }
-          //     });
-          // };
+
           return YTplayer;
 
 });

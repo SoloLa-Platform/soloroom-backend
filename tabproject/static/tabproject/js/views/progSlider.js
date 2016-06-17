@@ -18,7 +18,7 @@ define(['jquery'],
 		/* Public Variable */
 		progSliderHtml5.prototype.padDelta = 0; // padding rate ( pixel/sec )
 		progSliderHtml5.prototype.playId = 0; // id for record requestAnimation thread
-		progSliderHtml5.prototype.playValue = 0; // currecnt progress value ( presentage )
+		progSliderHtml5.prototype.playValue = 0; // currecnt progress value ( presentage 0~1 )
 
 		/*						*/
 		/* 	Setter & Getter 	*/
@@ -34,16 +34,13 @@ define(['jquery'],
 		progSliderHtml5.prototype.getValue = function () {
 			 return this.obj.value;
 		};
-		// Maintain html5 input value
+		// Maintain html5 input value (input is 0~100)
 		progSliderHtml5.prototype.setProgSliderPlayValue = function ( x ) {
-			 console.log(this.infoPrefix+' fire setProgSliderPlayValue');
-			 this.obj.value = x;
-			 this.playValue = x;
+			 console.log(this.infoPrefix+' fire setProgSliderPlayValue:'+ x );
+			 this.obj.value = String(x);
+			 this.playValue = x/100;
 		};
 
-		progSliderHtml5.prototype.increment = function () {
-			 this.playValue += parseFloat(this.padDeltaPresentage);
-		};
 
 		/*							*/
 		/* input value change event */
@@ -53,22 +50,25 @@ define(['jquery'],
 
 			this.obj.addEventListener("change", $.proxy(function(event) {
 				console.log( this.infoPrefix+' fire value change' );
+				console.log( this.infoPrefix+' fire value change:'+ typeof(this.obj.value) );
 				console.log( this.infoPrefix+' fire value change: ' + this.obj.value/100 );
 				// console.log( this.infoPrefix+' : value:'+this.videoDuration*this.obj.value/100 );
 				// console.log( this.infoPrefix +': videoDuration: '+ this.videoDuration );
 
 				// Need to maintain yt player & playerClock state
-				
+
 				this.tabAnimation.setPosition( this.obj.value/100 );
 				/* update playerClock */
-				this.ytPlayerUpateFn.call( this.ytPlayerC, this.videoDuration*this.obj.value/100 );
+				this.ytPlayerUpdateFn.call( this.ytPlayerC, this.videoDuration*this.obj.value/100 );
 				/* update YT player */
 				this.playerClockUpdateFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
+				/* Update Self Slider */
+				this.setProgSliderPlayValue( this.obj.value );
 			}, this));
 
 		};
 		progSliderHtml5.prototype.setYTplayerUpdateFn = function ( context , handler ) {
-			 this.ytPlayerUpateFn = handler;
+			 this.ytPlayerUpdateFn = handler;
 			 this.ytPlayerC = context;
 		};
 		progSliderHtml5.prototype.setPlayerClockUpdateFn = function ( context , handler ) {
@@ -84,16 +84,25 @@ define(['jquery'],
 			this.obj.addEventListener("mousedown", $.proxy(function() {
 
 					console.log(this.infoPrefix+'fire mousedown!');
-				  	this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this));
+					/* update playerClock */
+					this.ytPlayerUpdateFn.call( this.ytPlayerC, this.videoDuration*this.obj.value/100 );
+
+					/* update YT player */
+					this.playerClockUpdateFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
+					this.tabAnimation.render();
+
+					/* Update Self Slider */
+					this.setProgSliderPlayValue( this.obj.value );
+				  	// this.obj.addEventListener("mousemove", this.mousemoveHandler.bind(this));
 
 			}, this));
-			this.obj.addEventListener("mouseup", $.proxy(function() {
+			// this.obj.addEventListener("mouseup", $.proxy(function() {
 
-					console.log(this.infoPrefix+' :fire mouseup!');
-				  	this.obj.removeEventListener("mousemove", this.mousemoveHandler.bind(this), false);
-				  	console.log(this.obj.mousemove);
+			// 		console.log(this.infoPrefix+' :fire mouseup!');
+			// 	  	// this.obj.removeEventListener("mousemove", this.mousemoveHandler.bind(this), false);
+			// 	  	// console.log(this.obj.mousemove);
 
-			}, this ));
+			// }, this ));
 
 		};
 		/*							  */
@@ -103,25 +112,33 @@ define(['jquery'],
 
 			console.log(this.infoPrefix+' :mousemoveHandler');
 			this.tabAnimation.setViewBox_x( this.obj.value/100 );
+
 			/* update playerClock */
-			this.ytPlayerFn.call( this.ytPlaterC, this.videoDuration*this.obj.value/100 );
+			this.ytPlayerUpdateFn.call( this.ytPlayerC, this.videoDuration*this.obj.value/100 );
+
 			/* update YT player */
-			this.playerClockFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
+			this.playerClockUpdateFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
 			this.tabAnimation.render();
+			
+			/* Update Self Slider */
+			this.setProgSliderPlayValue( this.obj.value );
 		};
 
 		/*	   					*/
 		/* 		Animation 		*/
 		/*						*/
 		progSliderHtml5.prototype.renderPlaying = function () {
-			// console.log( this.playValue );
-			// console.log( this.progSlider.obj.value );
+			// console.log( this.infoPrefix+ ": renderPlaying: "+this.playValue );
+			// console.log( this.infoPrefix+ ": renderPlaying: "+this.obj.value );
 			this.increment();
-			this.progSlider.obj.value = String(this.playValue);
+			this.obj.value = String(100*this.playValue);
 			this.playId = window.requestAnimationFrame( this.renderPlaying.bind(this) );
 		};
 		progSliderHtml5.prototype.stopRenderPlaying = function () {
 			 window.cancelAnimationFrame( this.playId );
+		};
+		progSliderHtml5.prototype.increment = function () {
+			 this.playValue += this.padDeltaPresentage;
 		};
 
 		return progSliderHtml5;
