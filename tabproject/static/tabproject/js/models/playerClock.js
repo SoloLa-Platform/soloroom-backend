@@ -42,8 +42,7 @@ define(['backbone'],
                  }
             },
             changeHangle: function () {
-                // console.log('playerClock change fire');
-                // this.tabAnimation.renderPlaying();
+                console.log(this.infoPrefix+': change fire at '+this.get('value'));
             },
             setPlayTabAnimation: function ( callback ) {
                  this.tabAnimation = callback;
@@ -63,7 +62,7 @@ define(['backbone'],
                         // console.log(tick/1000);
                         t += (tick/1000) ;
                         self.set({ 'value': t });
-                        console.log(t); // playerClock time show
+                        // console.log(t); // playerClock time show
                     },
                     tick );
                     this.set({ 'id': checkId });
@@ -83,6 +82,7 @@ define(['backbone'],
                 console.log(this.infoPrefix+' clock stop !');
                 this.set({ 'active': false });
                 clearInterval( this.get('id') );
+                this.set({ 'id': -1 });
                 this.set({ 'value': correctT });
 
             },
