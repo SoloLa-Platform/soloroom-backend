@@ -49,7 +49,6 @@ define([
 				tabAnimation: {},
 
 				progSliderHtml5: {}, // slider view
-				progAnimation: {},
 
 				playDashboard: {},
 				searchBar: {},
@@ -128,10 +127,8 @@ define([
 					this.progSliderHtml5.startInputListener();
 
 					/*  Progress Slider Animation */
-					this.progAnimation = new Prog_animation( this.progSliderHtml5 );
-					this.progAnimation.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
-					// this.progAnimation.startListenProgInputChange();
-					this.playerClock.setProgAnimation( this.progAnimation ); // bind to playerClock
+					this.progSliderHtml5.setPadSpeed( 0.1 ); // set animation moving speed (presentage)
+					// this.playerClock.setProgAnimation( this.progSliderHtml5 ); // bind to playerClock
 
 					/* Play Dashboard */
 					this.playDashboard = new PlayDashboard(

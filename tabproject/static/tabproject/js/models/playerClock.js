@@ -8,10 +8,10 @@ define(['backbone'],
           	defaults: {
           		value: 0,
              	tick: 50,
-              	id: 0,
+              	id: -1,
                 active: false,
-                tabAnimation: null,
-                progAnimation: null
+                tabAnimation: null
+                // progAnimation: null
           	},
             infoPrefix:'[playerClock]:',
 
@@ -19,9 +19,9 @@ define(['backbone'],
                 this.on('change:value', this.changeHangle, this );
                 this.on('change:active', this.onActiveChanged, this );
             },
-            setProgAnimation: function ( animation ) {
-                 this.set({ 'progAnimation': animation });
-            },
+            // setProgAnimation: function ( animation ) {
+            //      this.set({ 'progAnimation': animation });
+            // },
             setTabAnimation: function ( animation ) {
                  this.set({ 'tabAnimation': animation });
             },
@@ -31,14 +31,14 @@ define(['backbone'],
                  console.log('active: '+this.get('active'));
 
                  var tabAnim = this.get('tabAnimation');
-                 var progAnim = this.get('progAnimation');
+                 // var progAnim = this.get('progAnimation');
 
                  if ( this.get('active') === false ){
                     tabAnim.stopRenderPlaying();
-                    progAnim.stopRenderPlaying();
+                    // progAnim.stopRenderPlaying();
                  }else{
                     tabAnim.renderPlaying();
-                    progAnim.renderPlaying();
+                    // progAnim.renderPlaying();
                  }
             },
             changeHangle: function () {
@@ -50,22 +50,28 @@ define(['backbone'],
             },
             startTime: function () {
                 this.set({ 'active': true });
+                var checkId = this.get('id');
 
-                console.log(this.infoPrefix+' clock start !');
-            	var self = this;
-                var t = self.get('value');
-                var tick = self.get('tick');
-                var id = setInterval( function () {
+                if (  checkId == -1 ){
+                    console.log(this.infoPrefix+' clock start !');
+                    var self = this;
+                    var t = self.get('value');
+                    var tick = self.get('tick');
+                    checkId = setInterval( function () {
 
-                	t = self.get('value');
-                	// console.log(tick/1000);
-				 	t += (tick/1000) ;
-                	self.set({ 'value': t });
-                	console.log(t); // playerClock time show
+                        t = self.get('value');
+                        // console.log(tick/1000);
+                        t += (tick/1000) ;
+                        self.set({ 'value': t });
+                        console.log(t); // playerClock time show
+                    },
+                    tick );
+                    this.set({ 'id': checkId });
+                }else{
+                    console.log( this.infoPrefix + ": setInterval thread id: existed");
+                }
 
-                },
-                tick );
-                this.set({ 'id': id });
+                console.log( this.infoPrefix + ": setInterval thread id:"+ this.get('id'));
 
             },
             setTime: function ( t ) {
@@ -84,7 +90,7 @@ define(['backbone'],
                 console.log( this.infoPrefix+' fire resetTime! ');
                 this.set({ 'value': 0 }) ;
                 this.get('tabAnimation').setPosition( 0 );
-                this.get('progAnimation').setProgSliderPlayValue( 0 );
+                // this.get('progAnimation').setProgSliderPlayValue( 0 );
                 console.log( this.infoPrefix+'resetTime, value: '+String( this.get('value') ) );
 
             },

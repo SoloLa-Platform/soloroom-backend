@@ -42,10 +42,15 @@ define(
              this.readyContext = context;
              this.readyCallback = callback;
           };
+          YTplayer.prototype.setReadyCallback2 = function ( context,  callback ) {
+
+             this.readyContext2 = context;
+             this.readyCallback2 = callback;
+          };
           YTplayer.prototype.onReadyHandler = function () {
             var dur = this.player.getDuration();
-            console.log( this.infoPrefix + ' :'+ dur );
-            console.log( this );
+            // console.log( this.infoPrefix + ' :'+ dur );
+            // console.log( this );
             this.readyCallback.call(this.readyContext, dur);
           };
           /* UI Event Handler */
@@ -130,8 +135,8 @@ define(
               // This section handles the event of user use directly
               // youtube iframe player, the playerClock should be sync
               var t = 0;
-              // console.log(this.infoPrefix+' fire onPlayerStateChange');
-              // console.log(this.infoPrefix+' event type:'+ event.data);
+              console.log(this.infoPrefix+' fire onPlayerStateChange');
+              console.log(this.infoPrefix+' event type:'+ event.data);
 
               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
                     event.data == YT.PlayerState.PLAYING  ){
@@ -152,7 +157,11 @@ define(
                   this.playerClock.stopTime( parseFloat(t) );
 
               }
-
+               if ( event.data != -1 && event.data != YT.PlayerState.BUFFERING &&
+                   event.data == YT.PlayerState.ENDED ){
+                  t = this.player.getCurrentTime().toFixed(1);
+                  this.playerClock.stopTime( parseFloat(t) );
+               }
           };
           // YTplayer.prototype.requestVideoDuration = function ( vid ) {
           //    /* Request Video duration */
