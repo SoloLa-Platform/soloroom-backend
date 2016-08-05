@@ -29,7 +29,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 			// fetch remote alg. result from server by ajax
 			fetchRemoteFull: function( rsc_url ) {
 				var tabUrl = "";
-				if (typeof rsc_url === "undefined"){
+				if ( typeof rsc_url === "undefined" ){
 					tabUrl = this.defaults.url;
 				}else{
 					console.log('use tabURL');
@@ -123,7 +123,6 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 						else{
 							// Create a new MN for each note
 							MNsArray.push(this.createMN(notes, j));
-
 							// console.log(musicnote);
 						}
 				}

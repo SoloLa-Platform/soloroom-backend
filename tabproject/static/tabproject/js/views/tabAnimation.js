@@ -9,7 +9,7 @@ define(
 
 	TabAnimation.prototype.viewBox_x = 0;
 	TabAnimation.prototype.xStr = "";
-	TabAnimation.prototype.padDelta = 5;
+	TabAnimation.prototype.padDelta = 0;
 	TabAnimation.prototype.playId = 0;
 
 	TabAnimation.prototype.infoPrefix = "[TabAnimation]:";

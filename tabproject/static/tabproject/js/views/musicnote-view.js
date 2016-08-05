@@ -5,13 +5,13 @@ define([
 		var MusicNoteView = Backbone.View.extend({
 
 			el:'g',
-			cells:[],
 			xmlns: "http://www.w3.org/2000/svg",
+			cellObject: {},
 
-			initialize: function (para) {
+			initialize: function ( para ) {
 				// console.log("MN View create!");
-				this.model = para.model;
-				this.cells = para.cells;
+				// this.model = para.model;
+				this.cellObject = para.cells;
 			},
 			render: function () {
 
@@ -21,10 +21,22 @@ define([
 						y: this.cells[0].y*h - 0.15*h
 				};
 			},
-			drawFretNum: function (w, h, oy, startOffset) {
+
+			drawDurBar: function(w, h, hr) {
+				var n = document.createElementNS(this.xmlns, "rect");
+				n.setAttributeNS(null,"x", this.cellObject.x*w);
+				n.setAttributeNS(null,"y", parseInt(this.cellObject.y+1)*h );
+				n.setAttributeNS(null,"rx",1);
+				n.setAttributeNS(null,"ry",1);
+				n.setAttributeNS(null,"width",this.cellObject.length*w);
+				n.setAttributeNS(null,"height",h/hr);
+				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:1;z-index:5;");
+				return n;
+			},
+			drawFretNum: function (w, h ) {
 				// draw fret on leftmost cell
-				var x = this.cells[0].x*w + startOffset;
-				var y = this.cells[0].y*h - 0.15*h + 12;
+				var x = this.cellObject.x * w;
+				var y = this.cellObject.y * h;
 				var fretNum = this.model.get("fretNum");
 
 				var xmlns = this.xmlns;
@@ -35,22 +47,6 @@ define([
 				n.setAttributeNS(null,"fill","black");
 				n.setAttributeNS(null, "font-size", "11");
 				n.textContent = fretNum;
-				return n;
-			},
-			drawDurBar: function (w, h, startOffset) {
-
-				var x = this.adjustedXY(w, h, startOffset).x;
-				var y = this.adjustedXY(w, h, startOffset).y;
-				var n = document.createElementNS(this.xmlns, "rect");
-
-				n.setAttributeNS(null,"x",x);
-				n.setAttributeNS(null,"y",y);
-				n.setAttributeNS(null,"rx",5);
-				n.setAttributeNS(null,"ry",5);
-				n.setAttributeNS(null,"width",this.cells.length*w);
-				n.setAttributeNS(null,"height",h/2.5);
-
-				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:1;z-index:5;");
 				return n;
 			},
 
