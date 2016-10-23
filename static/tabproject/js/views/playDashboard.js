@@ -2,57 +2,39 @@ define(
 	['jquery', 'test_animation'],
 	function ($, Test_animation) {
 
-	var playDashboard = function ( playDbSelector ) {
-		// Property
-		this.objNodeList = document.querySelectorAll( playDbSelector );
-		this.buttons = []; // [key] = value, [id] = NodeObject , store play related buttons
-		this.Animation = {};
-		this.playingActive = false;
+	function playDashboard( buttonIds ) {
 
+		// Property
+		this.buttons = []; // [key] = value, [id] = NodeObject , store play related buttons
 
 		// Constructor
-		for(var i = 0; i < this.objNodeList.length; i++){
-
-			this.buttons[this.objNodeList[i].id] = this.objNodeList[i];
+		for(var i = 0; i < buttonIds.length; i++){
+			this.buttons[buttonIds[i].substring(1, buttonIds[i].length)] = document.querySelector(buttonIds[i]);
 		}
-		this.testEl = document.querySelector("#m2");
-		this.animateTest = function () {
-			 /* body... */
-			 $("body").append('<div style="width: 10px;height: 10px;background: orange;">');
-		};
-		this.startListenPlayButton = function () {
+		// console.log(this.buttons);
+	}
+	playDashboard.prototype.infoPrefix = "[playDashboard]:";
+	playDashboard.prototype.bindYTStopPlayCB = function ( context, callback ) {
 
-			 this.buttons.playButton.addEventListener("click", $.proxy(function() {
+		var self = this;
+		this.buttons.playButton.addEventListener("click", function () {
+			 console.log(self.infoPrefix+' fire playButton');
+			 callback.call(context);
+		}, false);
+	};
+	playDashboard.prototype.bindYTbackwardCB = function ( context, callback ) {
 
-			 	if( this.playingActive === false ){
+		this.buttons.backwardButton.addEventListener("click", function () {
+			console.log(this.infoPrefix+' fire backwardButton');
+			 callback.call(context);
+		}, false);
+	};
+	playDashboard.prototype.bindYTforwardCB = function ( context, callback ) {
 
-			 		// this.Animation.setPadSpeed(20);
-			 		// console.log(this);
-			 		// console.log('active in playDashboard!');
-
-			 		// window.requestAnimationFrame.bind(this, this.Animation.renderPlaying);
-			 		// window.requestAnimationFrame.bind(this, this.animateTest);
-			 		this.Animation.renderPlaying();
-			 		this.playingActive = true;
-
-			 		// Test_animation();
-			 		console.log('true');
-			 	}else{
-
-			 		this.Animation.stopRenderPlaying();
-			 		this.playingActive = false;
-
-			 		// Test_animation().stopPlayTab();
-			 		console.log('false!');
-			 	}
-
-			 },this ), false);
-		};
-
-		this.setAnimation = function (animation) {
-			this.Animation = animation;
-		};
-
+		this.buttons.forwardButton.addEventListener("click", function () {
+			console.log(this.infoPrefix+' fire forwardButton');
+			 callback.call(context);
+		}, false);
 	};
 
 	return playDashboard;

@@ -1,8 +1,8 @@
 define(['jquery'],
 	function ($) {
+
 		/* Constructor */
 		function progSliderHtml5 ( selectorId ) {
-				console.log('Constructor of prog-slider html5');
 				this.obj = document.querySelector(selectorId);
 		}
 		progSliderHtml5.prototype.initDuration = function ( duration ) {
@@ -25,7 +25,7 @@ define(['jquery'],
 		/*						*/
 		progSliderHtml5.prototype.setPadSpeed = function ( delta ) {
 			this.padDeltaPresentage = delta;
-			console.log(this.padDeltaPresentage);
+			// console.log(this.padDeltaPresentage);
 		};
 
 		progSliderHtml5.prototype.getHtmlNode = function () {
@@ -119,7 +119,7 @@ define(['jquery'],
 			/* update YT player */
 			this.playerClockUpdateFn.call( this.playerClockC, this.videoDuration*this.obj.value/100);
 			this.tabAnimation.render();
-			
+
 			/* Update Self Slider */
 			this.setProgSliderPlayValue( this.obj.value );
 		};
@@ -144,4 +144,3 @@ define(['jquery'],
 		return progSliderHtml5;
 
 });
-

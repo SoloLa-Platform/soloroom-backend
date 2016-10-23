@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +11,7 @@
 	<!-- CSS resoruce -->
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
-
-	{% load static from staticfiles %}
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat"> {% load static from staticfiles %}
 	<link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="{% static "tabproject/css/index.css" %}">
 	<link rel="stylesheet" type="text/css" href="{% static "tabproject/css/tpl.css" %}">
@@ -23,6 +22,7 @@
 	<script type="text/javascript" data-main="static/tabproject/js/main" src="{% static "tabproject/lib/requirejs/require.js"%}"></script>
 
 </head>
+
 <body>
 	<div class="topContainer pure-g">
 		<div class="pure-u-4-5 ">
@@ -37,8 +37,8 @@
 			</div>
 		</div>
 	</div>
-<!-- End Top Container  -->
-	<div class="header" class="pure-g" >
+	<!-- End Top Container  -->
+	<div class="header" class="pure-g">
 		<div class="logoBlock pure-u-1-4 ">
 			<!-- <img class="beta" src="{% static "tabproject/media/betaLabelLeft.png" %}"> -->
 			<!-- <div class="title"><span class="titleEn">Solo</span>La!</div> -->
@@ -48,16 +48,19 @@
 		<div id="searchBar" class="pure-u-3-4 pure-g">
 		</div>
 	</div>
-<!-- End Header -->
+	<!-- End Header -->
 	<div id="content" class="pure-g ">
+		<!-- SVG Tab -->
 		<div class="pure-u-1" id="tab">
 			<svg id="tabSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-			<!-- viewbox="0,0,1024,100" preserveAspectRatio="xMinYMin meet" -->
-    		</svg>
+				<!-- viewbox="0,0,1024,100" preserveAspectRatio="xMinYMin meet" -->
+			</svg>
 		</div>
-    </div>
-    <div>
-        <div class="dashboard pure-g" id="controlarea">
+	</div>
+	<div>
+		<!-- Dashboard -->
+		<div class="dashboard pure-g" id="controlarea">
+			<!-- Youtube Embbeded iframe -->
 			<div class="pure-u-1-4" id="ytb">
 				<div class="block-box">
 					<!-- <iframe src="https://www.youtube.com/embed/ihehC2qtMSY" frameborder="0" class="ytbIframe" id="ytbox"></iframe> -->
@@ -67,12 +70,12 @@
 			<div class="pure-u-3-4" id="">
 				<div class="pure-g">
 					<div class="block-box" class="pure-u-3-5">
-						<!-- Search Bar Start-->
+						<!-- Play Controller (Both Youtube and SVG Tab) -->
 						<div class="play-control">
 							<div id="prog-sliderHtml5-block">
-	                			<input id="prog-sliderHtml5" type="range" name="prog" min="0" max="100" step="any" value="0"></input>
-	                		</div>
-	                		<div class="playDashboard">
+								<input id="prog-sliderHtml5" type="range" name="prog" min="0" max="100" step="any" value="0"></input>
+							</div>
+							<div class="playDashboard">
 								<a href="#playing" id="backwardButton">
 									<i class="fa fa-step-backward fa-2x" aria-hidden="true"></i></a>
 								<a href="#playing" id="playButton" class="">
@@ -84,58 +87,62 @@
 								</a>
 								<div id="currentPlayTime"></div>
 							</div>
-		                </div>
-		                <div id="searchBar box">
-	                		<div class="box">
-			                    <form action="#" class="pure-form " id="searchForm2">
-			                            <input type="text" id="keyword" placeholder="Search Song" autocomplete="off" class="keywordtext" width="48" disabled>
-			                            <!-- <input > -->
-			                             <button class="pure-button margin-box" type="submit" value="enter" id="searchbtn2" disabled> <i class="fa fa-search" aria-hidden="true"></i></button>
-			                    </form>
-		                    </div>
-		                    <div class="box">
-			                    <form action="#" class="pure-form " id="urlSearchForm">
-			                            <input type="text" id="urlInput" placeholder="Youtube URL" autocomplete="off" class="form-control" disabled>
-			                            <button class="pure-button margin-box" type="submit" value="submit" id="urlSearchBtn" disabled>
-			                            	<i class="fa fa-youtube-play" aria-hidden="true"></i>
-			                            </button>
+						</div>
+						<!-- Youtube Search -->
+						<div id="searchBar box">
+							<!-- Search by Keyword -->
+							<div class="box">
+								<form action="#" class="pure-form " id="searchForm2">
+									<input type="text" id="keyword" placeholder="Search Song" autocomplete="off" class="keywordtext" width="48" disabled>
+									<button class="pure-button margin-box" type="submit" value="enter" id="searchbtn2" disabled> <i class="fa fa-search" aria-hidden="true"></i></button>
+								</form>
+							</div>
+							<!-- Directly Input Youtube URL -->
+							<div class="box">
+								<form action="#" class="pure-form " id="urlSearchForm">
+									<input type="text" id="urlInput" placeholder="Youtube URL" autocomplete="off" class="form-control" disabled>
+									<button class="pure-button margin-box" type="submit" value="submit" id="urlSearchBtn" disabled>
+										<i class="fa fa-youtube-play" aria-hidden="true"></i>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- End: Youtube Search -->
+					<!--  Edit Dashboard -->
+					<div class="block-box" class="pure-u-2-5">
 
-			                    </form>
-		                    </div>
-					    </div>
-					    <!-- Search Bar End-->
-				    </div>
-				    <div class="block-box" class="pure-u-2-5">
-
-				    </div>
+					</div>
+					<!--  End Edit Dashboard -->
 				</div>
 
 
-		    </div>
-        </div>
-        <div id="videoresult">
-            <button type="button" id="closeButton">
-            	<i class="fa fa-times fa-lg" aria-hidden="true"></i>
+			</div>
+		</div>
+		<!-- Hidden Research Result -->
+		<div id="videoresult">
+			<button type="button" id="closeButton">
+				<i class="fa fa-times fa-lg" aria-hidden="true"></i>
 			</button>
 			<!-- apply underscore template in searchBar -->
-	        <table id="videoresult_btns"></table>
-        </div>
-    </div>
-<!-- End Content -->
+			<table id="videoresult_btns"></table>
+		</div>
+	</div>
+	<!-- End Content -->
 	<!-- <script type="text/template" id="music-note">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> <%= BookName %> </a></li>
    </script> -->
-<!-- 	{% load static from staticfiles %}
+	<!-- 	{% load static from staticfiles %}
 	{% static "tabproject/404.jpg" as 404pic %}
 	<img src="{{ 404pic }}"> -->
 	<div class="footer">
 		<p class="">All Right Reserved to Yuan-Ping Chen,Yu-Kang Hu,Jyun-Yang KE and Music and Audio Computing Lab, CITI, Academia Sinica, Taiwan, 2016, Email: solola.service@gmail.com </p>
 	</div>
-<!-- End Footer -->
+	<!-- End Footer -->
 
 
-<!-- javascript resource-->
-<!-- <script type="text/javascript" src="{% static "tabproject/js/sandbox/iframePlayer.js" %}" ></script> -->
+	<!-- javascript resource-->
+	<!-- <script type="text/javascript" src="{% static "tabproject/js/sandbox/iframePlayer.js" %}" ></script> -->
 </body>
-</html>
 
+</html>

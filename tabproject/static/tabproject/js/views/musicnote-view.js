@@ -25,18 +25,20 @@ define([
 			drawDurBar: function(w, h, hr) {
 				var n = document.createElementNS(this.xmlns, "rect");
 				n.setAttributeNS(null,"x", this.cellObject.x*w);
-				n.setAttributeNS(null,"y", parseInt(this.cellObject.y+1)*h );
+				n.setAttributeNS(null,"y", parseInt( this.cellObject.y+1 )*h );
 				n.setAttributeNS(null,"rx",1);
 				n.setAttributeNS(null,"ry",1);
 				n.setAttributeNS(null,"width",this.cellObject.length*w);
 				n.setAttributeNS(null,"height",h/hr);
-				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;stroke:rgb(0,0,0);opacity:1;z-index:5;");
+				n.setAttributeNS(null, "style", "fill:rgb(255, 204, 0);stroke-width:1;opacity:1;z-index:5;");
 				return n;
 			},
 			drawFretNum: function (w, h ) {
+
 				// draw fret on leftmost cell
 				var x = this.cellObject.x * w;
-				var y = this.cellObject.y * h;
+				var y = ( this.cellObject.y + 1 )* h;
+
 				var fretNum = this.model.get("fretNum");
 
 				var xmlns = this.xmlns;

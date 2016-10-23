@@ -1,88 +1,138 @@
 
-function handleAPILoaded(){
+define(['text!templates/searchResult.tpl'],
+  function( rearchResultTpl ){
 
-      gapi.client.setApiKey("AIzaSyDb7YrcXiIUZ9_egPvtFkQ9SWjOEyYJJ_E");
-      gapi.client.load("youtube","v3").then(startSearchBar);
-        //console.log(gapi.client);
-      // console.log('hello! handleAPILoaded');
-}
-function startSearchBar(){
+    var SearchBar;
+    SearchBar.prototype.init = function () {
 
-  console.log('hello! Google API!');
-  // Url Search and replace youtube video
-    $("#searchForm").on("submit", function(e){
-        e.preventDefault();
-        //prepare the request !=null
+      var self = this;
+       function checkYoutubeAPIloaded() {
+         if (gapi && gapi.client.youtube) {
 
-        if($("#search").val().substring(0,32)=="https://www.youtube.com/watch?v="){
+                console.log('Youtube data API loaded! Start to init SearchBar');
 
-            var Vid=$("#search").val().substring(32,43);
-            var URLtext="https://www.youtube.com/embed/"+Vid;
-            document.getElementById("demo").innerHTML=URLtext;
-            document.getElementById("ytbox").src=URLtext;
-            document.getElementById('ytbox').contentWindow.location.reload(true);
+                self.initUrlBarEvent();
+                self.initKeywordBarEvnet();
+                self.initKeywordAnimation();
+                self.initResultAnimation();
+                self.enableInputs();
+              }
+              // else {
+              //   id = setTimeout(checkYoutubeAPIloaded, 100);
+              // }
         }
-    });
-    // Keyword Search
-    $("#searchForm2").on("submit", function(e){
-        e.preventDefault();
-        //prepare the request
-        var request = gapi.client.youtube.search.list({
-            part: "snippet",
-            type: "video",
+        checkYoutubeAPIloaded();
+    };
 
-            q: $("#keyword").val().replace(/%20/g, "+"),
-            //encodeURIComponent($("#search").val()).replace(/%20/g, "+"),
-            videoCategoryID: "Music",
-            maxResults: 20,
-            order: "viewCount",
-            publishedAfter: "2000-01-01T00:00:00Z"
+    SearchBar.prototype.enableInputs = function () {
+        $("#urlInput").attr("disabled", false);
+        $("#keyword").attr("disabled", false);
+        $("#searchbtn2").attr("disabled", false);
+        $("#urlSearchBtn").attr("disabled", false);
+    };
+
+    SearchBar.prototype.initUrlBarEvent = function () {
+       // Url Search and replace youtube video
+        $("#urlSearchForm").on("submit", function(e){
+            e.preventDefault();
+            var ytUrlPrefix = $("#urlInput").val().substring(0,32);
+            var vid = $("#urlInput").val().substring(32,43);
+
+            if( ytUrlPrefix == "https://www.youtube.com/watch?v=" ){
+
+                var URLtext="https://www.youtube.com/embed/" + vid;
+                document.getElementById("demo").innerHTML = URLtext;
+                document.getElementById("ytbox").src = URLtext;
+                document.getElementById('ytbox').contentWindow.location.reload(true);
+            }else{
+
+              $("#urlInput").attr('placeholder', 'invalid url!');
+              $("#urlInput").val("");
+               $("#urlInput").addClass("invalid");
+            }
         });
-        // execute the request
-       request.execute(function(response) {
-           var results = response.result;
-           $("#videoresult_btn").empty();
-           $.each(results.items,function(index,item){
-                console.log(_);
-               $("#videoresult_btn").append('<div class="res_btn" id="'+item.id.videoId+'" style="cursor :pointer;">'+
-                  '<tr><td><img src=https://img.youtube.com/vi/'+item.id.videoId+'/1.jpg id="'+item.id.videoId+'" ></td >'+
-                  '<td style="line-height: 100px;text-align: center;">'+item.snippet.title+'</td> </div>');
+    };
+    SearchBar.prototype.initKeywordBarEvnet = function () {
 
-               $(".res_btn").css({"background-color":"#e6e6e6"});
-               $(".res_btn").mouseover(function(event){$(event.target).css({"background-color":"#FFDEAD","position": "relative","top": "2px","left": "2px"});});
-               $(".res_btn").mouseout(function(event){$(event.target).css({"background-color":"#e6e6e6","position":"relative","top": "0px","left": "0px"});});
+       var self = this;
+       // Keyword Search
+        $("#searchForm2").on("submit", function(e){
+            e.preventDefault();
 
+            // Setup Request
+            var request = gapi.client.youtube.search.list({
+                // Search Parameter (Need to be tone)
+                part: "snippet",
+                type: "video",
+                q: $("#keyword").val().replace(/%20/g, "+"),
+                videoCategoryID: "Music",
+                maxResults: 10,
+                order: "viewCount",
+                publishedAfter: "2000-01-01T00:00:00Z"
+            });
+
+            // Popup Searched Result
+           request.execute(function(response) {
+
+               var results = response.result;
+               $("#videoresult_btns").empty();
+
+               var tpl = _.template( rearchResultTpl );
+               var html = '';
+               $.each( results.items,
+
+                  function( index, item ){
+                      html += tpl({
+                            videoId: item.id.videoId,
+                            title:item.snippet.title
+                      });
+               });
+               $("#videoresult_btns").html(html);
            });
-       });
+           self.initResultSelectedHandle();
 
-    });
-    var disStatus = document.getElementById("videoresult").style.display;
+        });
+    };
+    SearchBar.prototype.initResultSelectedHandle = function () {
 
-    $( "#searchForm2").delegate( "#keyword", "click", function() {
+          $("#videoresult_btns").delegate( ".res_btn", "click", function(event){
 
-      disStatus = document.getElementById("videoresult").style.display;
-      if(disStatus!="block"){
-          $("#videoresult").slideToggle("fast");
-      }
+                var vid = $(event.target).attr("id");
+                console.log(event.target);
+                console.log("vid"+vid);
 
-    });
+                $("#videoresult").animate({width:'toggle'}, 100);
+                var URLtext="https://www.youtube.com/embed/" + vid;
+                document.getElementById("ytbIframeAPI").src = URLtext;
+                document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
 
-    $("#videoresult").delegate("button","click",function(){
-        $("#videoresult").slideToggle("slow");
-    });
-    $(function resultchoice() {
-      $("#videoresult_btn").delegate(".res_btn","click",function(event){
-            var Vid;
-            Vid=$(event.target).attr("id");
-            console.log(Vid);
+                // $("#videoresult").slideToggle("fast");
+           });
+    };
+     SearchBar.prototype.initKeywordAnimation = function (){
 
-            var URLtext="https://www.youtube.com/embed/"+Vid;
-            document.getElementById("ytbox").src=URLtext;
-            document.getElementById('ytbox').contentWindow.location.reload(true);
+        var disStatus = document.getElementById("videoresult").style.display;
 
-       });
-    });
-}
+        $( "#searchForm2").delegate( "#keyword", "focus", function() {
 
+            disStatus = document.getElementById("videoresult").style.display;
+            if(disStatus != "block"){
+              $("#videoresult").animate({width:'toggle'}, 100);
+                // $("#videoresult").slideToggle("fast");
 
+            }
 
+        });
+
+    };
+    SearchBar.prototype.initResultAnimation = function (){
+       $("#videoresult").delegate("#closeButton","mousedown",function(){
+            disStatus = "none";
+            console.log('fire close button mousedown');
+            $("#videoresult").animate({width:'toggle'}, 100);
+            // $("#videoresult").slideToggle("fast");
+            $("#videoresult_btns").empty();
+        });
+    };
+    return SearchBar;
+});

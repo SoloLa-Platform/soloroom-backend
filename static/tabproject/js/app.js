@@ -11,7 +11,11 @@ define([
 
 		function init(){
 			//
-			// Public Preporty and Method
+			// Private Property and Method
+			//
+
+			//
+			// Public Property and Method
 			//
 			return {
 
@@ -19,8 +23,8 @@ define([
 				tabModel: {},// tabModel including a tree to store and handle
 				tabAnimation: {},
 
-				progSilderJQuery: {}, // slider view
-				progSilderHtml5: {}, // slider view
+				progSilderJQuery: {}, // slider view module
+				progSilderHtml5: {}, // slider view module
 
 				// Tab
 				tabInit: function(){
@@ -87,4 +91,3 @@ define([
 	};
 	return app;
 });
-

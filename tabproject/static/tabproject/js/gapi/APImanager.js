@@ -15,6 +15,8 @@ define(
 		_.extend( APIManager.prototype, Backbone.Events );
 
 		APIManager.prototype.setGapiLoadedCallback = function (  context, callback ) {
+			console.log("context", context);
+			console.log("callback", callback);
 			this.gapiCB = callback;
 			this.gapiCBContext = context;
 		};
@@ -27,7 +29,7 @@ define(
 
 			var self = this;
 			 function handleClientLoad() {
-				gapi.client.setApiKey(GAPI_config.key);
+					gapi.client.setApiKey(GAPI_config.key);
 		  		gapi.client.load("youtube","v3").then(self.gapiCB.bind(self.gapiCBContext));
 
 		  	}
@@ -65,7 +67,7 @@ define(
 		APIManager.prototype.loadYTAPI = function () {
 
 				var self = this;
-			  	require(['async!//www.youtube.com/iframe_api!undefined:onYouTubeIframeAPIReady'], 
+			  	require(['async!//www.youtube.com/iframe_api!undefined:onYouTubeIframeAPIReady'],
 
 			  		function () {
 			  			console.log('Youtube iFrame Player API loaded!');

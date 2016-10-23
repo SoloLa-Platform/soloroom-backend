@@ -47,8 +47,8 @@ require.config({
 
         prog_slider: 'views/progSlider',
         playDashboard: 'views/playDashboard',
-        search_bar: 'views/searchBar', // This module depend on Google API
-        yt_player: 'views/YTplayer',
+        search_bar: 'views/SearchBar',  // This module depend on Google API
+        yt_player: 'views/YTplayer',    // This module depend on Google API
 
         /* === Views Animation === */
         tab_animation: 'views/tabAnimation',

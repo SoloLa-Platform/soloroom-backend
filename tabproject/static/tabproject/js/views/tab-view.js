@@ -129,7 +129,7 @@ define([
         },
 
         createHorizonalTabLine: function(lineNum, w, paddingY, tabLineSpace) {
-            console.log(w);
+            // console.log(w);
             return this.createHorizonalLine(0,
                 lineNum * tabLineSpace + paddingY,
                 w,

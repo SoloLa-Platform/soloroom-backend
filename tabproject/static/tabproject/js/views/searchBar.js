@@ -1,140 +1,195 @@
-
 define(['text!templates/searchResult.tpl'],
-  function( rearchResultTpl ){
+    function(searchResultTpl) {
 
-    function SearchBar(){
-      // this.init();
-    }
-    SearchBar.prototype.init = function () {
+        function SearchBar() {
 
-      var self = this;
-       function checkYoutubeAPIloaded() {
-         if (gapi && gapi.client.youtube) {
-
-                console.log('Youtube data API loaded! Start to init SearchBar');
-
-                self.initUrlBarEvent();
-                self.initKeywordBarEvnet();
-                self.initKeywordAnimation();
-                self.initResultAnimation();
-                self.enableInputs();
-              }
-              // else {
-              //   id = setTimeout(checkYoutubeAPIloaded, 100);
-              // }
         }
-        checkYoutubeAPIloaded();
-    };
 
-    SearchBar.prototype.enableInputs = function () {
-        $("#urlInput").attr("disabled", false);
-        $("#keyword").attr("disabled", false);
-        $("#searchbtn2").attr("disabled", false);
-        $("#urlSearchBtn").attr("disabled", false);
-    };
+        //
+        /* Public Function */
+        //
 
-    SearchBar.prototype.initUrlBarEvent = function () {
-       // Url Search and replace youtube video
-        $("#urlSearchForm").on("submit", function(e){
-            e.preventDefault();
-            var ytUrlPrefix = $("#urlInput").val().substring(0,32);
-            var vid = $("#urlInput").val().substring(32,43);
 
-            if( ytUrlPrefix == "https://www.youtube.com/watch?v=" ){
 
-                var URLtext="https://www.youtube.com/embed/" + vid;
-                document.getElementById("demo").innerHTML = URLtext;
-                document.getElementById("ytbox").src = URLtext;
-                document.getElementById('ytbox').contentWindow.location.reload(true);
-            }else{
+        /* Waiting for Refactoring Zone : Start */
+        /* Reason : UI and Operation Seperation */
+        SearchBar.prototype.enableInputs = function() {
+            // enableInputs:  enable html inputs and submits of SearchBar
+            $("#urlInput").attr("disabled", false);
+            $("#keyword").attr("disabled", false);
+            $("#searchbtn2").attr("disabled", false);
+            $("#urlSearchBtn").attr("disabled", false);
+        };
 
-              $("#urlInput").attr('placeholder', 'invalid url!');
-              $("#urlInput").val("");
-               $("#urlInput").addClass("invalid");
+        SearchBar.prototype.disableInputs = function() {
+                // enableInputs:  disable html inputs and submits of SearchBar
+                $("#urlInput").attr("disabled", true);
+                $("#keyword").attr("disabled", true);
+                $("#searchbtn2").attr("disabled", true);
+                $("#urlSearchBtn").attr("disabled", true);
+        };
+        /* Waiting for Refactoring Zone : End */
+
+        SearchBar.prototype.test = function () {
+                console.log("test function in prototype");
+        };
+        SearchBar.prototype.init = function () {
+
+            console.log("SearchBar.init");
+            // init:
+            //    Initialize the searchbar before gapi is loaded
+            //    this function is called(trigger) by API mananger
+
+            this.checkYoutubeAPIloaded();
+        };
+        SearchBar.prototype.checkYoutubeAPIloaded = function () {
+            if (gapi && gapi.client.youtube) {
+                console.log('Youtube data API loaded! Start to init SearchBar');
+                this.initUrlBarEvent();
+                this.initKeywordBarEvnet();
+                this.initKeywordAnimation();
+                this.initResultAnimation();
+                this.enableInputs();
             }
-        });
-    };
-    SearchBar.prototype.initKeywordBarEvnet = function () {
+            else {
+              id = setTimeout(checkYoutubeAPIloaded, 100);
+            }
+        };
+        SearchBar.prototype.initUrlBarEvent = function () {
+            // initUrlBarEvent:
+            //    delegate the submit button event
+            //    1. Parse the url to retrive vid then fuse out a formatted vid
+            //    2. Trigger reloading youtube iframe
 
-       var self = this;
-       // Keyword Search
-        $("#searchForm2").on("submit", function(e){
-            e.preventDefault();
+            /* Waiting for Refactoring Zone : Start */
+            /* Reason : UI and Operation Seperation */
+            $("#urlSearchForm").on("submit", function(e) {
+                e.preventDefault();
+                var ytUrlPrefix = $("#urlInput").val().substring(0, 32);
+                var vid = $("#urlInput").val().substring(32, 43);
 
-            // Setup Request
-            var request = gapi.client.youtube.search.list({
-                // Search Parameter (Need to be tone)
-                part: "snippet",
-                type: "video",
-                q: $("#keyword").val().replace(/%20/g, "+"),
-                videoCategoryID: "Music",
-                maxResults: 10,
-                order: "viewCount",
-                publishedAfter: "2000-01-01T00:00:00Z"
+                if (ytUrlPrefix == "https://www.youtube.com/watch?v=") {
+
+                    var URLtext = "https://www.youtube.com/embed/" + vid;
+                    document.getElementById("demo").innerHTML = URLtext;
+                    document.getElementById("ytbox").src = URLtext;
+                    document.getElementById('ytbox').contentWindow.location.reload(true);
+                } else {
+
+                    $("#urlInput").attr('placeholder', 'invalid url!');
+                    $("#urlInput").val("");
+                    $("#urlInput").addClass("invalid");
+                }
             });
+            /* Waiting for Refactoring Zone : End */
+        };
+        SearchBar.prototype.initKeywordBarEvnet = function () {
 
-            // Popup Searched Result
-           request.execute(function(response) {
+                // Keyword Search
 
-               var results = response.result;
-               $("#videoresult_btns").empty();
+                /* Waiting for Refactoring Zone : Start */
+                /*
+                    Reason : UI and Operation Seperation
+                    Paramterize the youtube search configure
+                */
+                $("#searchForm2").on("submit", function(e) {
+                    e.preventDefault();
 
-               var tpl = _.template( rearchResultTpl );
-               var html = '';
-               $.each( results.items,
+                    // Setup Request
+                    var request = gapi.client.youtube.search.list({
+                        // Search Parameter (Need to be tone)
+                        part: "snippet",
+                        type: "video",
+                        q: $("#keyword").val().replace(/%20/g, "+"),
+                        videoCategoryID: "Music",
+                        maxResults: 10,
+                        order: "viewCount",
+                        publishedAfter: "2000-01-01T00:00:00Z"
+                    });
 
-                  function( index, item ){
-                      html += tpl({
-                            videoId: item.id.videoId,
-                            title:item.snippet.title
-                      });
-               });
-               $("#videoresult_btns").html(html);
-           });
-           self.initResultSelectedHandle();
+                    // Popup Searched Result
+                    request.execute(function(response) {
 
-        });
-    };
-    SearchBar.prototype.initResultSelectedHandle = function () {
+                        var results = response.result;
+                        $("#videoresult_btns").empty();
 
-          $("#videoresult_btns").delegate( ".res_btn", "click", function(event){
+                        var tpl = _.template(searchResultTpl);
+                        var html = '';
+                        $.each(results.items,
 
-                var vid = $(event.target).attr("id");
-                console.log(event.target);
-                console.log("vid"+vid);
+                            function(index, item) {
+                                html += tpl({
+                                    videoId: item.id.videoId,
+                                    title: item.snippet.title
+                                });
+                            });
+                        $("#videoresult_btns").html(html);
+                    });
+                    self.initResultSelectedHandle();
+                });
+                /* Waiting for Refactoring Zone : End */
+            };
+            SearchBar.prototype.initResultSelectedHandle = function () {
+                /* initResultSelectedHandle:
+                        Delegate event handle for search result clicking
+                        send clicked video vid and fuse the url
+                        reload youtube iframe
+                */
 
-                $("#videoresult").animate({width:'toggle'}, 100);
-                var URLtext="https://www.youtube.com/embed/" + vid;
-                document.getElementById("ytbIframeAPI").src = URLtext;
-                document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
+                /* Waiting for Refactoring Zone : Start */
+                /* Reason : UI and Operation Seperation: */
+                $("#videoresult_btns").delegate(".res_btn", "click", function(event) {
 
-                // $("#videoresult").slideToggle("fast");
-           });
-    };
-     SearchBar.prototype.initKeywordAnimation = function (){
+                    var vid = $(event.target).attr("id");
+                    console.log(event.target);
+                    console.log("vid" + vid);
 
-        var disStatus = document.getElementById("videoresult").style.display;
+                    $("#videoresult").animate({
+                        width: 'toggle'
+                    }, 100);
+                    var URLtext = "https://www.youtube.com/embed/" + vid;
+                    document.getElementById("ytbIframeAPI").src = URLtext;
+                    document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
+                });
+                /* Waiting for Refactoring Zone : End */
+            };
+            SearchBar.prototype.initKeywordAnimation = function () {
+                /*
+                    initKeywordAnimation:
+                        delegate focus event for toggle animation
+                */
+                /* Waiting for Refactoring Zone : Start */
+                /* Reason : UI and Operation Seperation: */
+                var disStatus = document.getElementById("videoresult").style.display;
+                $("#searchForm2").delegate("#keyword", "focus", function() {
+                    disStatus = document.getElementById("videoresult").style.display;
+                    if (disStatus != "block") {
+                        $("#videoresult").animate({
+                            width: 'toggle'
+                        }, 100);
+                        // $("#videoresult").slideToggle("fast");
+                    }
+                });
+                /* Waiting for Refactoring Zone : End */
+            };
+            SearchBar.prototype.initResultAnimation = function () {
+                /*
+                    initResultAnimation:
+                        delegate focus event for toggle animation
+                */
+                /* Waiting for Refactoring Zone : Start */
+                /* Reason : UI and Operation Seperation: */
+                $("#videoresult").delegate("#closeButton", "mousedown", function() {
+                    disStatus = "none";
+                    console.log('fire close button mousedown');
+                    $("#videoresult").animate({
+                        width: 'toggle'
+                    }, 100);
+                    // $("#videoresult").slideToggle("fast");
+                    $("#videoresult_btns").empty();
+                });
+                /* Waiting for Refactoring Zone : End */
+            };
 
-        $( "#searchForm2").delegate( "#keyword", "focus", function() {
-
-            disStatus = document.getElementById("videoresult").style.display;
-            if(disStatus != "block"){
-              $("#videoresult").animate({width:'toggle'}, 100);
-                // $("#videoresult").slideToggle("fast");
-
-            }
-
-        });
-
-    };
-    SearchBar.prototype.initResultAnimation = function (){
-       $("#videoresult").delegate("#closeButton","mousedown",function(){
-            disStatus = "none";
-            console.log('fire close button mousedown');
-            $("#videoresult").animate({width:'toggle'}, 100);
-            // $("#videoresult").slideToggle("fast");
-            $("#videoresult_btns").empty();
-        });
-    };
-    return SearchBar;
-});
+        return SearchBar;
+    });

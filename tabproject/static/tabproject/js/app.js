@@ -79,6 +79,7 @@ define([
                     // The Entry Point of the app //
                     // ============================//
                     start: function() {
+
                         //
                         // PlayerClock for handle timing & playing event
                         //
@@ -95,7 +96,9 @@ define([
                         /*  SearchBar */
                         //
                         this.searchBar = new Search_bar(); // Does Not real instantiation
-
+                        console.log("searchBar", this.searchBar);
+                        
+                        // console.log(this.searchBar);
                         //
                         //  Setup progress slider
                         //
@@ -110,6 +113,7 @@ define([
                         //
                         //  Setyo Google API & Youtube API
                         //  Invoke Init YTplayer & ProgSlider wheb API is ready
+
                         this.api_manager = new API_manager();
                         this.api_manager.setGapiLoadedCallback(this.searchBar, this.searchBar.init); // Instantilize SearchBar
                         this.api_manager.setYTLoadedCallback(this.ytPlayer, this.ytPlayer.init); // Instantilize ytPlayer
@@ -119,7 +123,6 @@ define([
                         // @@ this part can be improvement by web worker
                         this.tabInit();
                         this.tabAnimation = new Tab_animation('#tabSVG', this.tabView);
-                        this.tabAnimation.setPadSpeed(1.66);
                         this.playerClock.setTabAnimation(this.tabAnimation);
 
                         //

@@ -27,12 +27,13 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 			},
 
 			// fetch remote alg. result from server by ajax
-			fetchRemoteFull: function(tabUrl) {
-
-				if (typeof tabUrl === "undefined"){
+			fetchRemoteFull: function( rsc_url ) {
+				var tabUrl = "";
+				if ( typeof rsc_url === "undefined" ){
 					tabUrl = this.defaults.url;
 				}else{
 					console.log('use tabURL');
+					tabUrl = rsc_url;
 				}
 
 				this.ajax = $.ajax({
@@ -61,27 +62,50 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 				// this.defaults.division = measures[0].attributes.divisions;
 				console.log("total measure: " + measures.length);
 
-				// ** Need to test draw all measure
-				var l = measures.length;
-				for (var i = 0; i < l; i++) {
-					// console.log(" measure: "+i);
-					// console.log(measures[i]);
+				/* UNIT TESTING ZONE */
+				// var jsonObjs = measures[3].note;
+				// console.log(jsonObjs);
+				// var mn = this.createMN(jsonObjs);
+				// console.log(mn);
 
-					var m =  new Measure_model({MNsArray:this.retriveMNsArray(measures[i].note)});
-					m.set({"number": measures[i]['@number']});
+				var l = measures.length;
+				for( var i = 0; i < l; i++){
+					// console.log("index:"+measures[i]['@number']);
+
+					var m =  new Measure_model();
+					if( measures[i].hasOwnProperty("note") ){
+						// console.log('Has Notes');
+						m.set('MNsArray', this.retriveMNsArray(measures[i].note));
+
+					}
+					if ( measures[i].hasOwnProperty("beat") ){
+						// console.log('Has Beats');
+						// m.set('BeatsArray', measures[i].beat);
+					}
 
 					if ( measures[i].hasOwnProperty("attributes") ){
 						m.setAttr(measures[i].attributes);
 						// console.log('has attributes');
 					}
-
 					// console.log(m.get("MNsArray"));
 					this.measureSet.add(m);
-
 				}
-				// console.log('append finish done');
-				// this.tabTree.dump();
+				// console.log(this.measureSet);
+				console.log('append finish done');
 
+
+			},
+			createMN: function (notes, idx) {
+
+				return new Musicnote_model({
+
+							tabLineNum: notes[idx].notations.string,
+							fretNum: notes[idx].notations.fret,
+							duration: notes[idx].duration,
+							onset: notes[idx].onset,
+							freq: notes[idx].pitch.freq,
+							tech: notes[idx].technical
+				});
 			},
 			retriveMNsArray: function(notes){
 				var MNsArray = [];
@@ -98,17 +122,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 						}
 						else{
 							// Create a new MN for each note
-							MNsArray.push(new Musicnote_model({
-
-									tabLineNum: notes[j].notations.technical.string,
-									fretNum: notes[j].notations.technical.fret,
-									duration: notes[j].duration,
-									alter: notes[j].pitch.alter,
-									octave: notes[j].pitch.octave,
-									step: notes[j].pitch.step,
-								})
-							);
-
+							MNsArray.push(this.createMN(notes, j));
 							// console.log(musicnote);
 						}
 				}

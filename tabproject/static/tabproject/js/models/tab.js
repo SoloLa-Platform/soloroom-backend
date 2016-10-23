@@ -32,7 +32,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 				if ( typeof rsc_url === "undefined" ){
 					tabUrl = this.defaults.url;
 				}else{
-					console.log('use tabURL');
+					// console.log('use tabURL');
 					tabUrl = rsc_url;
 				}
 
@@ -60,7 +60,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 
 				// need to get first measure attribute, get the divide
 				// this.defaults.division = measures[0].attributes.divisions;
-				console.log("total measure: " + measures.length);
+				// console.log("total measure: " + measures.length);
 
 				/* UNIT TESTING ZONE */
 				// var jsonObjs = measures[3].note;
@@ -91,7 +91,7 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 					this.measureSet.add(m);
 				}
 				// console.log(this.measureSet);
-				console.log('append finish done');
+				// console.log('append finish done');
 
 
 			},
@@ -132,4 +132,3 @@ function (Backbone, Measure_model, Musicnote_model, Measure_Set) {
 	return tab_model;
 
 });
-
