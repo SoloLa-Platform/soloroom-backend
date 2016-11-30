@@ -97,10 +97,9 @@ define([
                         //
                         this.searchBar = new Search_bar(); // Does Not real instantiation
                         console.log("searchBar", this.searchBar);
-                        
-                        // console.log(this.searchBar);
+
                         //
-                        //  Setup progress slider
+                        //  Setup progress slider  (it depend on ytPlayer)
                         //
                         this.progSliderHtml5 = new ProgSlider('#prog-sliderHtml5');
 

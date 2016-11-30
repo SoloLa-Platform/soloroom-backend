@@ -24,5 +24,9 @@ def data(request):
 
 	return HttpResponse(data)
 
+
+def keywordSearch(request):
+	return HttpResponse("keywordSearch reslut", content_type="text/plain")
+	
 def gapiValid(request):
 	return render(request, 'gapi/google3cebc5b9808be979.html')

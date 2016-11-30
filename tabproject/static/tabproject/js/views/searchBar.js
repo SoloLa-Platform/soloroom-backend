@@ -1,6 +1,7 @@
 define(['text!templates/searchResult.tpl'],
     function(searchResultTpl) {
 
+        // Constructor
         function SearchBar() {
 
         }
@@ -8,8 +9,6 @@ define(['text!templates/searchResult.tpl'],
         //
         /* Public Function */
         //
-
-
 
         /* Waiting for Refactoring Zone : Start */
         /* Reason : UI and Operation Seperation */
@@ -86,13 +85,14 @@ define(['text!templates/searchResult.tpl'],
         SearchBar.prototype.initKeywordBarEvnet = function () {
 
                 // Keyword Search
-
+                console.log("this:", this);
+                var self = this;
                 /* Waiting for Refactoring Zone : Start */
                 /*
                     Reason : UI and Operation Seperation
                     Paramterize the youtube search configure
                 */
-                $("#searchForm2").on("submit", function(e) {
+                $("#keywordSearchForm").on("submit", function(e) {
                     e.preventDefault();
 
                     // Setup Request
@@ -148,8 +148,17 @@ define(['text!templates/searchResult.tpl'],
                         width: 'toggle'
                     }, 100);
                     var URLtext = "https://www.youtube.com/embed/" + vid;
-                    document.getElementById("ytbIframeAPI").src = URLtext;
-                    document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
+                    // document.getElementById("ytbIframeAPI").src = URLtext;
+                    // document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
+                    console.log("haha");
+                    // Post a
+                    $.ajax({
+                        url: 'keywordSearch',
+                        method: 'GET'
+                    }).done(function( data ){
+
+                        console.log('ajax result ',data);
+                    });
                 });
                 /* Waiting for Refactoring Zone : End */
             };
@@ -161,7 +170,7 @@ define(['text!templates/searchResult.tpl'],
                 /* Waiting for Refactoring Zone : Start */
                 /* Reason : UI and Operation Seperation: */
                 var disStatus = document.getElementById("videoresult").style.display;
-                $("#searchForm2").delegate("#keyword", "focus", function() {
+                $("#keywordSearchForm").delegate("#keyword", "focus", function() {
                     disStatus = document.getElementById("videoresult").style.display;
                     if (disStatus != "block") {
                         $("#videoresult").animate({

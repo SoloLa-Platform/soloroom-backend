@@ -6,6 +6,7 @@ urlpatterns = [
 	url(r'^$', views.index, name='index'),
     url(r'^parsing', views.parsing, name='parsing'),
     url(r'^data', views.data, name='data'),
+    url(r'^keywordSearch', views.keywordSearch, name='soloLa-keywordSearch'),
     url(r'^google3cebc5b9808be979.html$', views.gapiValid, name='gapiValid')
 
 ]
