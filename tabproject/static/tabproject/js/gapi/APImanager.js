@@ -15,8 +15,6 @@ define(
 		_.extend( APIManager.prototype, Backbone.Events );
 
 		APIManager.prototype.setGapiLoadedCallback = function (  context, callback ) {
-			console.log("context", context);
-			console.log("callback", callback);
 			this.gapiCB = callback;
 			this.gapiCBContext = context;
 		};

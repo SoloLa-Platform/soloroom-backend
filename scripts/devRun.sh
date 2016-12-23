@@ -1,1 +1,2 @@
-python manage.py runserver & ./manage.py livereload
+python manage.py runserver 
+python ./manage.py livereload

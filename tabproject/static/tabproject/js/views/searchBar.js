@@ -34,7 +34,6 @@ define(['text!templates/searchResult.tpl'],
         };
         SearchBar.prototype.init = function () {
 
-            console.log("SearchBar.init");
             // init:
             //    Initialize the searchbar before gapi is loaded
             //    this function is called(trigger) by API mananger
@@ -43,7 +42,7 @@ define(['text!templates/searchResult.tpl'],
         };
         SearchBar.prototype.checkYoutubeAPIloaded = function () {
             if (gapi && gapi.client.youtube) {
-                console.log('Youtube data API loaded! Start to init SearchBar');
+                // console.log('Youtube data API loaded! Start to init SearchBar');
                 this.initUrlBarEvent();
                 this.initKeywordBarEvnet();
                 this.initKeywordAnimation();
@@ -85,7 +84,6 @@ define(['text!templates/searchResult.tpl'],
         SearchBar.prototype.initKeywordBarEvnet = function () {
 
                 // Keyword Search
-                console.log("this:", this);
                 var self = this;
                 /* Waiting for Refactoring Zone : Start */
                 /*
@@ -148,12 +146,14 @@ define(['text!templates/searchResult.tpl'],
                         width: 'toggle'
                     }, 100);
                     var URLtext = "https://www.youtube.com/embed/" + vid;
+                    var url4dl = "http://www.youtube.com/watch?v=" + vid;
+                    var getUrl = 'keywordSearch?url=' + url4dl;
                     // document.getElementById("ytbIframeAPI").src = URLtext;
                     // document.getElementById('ytbIframeAPI').contentWindow.location.reload(true);
                     console.log("haha");
                     // Post a
                     $.ajax({
-                        url: 'keywordSearch',
+                        url: getUrl,
                         method: 'GET'
                     }).done(function( data ){
 

@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse
 import os
+import youtube_dl
 
 
 def index(request):
@@ -26,7 +28,31 @@ def data(request):
 
 
 def keywordSearch(request):
+	url = request.GET.get('url')
+	print url
+
+	dlDir = os.path.join(os.path.dirname(__file__), 'download/test')
+	ydl_opts = {
+		# 'outtmpl': '%(id)s.%(ext)s',
+		'outtmpl': 'tabproject/download/%(title)s.%(ext)s',
+	    'format': 'bestaudio/best',
+		'verbose': True,
+	    'postprocessors': [{
+	        'key': 'FFmpegExtractAudio',
+	        'preferredcodec': 'mp3',
+	        'preferredquality': '192',
+	    }]
+		# 'progress_hooks': [{
+		# 	'filename'
+		# }]
+	}
+	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		info = ydl.extract_info(url, download=False)
+		print info['title']
+		ydl.download([url])
+
+
 	return HttpResponse("keywordSearch reslut", content_type="text/plain")
-	
+
 def gapiValid(request):
 	return render(request, 'gapi/google3cebc5b9808be979.html')
