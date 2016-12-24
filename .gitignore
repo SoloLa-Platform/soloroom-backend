@@ -67,6 +67,5 @@ data/
 # vscode config
 .vscode
 
-
-# download data
+# .wav audio download location
 tabproject/download/

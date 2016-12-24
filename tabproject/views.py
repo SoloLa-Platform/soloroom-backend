@@ -39,7 +39,7 @@ def keywordSearch(request):
 		'verbose': True,
 	    'postprocessors': [{
 	        'key': 'FFmpegExtractAudio',
-	        'preferredcodec': 'mp3',
+	        'preferredcodec': 'wav',
 	        'preferredquality': '192',
 	    }]
 		# 'progress_hooks': [{
