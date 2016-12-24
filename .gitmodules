@@ -1,0 +1,3 @@
+[submodule "SoloLa-local"]
+	path = tabproject/algorithms/SoloLa-
+	url = git@github.com:ykhorzon/SoloLa-.git
