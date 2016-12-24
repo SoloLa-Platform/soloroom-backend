@@ -1,0 +1,3 @@
+[submodule "tabproject/algorithms/SoloLa-"]
+	path = tabproject/algorithms/SoloLa-
+	url = https://github.com/srviest/SoloLa-.git
