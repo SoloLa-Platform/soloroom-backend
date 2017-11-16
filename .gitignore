@@ -16,6 +16,7 @@ mysite/settings.py
 
 # Environment of virualenv, please setup yourself
 Env/
+.env
 
 # Distribution / packaging
 bin/
