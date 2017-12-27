@@ -8,9 +8,11 @@ A browser-based flowing guitar tablature web
 - MySQL
 - SoloLa(Unintregated in this version, under standalone packing and testing)
 
-## Installation
+## Progress
 
-Todo: change requirement.txt to pipenv for dependency management
+- [trello kanban for FlowTab](https://trello.com/b/eBcjm7aR/kanban-for-solola-platform)
+
+## Installation
 
 ```shell
 //create virtual env. and pip install
