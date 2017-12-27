@@ -10,17 +10,17 @@ A browser-based flowing guitar tablature web
 
 ## Installation
 
-change requirement.txt tp pipenv
+Todo: change requirement.txt to pipenv for dependency management
 
-``
-# create virtual env. and pip install
+```shell
+//create virtual env. and pip install
 virtualenv --python=/path/to/python2.7 .ENV
 source .ENV/bin/activate
 pip install -r requirements.txt
 
-# start dev server
+//start dev server
 python manage.py runserver
-``
+```
 
 ## Directory
 
