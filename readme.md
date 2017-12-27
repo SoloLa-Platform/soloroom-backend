@@ -1,28 +1,20 @@
-# Directory Structure
+# FlowTab
 
-__all the structure follows python django framework define__
+A browser-based flowing guitar tablature web
+## Requirements
 
-## tabproject/static
-For django global static (after run collectstatic, collect all static file here)
-!~ DO NOT manually add file or modify javascript file here ~!
+- Python 2.7.10
+- django 1.11.6
+- MySQL
+- SoloLa
 
-## tabproject
-Root Directory
+## Directory
 
-## tabproject/mysite
-Global Setting for project
-
-## tabproject/tabprojet
-App root directory (Source) 
-
-## tabproject/tabprject/static
-javascript file, develop tab-editor 
-
-## tabproject/tabproject/templates
-html template file directory
+- mysite: configuration files
+- tabproject: backend source code
+- tabproject/static: frontend source code
+- tabproject/templates: html template
+- static: django global static cache (DON't modify)
+- script: deploy/dev scripts
 
 
-##Python Environment and Package
-
-virtualenv
-django 1.9
