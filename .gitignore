@@ -62,4 +62,11 @@ coverage.xml
 docs/_build/
 
 # Data for algorithm testing
-#data/
+data/
+
+# vscode config
+.vscode
+
+
+# download data
+tabproject/download/
