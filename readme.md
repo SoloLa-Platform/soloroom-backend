@@ -14,15 +14,8 @@ A browser-based flowing guitar tablature web
 
 ## Installation
 
-```shell
-//create virtual env. and pip install
-virtualenv --python=/path/to/python2.7 .ENV
-source .ENV/bin/activate
-pip install -r requirements.txt
-
-//start dev server
-python manage.py runserver
-```
+local and production environment setup
+[dropbox paper document](https://paper.dropbox.com/doc/Environment-HCo0ZQqt467VDRYAcUaCY)
 
 ## Directory
 
