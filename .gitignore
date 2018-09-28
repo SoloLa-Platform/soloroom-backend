@@ -11,8 +11,11 @@ __pycache__/
 #Mac OS dummy file
 .DS_Store
 
-# Django Local Setting , Please use settings.production.py / settings.developing.py
-mysite/settings.py
+# Django Setting file sholud be ignore due to including sensitive informations 
+# Please check the difference sensitive information in settings.production.py / settings.developing.py
+mysite/settings_production.py
+mysite/settings_development.py
+mysite/settings_secret.py
 
 # Environment of virualenv, please setup yourself
 Env/
@@ -68,8 +71,4 @@ data/
 # vscode config
 .vscode
 
-# .wav audio download location
-tabproject/download/
 
-# vscode config
-.vscode
