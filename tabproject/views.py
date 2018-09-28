@@ -29,7 +29,7 @@ def data(request):
 
 def keywordSearch(request):
 	url = request.GET.get('url')
-	print url
+	print(url)
 
 	dlDir = os.path.join(os.path.dirname(__file__), 'download/test')
 	ydl_opts = {
@@ -48,7 +48,7 @@ def keywordSearch(request):
 	}
 	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 		info = ydl.extract_info(url, download=False)
-		print info['title']
+		print(info['title'])
 		ydl.download([url])
 
 
