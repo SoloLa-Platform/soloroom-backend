@@ -1,21 +1,35 @@
-# FlowTab
+# FlowTab 
 
-A browser-based flowing guitar tablature web
+A browser-based flowing guitar tablature editing system integrated with solola guitar technique transcription algorithm
+
 ## Requirements
 
-- Python 2.7.10
-- django 1.11.6
-- MySQL
-- SoloLa(Unintregated in this version, under standalone packing and testing)
+- [pipenv](https://github.com/pypa/pipenv)
+- python 3.7 (or 3+)
+- django 2.1.1
+- PostgresSQL
+- Docker / docker-compose
+- [SoloLa](https://github.com/SoloLa-Platform/SoloLa)
 
-## Progress
+(Detail packages dependency recored in Pipfile)
 
+## Status
+
+This web app is not full integrated with SoloLa
 - [trello kanban for FlowTab](https://trello.com/b/eBcjm7aR/kanban-for-solola-platform)
 
 ## Installation
 
-local and production environment setup
-[dropbox paper document](https://paper.dropbox.com/doc/Environment-HCo0ZQqt467VDRYAcUaCY)
+Use docker-compose to create development environment
+
+```shell
+
+cd FlowTab
+# start postgress and django environment
+docker-compose up
+# the web app start up at http://localhost:8000
+
+```
 
 ## Directory
 
