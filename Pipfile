@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==2.1.4"
+django = "==2.2.1"
+django-admin = "*"
 youtube-dl = "*"
 psycopg2 = "*"
 
