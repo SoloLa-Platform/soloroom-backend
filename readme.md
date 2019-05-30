@@ -22,14 +22,8 @@ This web app is not full integrated with SoloLa
 
 Use docker-compose to create development environment
 
-```shell
+- WIP
 
-~~cd SoloRoom~~
-# start postgress and django environment
-~~docker-compose up~~
-# the web app start up at http://localhost:8000
-
-```
 
 ## Directory
 - backend/urls.py, wsgi.py : backend settings
