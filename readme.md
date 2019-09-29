@@ -2,6 +2,7 @@
 
 A browser-based flowing guitar tablature editing system integrated with solola guitar technique transcription algorithm
 
+Project Status: [![CircleCI](https://circleci.com/gh/SoloLa-Platform/soloroom/tree/master.svg?style=svg)](https://circleci.com/gh/SoloLa-Platform/soloroom/tree/master)
 ## Requirements
 
 - [pipenv](https://github.com/pypa/pipenv)
