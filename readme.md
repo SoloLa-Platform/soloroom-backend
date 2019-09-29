@@ -1,6 +1,6 @@
-# SoloRoom 
+# SoloRoom-backend
 
-A browser-based flowing guitar tablature editing system integrated with solola guitar technique transcription algorithm
+A browser-based guitar tablature editing web application backend integrated with solola guitar technique transcription algorithm 
 
 ## Requirements
 
@@ -29,7 +29,7 @@ Use docker-compose to create development environment
 - backend/urls.py, wsgi.py : backend settings
 - backend/settings/dev.py : backend settings
 - backend/api: service api
-- frontend: frontend source code
+- frontend: [github repo](https://github.com/SoloLa-Platform/soloroom-frontend)
 - legacy: legacy source code (only for reference)
 
 
