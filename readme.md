@@ -4,7 +4,7 @@ A browser-based guitar tablature editing web application backend integrated with
 
 Project Status: [![CircleCI](https://circleci.com/gh/SoloLa-Platform/soloroom-backend/tree/master.svg?style=svg)](https://circleci.com/gh/SoloLa-Platform/soloroom/tree/master)
 
-# Contribution Guide
+## Contribution Guide
 Under construction..., You can check out our [trello kanban](https://trello.com/b/eBcjm7aR/solola-project) to pick up tasks.
 
 ## Requirements
