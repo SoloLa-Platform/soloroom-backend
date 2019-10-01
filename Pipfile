@@ -8,6 +8,7 @@ django-admin = "*"
 youtube-dl = "*"
 psycopg2 = "*"
 django = "*"
+mem = "*"
 
 [dev-packages]
 
