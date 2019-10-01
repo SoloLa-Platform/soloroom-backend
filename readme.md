@@ -37,5 +37,5 @@ Use docker-compose to create development environment
 - frontend: [github repo](https://github.com/SoloLa-Platform/soloroom-frontend)
 - legacy: legacy source code (only for reference)
 
-
-
+## Research behind soloroom-backend
+- [TENT: Technique-Embedded Note Tracking for Real-World Guitar Solo Recordings](https://transactions.ismir.net/articles/10.5334/tismir.23/)
